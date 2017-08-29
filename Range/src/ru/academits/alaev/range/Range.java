@@ -31,11 +31,14 @@ public class Range {
     }
 
     public Range getIntersection(Range segment1, Range segment2) {
-        if (segment1.from <= segment2.to && segment2.to >= segment1.from) {
-            return new Range(segment1.from, segment2.to); // Это же означает что метод возвращает новый объект класса Range,
-            // если выполняется условие,
-            // созданный конструктором с полями from = segment1.from и to = segment2.to ???
-            // Или не правильно?
+        if (segment1.from < segment2.to) {
+            return new Range(segment1.from, segment2.to);
+        } else if (segment2.from < segment1.to) {
+            return new Range(segment2.from, segment1.to);
+        } else if (segment1.from > segment2.from && segment1.to < segment2.to) {
+            return segment1;
+        } else if(segment2.from > segment1.from && segment2.to < segment1.to){
+            return segment2;
         } else {
             return null;
         }
