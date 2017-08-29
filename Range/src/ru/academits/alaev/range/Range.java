@@ -10,6 +10,10 @@ public class Range {
         return from;
     }
 
+    private double getTo() {
+        return to;
+    }
+
     private void setFrom(double from) {
         this.from = from;
     }
@@ -23,24 +27,27 @@ public class Range {
         return x >= from && x <= to;
     }
 
-    public double getLength(){
+    public double getLength() {
         return this.to - this.from;
     }
 
-    public double getNewSegment(){
-        //как то надо сюда 2 точки отправить и проверить условие
-        // пересечения point.from <= point2.end && point2.end >= point.from
+    public double getNewSegment(Range segment1, Range segment2) {
+        if (segment1.from <= segment2.to && segment2.to >= segment1.from) {
+            return ; // тут нужно ещё один объект вернуть например segment3? А как это сделать?
+                     // В if вызвать конструктор?
+        }else{
+            return null; // а как вернуть null??
+        }
     }
 
     public static void main(String[] args) {
         double x = 2;
-        Range point = new Range(10, 20);
-        Range point2 = new Range(5, 15);
-        System.out.println(point2.getFrom());
-        System.out.println(point.getFrom());
-        System.out.println("Is point in range? - " + point.isInside(x));
-        System.out.println("Length is - " + point.getLength());
-
+        Range segment1 = new Range(10, 20);
+        System.out.printf("Segment1: %f %f", segment1.getFrom(), segment1.getTo());
+        System.out.println("Is point in range? - " + segment1.isInside(x));
+        System.out.println("Length is - " + segment1.getLength());
+        Range segment2 = new Range(5, 15);
+        System.out.printf("Segment2: %f %f", segment2.getFrom(), segment2.getTo());
     }
 }
 
