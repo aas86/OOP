@@ -58,11 +58,11 @@ public class Range {
             // Range[] result = new Range[2];
             // result[0] = new Range(this.from, this.to);
             // result[1] = new Range(segment2.from, segment2.to);
-            return new Range[]{this, segment2}; // Возвращаю новый массив объектов Range из 2ух элементов, которые являются
+            return new Range[]{new Range(this.from, this.to), new Range(segment2.from, segment2.to)};
         } else if (segment2.from > this.from && segment2.to < this.to) {
-            return new Range[]{this};
+            return new Range[]{new Range(this.from, this.to)};
         } else if (this.from > segment2.from && this.to < segment2.to) {
-            return new Range[]{segment2};
+            return new Range[]{new Range(segment2.from, segment2.to)};
         } else if (this.to < segment2.to) {
             return new Range[]{new Range(this.from, segment2.to)};
         } else {
@@ -71,19 +71,15 @@ public class Range {
     }
 
     public Range[] getDifference(Range segment2) {
-        if ((this.from == segment2.from) && (this.to == segment2.to)) {
-            return null;
-        } else if ((this.to < segment2.from) || (segment2.to < this.from)) {
-            return new Range[]{this, segment2};
-        } else if (segment2.from > this.from && segment2.to < this.to) {
+        if (segment2.from > this.from && segment2.to < this.to) {
             return new Range[]{new Range(this.from, segment2.from), new Range(segment2.to, this.to)};
         } else if (this.from > segment2.from && this.to < segment2.to) {
-            return new Range[]{new Range(segment2.from, this.from), new Range(this.to, segment2.from)};
-        } else if (this.to < segment2.to) {
-            return new Range[]{new Range(this.from, segment2.from), new Range(this.to, segment2.to)};
-        } else {
-            return new Range[]{new Range(segment2.from, this.from), new Range(segment2.to, this.to)};
-        }
+            return new Range[]{new Range(segment2.from, this.from), new Range(this.to, segment2.to)};
+        } else if ((this.from < segment2.from)) {
+            return new Range[]{new Range(this.from, segment2.from)};
+        } else if (segment2.from < this.from) {
+            return new Range[]{new Range(segment2.from, this.from)};
+        } else return null;
     }
 }
 
