@@ -71,15 +71,22 @@ public class Range {
     }
 
     public Range[] getDifference(Range segment2) {
-        if (segment2.from > this.from && segment2.to < this.to) {
+        if ((this.to <= segment2.from) || (segment2.to <= this.from) || ((this.from == segment2.from) && (segment2.to > this.to))
+                || (this.from > segment2.from) && (this.to == segment2.to)) {
+            return new Range[0];
+        } else if (segment2.from > this.from && segment2.to < this.to) {
             return new Range[]{new Range(this.from, segment2.from), new Range(segment2.to, this.to)};
         } else if (this.from > segment2.from && this.to < segment2.to) {
             return new Range[]{new Range(segment2.from, this.from), new Range(this.to, segment2.to)};
-        } else if ((this.from < segment2.from)) {
+        } else if ((segment2.to > this.to) && (segment2.from > this.from)) {
             return new Range[]{new Range(this.from, segment2.from)};
-        } else if (segment2.from < this.from) {
-            return new Range[]{new Range(segment2.from, this.from)};
-        } else return null;
+        } else if ((this.to > segment2.to) && this.from > segment2.from) {
+            return new Range[]{new Range(segment2.to, this.to)};
+        } else if ((this.from == segment2.from) && (this.to > segment2.to)) {
+            return new Range[]{new Range(segment2.to, this.to)};
+        } else {
+            return new Range[]{new Range(this.from, segment2.from)};
+        }
     }
 }
 
