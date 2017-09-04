@@ -34,24 +34,6 @@ public class Range {
         return this.to - this.from;
     }
 
-    public static void printUnion(Range[] union) {
-        System.out.printf("Union:         ");
-        for (Range e : union) {
-            System.out.printf("%f %f %n", e.getFrom(), e.getTo());
-        }
-    }
-
-    public static void printDifference(Range[] difference) {
-        System.out.printf("Difference:    ");
-        if (difference.length == 0) {
-            System.out.println("No Difference!");
-        } else {
-            for (Range aDifference : difference) {
-                System.out.printf("%f %f ", aDifference.getFrom(), aDifference.getTo());
-            }
-        }
-    }
-
     public Range getIntersection(Range segment2) {
         // Так как вызываю от segment1 (потому что метод не static),
         // то к полям объекта segment1 можно обратиться через this
@@ -90,7 +72,7 @@ public class Range {
 
     // Разность - это все те эл-ты, которые принадлежат segment1 и не принадлежат segment2.
     public Range[] getDifference(Range segment2) {
-        if ((this.to < segment2.from) || (segment2.to < this.from)) { // Не пересекаются -> segment1
+        if ((this.to < segment2.from) || (segment2.to < this.from)) { // Не пересекаются => segment1
             return new Range[]{new Range(this.from, this.to)};
         } else if ((this.from < segment2.from) && (this.to > segment2.to)) { // Когда первый отрезок большой, а вычитаемый отрезок - в середине этого большого отрезка
             return new Range[]{new Range(this.from, segment2.from), new Range(segment2.to, this.to)};
