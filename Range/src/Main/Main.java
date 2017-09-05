@@ -1,4 +1,6 @@
-package ru.academits.alaev.range;
+package Main;
+
+import ru.academits.alaev.range.Range;
 
 public class Main {
     public static void print(Range[] resultArray) {
