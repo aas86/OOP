@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class CSV {
     public static void main(String[] args) throws FileNotFoundException {
         try (PrintWriter writer = new PrintWriter("output.html");
-             Scanner scanner = new Scanner(new FileInputStream("c:\\Users\\437-5\\IdeaProjects\\Repository\\CSV\\src\\ru\\academits\\alaev\\csv\\CSV.txt"))) {
+             Scanner scanner = new Scanner(new FileInputStream("src\\ru\\academits\\alaev\\csv\\CSV.txt"))) {
             writer.println("<!doctype HTML public\"-//W3C//Dtd HTML 4.0 Frameset // EN\"");
             writer.println("<html>");
             writer.println("<head>");
