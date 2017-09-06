@@ -2,18 +2,39 @@ package ru.academits.alaev.csv;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class CSV {
     public static void main(String[] args) throws FileNotFoundException {
-        try (Scanner scanner = new Scanner(new FileInputStream("c:\\Users\\437-5\\IdeaProjects\\Repository\\CSV\\src\\ru\\academits\\alaev\\csv\\CSV.txt"))) {
+        try (PrintWriter writer = new PrintWriter("output.html");
+             Scanner scanner = new Scanner(new FileInputStream("c:\\Users\\437-5\\IdeaProjects\\Repository\\CSV\\src\\ru\\academits\\alaev\\csv\\CSV.txt"))) {
+            writer.println("<!doctype HTML public\"-//W3C//Dtd HTML 4.0 Frameset // EN\"");
+            writer.println("<html>");
+            writer.println("<head>");
+            writer.println("</head>");
+            writer.println("<body>");
+            char lineSeparator = '\n';
             while (scanner.hasNextLine()) {
+                writer.print("<tr><td>");
                 String string = scanner.nextLine();
                 for (int i = 0; i < string.length(); ++i) {
                     char c = string.charAt(i);
-                    System.out.println(c);
+                    if (c == ',') {
+                        writer.print("</td><td>");
+                    } else if (string.charAt(i) == '"') {
+                        writer.print("</br>");
+                    } else {
+                        writer.print(c);
+                    }
                 }
+                writer.print("</tr><br/>");
             }
+            writer.println("</body>");
+            writer.println("</html>");
         }
     }
+
+
 }
+
