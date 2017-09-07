@@ -21,12 +21,15 @@ public class CSV {
                     char c = string.charAt(i);
                     if (string.charAt(i) == '"') {
                         int j = i + 1;
-                        if (string.charAt(j) == '"') {
+                        if (string.charAt(j) == '"') {     //если после кавычек ещё кавычки, то печатаем их
                             writer.print(string.charAt(j));
                             i = j;
-                        } else {
-                            while (string.charAt(j) != '"' && string.charAt(j + 1) != ',') {
-                                if (string.charAt(j) == ',') {
+                        } else { // если нет, => вся ячейка в кавычках, а значит есть запятая или перевод строки. До конца ячейки печатаем всё
+                                 // но как определить, где именно перевод строки??????
+                            while (string.charAt(j) != '"' && string.charAt(j + 1) != ',') { // условие конца ячейки, заключённой в кавычки - ",
+                                // но оно не верное, если в ячейке есть подряд символы ",. Их нужно напечатать, а алгоритм решает, что конец.
+                                // Какое должно быть условие конца ячейки?
+                                if (string.charAt(j) == ',') {  // если попалась , печатаем её
                                     writer.print(string.charAt(j));
                                     j++;
                                     i = j;
