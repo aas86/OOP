@@ -19,26 +19,32 @@ public class CSV {
                 String string = scanner.nextLine();
                 for (int i = 0; i < string.length(); ++i) {
                     char c = string.charAt(i);
-                    if (string.charAt(i) == '"') {
+                    if (string.charAt(i) == '"') {      // внутри ячейки, заключенной в кавычки
                         int j = i + 1;
-                        if (string.charAt(j) == '"') {     //если после кавычек ещё кавычки, то печатаем их
+                        int m = j + 1;
+                        while (j <= string.length() - 2 && string.charAt(j) != '"') { //пока не встретится кавычка печатаем всё!
+                            char temp = string.charAt(j);
                             writer.print(string.charAt(j));
+                            ++j;
                             i = j;
-                        } else { // если нет, => вся ячейка в кавычках, а значит есть запятая или перевод строки. До конца ячейки печатаем всё
-                                 // но как определить, где именно перевод строки??????
-                            while (string.charAt(j) != '"' && string.charAt(j + 1) != ',') { // условие конца ячейки, заключённой в кавычки - ",
-                                // но оно не верное, если в ячейке есть подряд символы ",. Их нужно напечатать, а алгоритм решает, что конец.
-                                // Какое должно быть условие конца ячейки?
-                                if (string.charAt(j) == ',') {  // если попалась , печатаем её
-                                    writer.print(string.charAt(j));
-                                    j++;
-                                    i = j;
-                                } else {
-                                    writer.print(string.charAt(j));
-                                    j++;
-                                    i = j;
-                                }
+                            m = j + 1;
+                        }
+                        //если встречаются 2 кавычки подряд, то это обычная кавычка.
+                        if (string.charAt(m) == '"') {
+                            writer.print(string.charAt(m));
+                            i = m + 1;
+                            while (string.charAt(i) != '"' && i <= string.length() - 2) {
+                                char temp = string.charAt(i);
+                                writer.print(temp);
+                                i++;
                             }
+                            writer.print(string.charAt(i));
+                            if (string.charAt(i + 2) == '"' && i <= string.length() - 2) {
+                                i = i + 2;
+                            }
+                        } else {
+                            writer.print("</td> <td>");
+                            // i = i + 1;
                         }
                     } else if (string.charAt(i) == ',') {
                         writer.print("</td> <td>");
