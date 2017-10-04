@@ -30,8 +30,17 @@ public class Triangle {
     }
 
     public double getArea() {
-        return 0.5 * (getHeight() * getWidth());
+        double a = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        double b = Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));
+        double c = Math.sqrt(Math.pow(x3 - x1, 2) + Math.pow(y3 - y1, 2));
+        if ((a + b <= c) || (a + c <= b || c + b <= a)) {
+            return -1;
+        } else {
+            double p = (a + b + c) / 2;
+            return Math.sqrt(p * (p - a) * (p - b) * (p - c));
+        }
     }
+
     public double getPerimeter() {
         double a = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
         double b = Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));

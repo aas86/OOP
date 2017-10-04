@@ -10,13 +10,16 @@ public class Square {
     public double getWidth() {
         return this.side;
     }
+
     public double getHeight() {
         return this.side;
     }
-    public double getArea(){
+
+    public double getArea() {
         return this.side * this.side;
     }
-    public double getPerimeter(){
+
+    public double getPerimeter() {
         return this.side * 4;
     }
 }
