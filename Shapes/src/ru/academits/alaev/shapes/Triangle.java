@@ -1,6 +1,6 @@
 package ru.academits.alaev.shapes;
 
-public class Triangle {
+public class Triangle implements Shape {
     private double x1;
     private double y1;
     private double x2;
@@ -17,6 +17,13 @@ public class Triangle {
         this.y3 = y3;
     }
 
+    private double[] getSide() {
+        double a = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        double b = Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));
+        double c = Math.sqrt(Math.pow(x3 - x1, 2) + Math.pow(y3 - y1, 2));
+        return new double[]{a, b, c};
+    }
+
     public double getWidth() {
         double max = Math.max(Math.max(x1, x2), x3);
         double min = Math.min(Math.min(x1, x2), x3);
@@ -30,21 +37,17 @@ public class Triangle {
     }
 
     public double getArea() {
-        double a = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        double b = Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));
-        double c = Math.sqrt(Math.pow(x3 - x1, 2) + Math.pow(y3 - y1, 2));
-        if ((a + b <= c) || (a + c <= b || c + b <= a)) {
-            return -1;
+        double[] side = getSide();
+        if ((side[0] + side[1] <= side[2]) || (side[0] + side[2] <= side[1] || side[2] + side[1] <= side[0])) {
+            return 0;
         } else {
-            double p = (a + b + c) / 2;
-            return Math.sqrt(p * (p - a) * (p - b) * (p - c));
+            double p = (side[0] + side[1] + side[2]) / 2;
+            return Math.sqrt(p * (p - side[0]) * (p - side[1]) * (p - side[2]));
         }
     }
 
     public double getPerimeter() {
-        double a = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        double b = Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));
-        double c = Math.sqrt(Math.pow(x3 - x1, 2) + Math.pow(y3 - y1, 2));
-        return a + b + c;
+        double[] side = getSide();
+        return side[0] + side[1] + side[2];
     }
 }

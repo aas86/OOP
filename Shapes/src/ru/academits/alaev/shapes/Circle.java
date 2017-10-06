@@ -1,6 +1,6 @@
 package ru.academits.alaev.shapes;
 
-public class Circle {
+public class Circle implements Shape {
     private double radius;
 
     public Circle(double r) {

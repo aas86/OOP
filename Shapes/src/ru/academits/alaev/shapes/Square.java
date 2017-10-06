@@ -1,6 +1,6 @@
 package ru.academits.alaev.shapes;
 
-public class Square {
+public class Square implements Shape {
     private double side;
 
     public Square(double side) {
