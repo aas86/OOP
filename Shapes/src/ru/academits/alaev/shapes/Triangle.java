@@ -17,11 +17,8 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    private double[] getSide() {
-        double a = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        double b = Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));
-        double c = Math.sqrt(Math.pow(x3 - x1, 2) + Math.pow(y3 - y1, 2));
-        return new double[]{a, b, c};
+    private double getSide(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
     public double getWidth() {
@@ -37,17 +34,21 @@ public class Triangle implements Shape {
     }
 
     public double getArea() {
-        double[] side = getSide();
-        if ((side[0] + side[1] <= side[2]) || (side[0] + side[2] <= side[1] || side[2] + side[1] <= side[0])) {
+        double a = getSide(x1, y1, x2, y2);
+        double b = getSide(x3, y3, x2, y2);
+        double c = getSide(x3, y3, x1, y1);
+        if ((a + b <= c) || (a + c <= b || c + b <= a)) {
             return 0;
         } else {
-            double p = (side[0] + side[1] + side[2]) / 2;
-            return Math.sqrt(p * (p - side[0]) * (p - side[1]) * (p - side[2]));
+            double p = (a + b + c) / 2;
+            return Math.sqrt(p * (p - a) * (p - b) * (p - c));
         }
     }
 
     public double getPerimeter() {
-        double[] side = getSide();
-        return side[0] + side[1] + side[2];
+        double a = getSide(x1, y1, x2, y2);
+        double b = getSide(x3, y3, x2, y2);
+        double c = getSide(x3, y3, x1, y1);
+        return a + b + c;
     }
 }

@@ -3,8 +3,8 @@ package ru.academits.alaev.shapes;
 public class Circle implements Shape {
     private double radius;
 
-    public Circle(double r) {
-        radius = r;
+    public Circle(double radius) {
+        this.radius = radius;
     }
 
     public double getWidth() {

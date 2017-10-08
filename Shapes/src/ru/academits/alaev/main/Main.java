@@ -22,8 +22,9 @@ public class Main {
         System.out.println("Ширина прямоугольника = " + P1.getWidth());
         System.out.println("Периметр прямоугольника = " + P1.getPerimeter());
 
-        Triangle tr1 = new Triangle(4, 4, 5, 5, 6, 9);
+        Triangle tr1 = new Triangle(2, 3, 4, 4, 6, 1);
         System.out.println("Площадь треугольника =  " + tr1.getArea());
         System.out.println("Периметр треугольника =  " + tr1.getPerimeter());
+        System.out.println("Высота треугольника = " + tr1.getHeight());
     }
 }
