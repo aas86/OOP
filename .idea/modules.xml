@@ -4,8 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CSV/CSV.iml" filepath="$PROJECT_DIR$/CSV/CSV.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/Range/Range.iml" filepath="$PROJECT_DIR$/Range/Range.iml" group="All" />
-      <module fileurl="file://$PROJECT_DIR$/CSV/Shape.iml" filepath="$PROJECT_DIR$/CSV/Shape.iml" />
       <module fileurl="file://$PROJECT_DIR$/Shapes/Shapes.iml" filepath="$PROJECT_DIR$/Shapes/Shapes.iml" group="All" />
+      <module fileurl="file://$PROJECT_DIR$/Vectors/Vectors.iml" filepath="$PROJECT_DIR$/Vectors/Vectors.iml" group="All" />
     </modules>
   </component>
 </project>

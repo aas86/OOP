@@ -1,4 +1,4 @@
-package ru.academits.alaev.main;
+package ru.academits.alaev;
 
 import ru.academits.alaev.shapes.Circle;
 import ru.academits.alaev.shapes.Rectangle;

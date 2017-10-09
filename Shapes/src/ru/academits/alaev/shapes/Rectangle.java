@@ -24,4 +24,5 @@ public class Rectangle implements Shape {
     public double getPerimeter() {
         return 2 * (width + height);
     }
+
 }

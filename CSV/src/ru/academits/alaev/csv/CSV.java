@@ -18,36 +18,42 @@ public class CSV {
                 writer.print("<tr><td>");
                 String string = scanner.nextLine();
                 for (int i = 0; i < string.length(); ++i) {
-                    char c = string.charAt(i);
-                    if (string.charAt(i) == '"') {      // внутри ячейки, заключенной в кавычки
-                        int j = i + 1;
-                        int m = j + 1;
-                        while (j <= string.length() - 2 && string.charAt(j) != '"') { //пока не встретится кавычка печатаем всё!
-                            char temp = string.charAt(j);
-                            writer.print(string.charAt(j));
-                            ++j;
-                            i = j;
-                            m = j + 1;
-                        }
-                        //если встречаются 2 кавычки подряд, то это обычная кавычка.
-                        if (string.charAt(m) == '"') {
-                            writer.print(string.charAt(m));
-                            i = m + 1;
-                            while (string.charAt(i) != '"' && i <= string.length() - 2) {
-                                char temp = string.charAt(i);
-                                writer.print(temp);
+                    char symbol = string.charAt(i);
+                    if (symbol == ',') {
+                        writer.print("</td> <td>");
+                    } else if (symbol == '"') {      // если " => началась ячейка
+                        i++;                         // переходим к след. символу
+                        symbol = string.charAt(i);
+                        char nextSymbol = string.charAt(i + 1);
+                        if (symbol == '"' && nextSymbol == ',') { // если сразу же " и , => пустая ячейка
+                            writer.print("</td> <td>");
+                        } else if (symbol == '"' && nextSymbol == '"') { // надпись в кавычках
+                            writer.print(nextSymbol);       // пишем открывающие кавычки
+                            i = i + 2;      // переходим на символ за кавычками
+                            while (string.charAt(i) != '"') { //пока не дойдём до закрывающих кавычек
+                                symbol = string.charAt(i);
+                                writer.print(symbol);         //пишем то, что между кавычками
                                 i++;
                             }
-                            writer.print(string.charAt(i));
-                            if (string.charAt(i + 2) == '"' && i <= string.length() - 2) {
-                                i = i + 2;
+                            writer.print(string.charAt(i)); // дошли до закрывающих кавычек и написали их. После них дублируются "
+                            i = i + 2; //перешли к следующему символу, если он опять кавычки
+                            if (string.charAt(i) == '"') {
+                                ++i;
+                            }
+                            if (string.charAt(i) == '"' && string.charAt(i + 1) == '"') {
+                                ++i;
                             }
                         } else {
-                            writer.print("</td> <td>");
-                            // i = i + 1;
+                            while (string.charAt(i) != '"') {
+                                symbol = string.charAt(i);
+                                writer.print(symbol);         //пишем то, что между кавычками
+                                i++;
+                            }
+                            if (string.charAt(i) == '"' && string.charAt(i + 1) == '"') {
+                                writer.print(string.charAt(i));
+                                i++;
+                            }
                         }
-                    } else if (string.charAt(i) == ',') {
-                        writer.print("</td> <td>");
                     } else {
                         writer.print(string.charAt(i));
                     }
