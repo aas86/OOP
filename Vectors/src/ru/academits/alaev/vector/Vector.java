@@ -9,13 +9,16 @@ public class Vector {
         this.vector = new double[n]; // По умолчанию создаётся массив 0 размерности n
     }
 
-    public Vector(Vector vector) {   // Конструктор копирования принимает объект типа Vector
-        this.vector = vector.getVector();
-
+    public Vector(Vector vectorX) {   // Конструктор копирования принимает объект типа Vector
+        this.vector = vectorX.vector;      // полю вектора B присваиваю поле ранее созданного вектора A
+        this.vector = vectorX.getVector(); // Или вот так нужно
     }
 
     public Vector(double[] array) { // передаю в конструктор массив и его же записываю в новый массив
-        setVector(array);
+        this.vector = new double[array.length];
+        for (int i = 0; i < array.length; ++i) {
+            this.vector[i] = array[i];
+        }
     }
 
     public Vector(int n, double[] array) {
