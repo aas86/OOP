@@ -9,31 +9,39 @@ public class Vector {
         this.vector = new double[n]; // По умолчанию создаётся массив 0 размерности n
     }
 
-    public Vector(Vector vectorX) {   // Конструктор копирования принимает объект типа Vector
-        this.vector = vectorX.vector;      // полю вектора B присваиваю поле ранее созданного вектора A
-        this.vector = vectorX.getVector(); // Или вот так нужно
+    public Vector(Vector vector) {   // Конструктор копирования принимает объект типа Vector
+        // Т.к. поле vector не определено (NULL), то нельзя взять его длину, но длину можно взять из принятого объекта,
+        // который является тоже массивом с полем length. Эта длина будет 5ым аргументом метода arraycopy() Для того,
+        // чтобы получить эту длину прохожусь по всему массиву и считаю кол-во элементов.
+        int length = 1;
+        for (int i = 0; i < vector.vector.length - 1; i++) {
+            length++;
+        }
+        this.vector = new double[length];
+        System.arraycopy(vector.vector, 0, this.vector, 0, length);
+        // из поля принятого вектора положить в поле vector. Именно не ссылку, а поэлементно. (arraycopy() заменяет
+        // проход по массиву циклом)
     }
 
     public Vector(double[] array) { // передаю в конструктор массив и его же записываю в новый массив
         this.vector = new double[array.length];
-        for (int i = 0; i < array.length; ++i) {
-            this.vector[i] = array[i];
-        }
+        System.arraycopy(array, 0, this.vector, 0, array.length);
     }
 
     public Vector(int n, double[] array) {
-
+        this.vector = new double[n];
+        System.arraycopy(array, 0, this.vector, 0, array.length);
     }
 
-    private double[] getVector() {
+    public double[] getVector() {
         return vector;
     }
 
-    private void setVector(double[] vector) {
+    public void setVector(double[] vector) {
         this.vector = vector;
     }
 
-    public int getSize(Vector vector) {
-        return vector.getVector().length;
+    public int getSize() {
+        return this.vector.length;
     }
 }

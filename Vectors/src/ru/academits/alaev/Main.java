@@ -2,21 +2,23 @@ package ru.academits.alaev;
 
 import ru.academits.alaev.vector.Vector;
 
+import java.util.Arrays;
+
 public class Main {
 
     public static void main(String[] args) {
 
-     //   Vector vectorA = new Vector(4);
+        Vector vectorA = new Vector(4);
 
-     //  Vector vectorB = new Vector(vectorA);  // Вызов конструктора копирования
+        double[] array1 = new double[]{1, 2, 3, 4, 5, 6, 7};
+        Vector vectorC = new Vector(array1);         // Вызов конструктора с массивом в качестве аргумента
+        Vector vectorB = new Vector(vectorC);        // Вызов конструктора копирования
 
-        double[] a = new double[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
-        Vector vectorC = new Vector(a);
+        double[] array2 = new double[]{1, 2, 3, 4, 5};
+        Vector vectorD = new Vector(10, array2);
 
-        /*
-        double[] b = new double[]{1, 2, 3, 4, 5};
-        Vector vector3 = new Vector(10, b);
-        */
+        System.out.println(vectorD.getSize());
+        System.out.println(vectorA.getSize());
     }
 }
 
