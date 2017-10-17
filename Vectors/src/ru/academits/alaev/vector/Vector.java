@@ -8,8 +8,8 @@ public class Vector {
 
 
     public Vector(int n) {
-        if (n < 0) {
-            throw new IllegalArgumentException("value of 'n' is negative: n = " + n + "");
+        if (n <= 0) { // Нельзя создать нулевой вектор
+            throw new IllegalArgumentException("value of 'n' is negative or 0: n = " + n + "");
         }
         this.vector = new double[n]; // По умолчанию создаётся массив 0 размерности n
     }
@@ -23,20 +23,26 @@ public class Vector {
     }
 
     public Vector(int n, double[] array) {
+        if (n <= 0) { // Нельзя создать нулевой вектор
+            throw new IllegalArgumentException("value of 'n' is negative or: n = " + n + "");
+        }
         this.vector = Arrays.copyOf(array, n);
     }
 
     public double getElement(int i) {
-        if (i > this.vector.length) {
-            return 0;
+        if (i < 0 || i > this.vector.length) { //
+            throw new IllegalArgumentException("value of 'i' is negative or out of range: i = " + i + "");
         } else {
             return this.vector[i];
         }
     }
 
-
     public void setElement(int i, double element) {
-        this.vector[i] = element;
+        if (i < 0 || i > this.vector.length) { //
+            throw new IllegalArgumentException("value of 'i' is negative or out of range: i = " + i + "");
+        } else {
+            this.vector[i] = element;
+        }
     }
 
     public int getSize() {
@@ -44,41 +50,35 @@ public class Vector {
     }
 
     public Vector getSum(Vector vector) {
-        if (this.vector.length > vector.vector.length) {
-            for (int i = 0; i < vector.vector.length; ++i) {
-                this.vector[i] = this.vector[i] + vector.vector[i];
-            }
-            return this;
-        } else {
-            for (int i = 0; i < this.vector.length; ++i) {
-                vector.vector[i] = this.vector[i] + vector.vector[i];
-            }
-            return vector;
+        if (this.vector.length < vector.vector.length) {
+            this.vector = Arrays.copyOf(this.vector, vector.vector.length);
         }
+        for (int i = 0; i < vector.vector.length; ++i) {
+            this.vector[i] = this.vector[i] + vector.vector[i];
+        }
+        return this;
     }
 
     public Vector getDifference(Vector vector) {
         if (this.vector.length < vector.vector.length) {
-            /*double[] temp = new double[this.vector.length];
-            System.arraycopy(this.vector, 0, temp, 0, this.vector.length);
-            this.vector = new double[vector.vector.length];
-            System.arraycopy(temp, 0, this.vector, 0, temp.length);*/
             this.vector = Arrays.copyOf(this.vector, vector.vector.length);
-            for (int i = 0; i < vector.vector.length; ++i) {
-                this.vector[i] = this.vector[i] - vector.vector[i];
-            }
-            return this;
-        } else {
-            for (int i = 0; i < vector.vector.length; ++i) {
-                this.vector[i] = this.vector[i] - vector.vector[i];
-            }
-            return this;
         }
+        for (int i = 0; i < vector.vector.length; ++i) {
+            this.vector[i] = this.vector[i] - vector.vector[i];
+        }
+        return this;
     }
+
 
     public void scalarMultiplication(double scalar) {
         for (int i = 0; i < this.vector.length; ++i) {
             this.vector[i] = this.vector[i] * scalar;
+        }
+    }
+
+    public void rotate() {
+        for (int i = 0; i < this.vector.length; ++i) {
+            this.vector[i] = this.vector[i] * (-1);
         }
     }
 
@@ -91,53 +91,35 @@ public class Vector {
     }
 
     public String toString() {
-        return Arrays.toString(vector);
+        StringBuilder sb = new StringBuilder();
+        for (double e : this.vector) {
+            sb.append(e).append(" ,");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
     }
 
     public static Vector getSum(Vector vector1, Vector vector2) {
-        if (vector1.getSize() > vector2.getSize()) {
-            Vector newVector = new Vector(vector1.getSize(), vector1.vector);
-            for (int i = 0; i < vector2.getSize(); ++i) {
-                newVector.setElement(i, vector1.getElement(i) + vector2.getElement(i));
-            }
-            return newVector;
-        } else {
-            Vector newVector = new Vector(vector2);
-            for (int i = 0; i < vector1.getSize(); ++i) {
-                newVector.setElement(i, vector1.getElement(i) + vector2.getElement(i));
-            }
-            return newVector;
-        }
+        return new Vector(vector1.getSum(vector2));
     }
 
     public static Vector getDifference(Vector vector1, Vector vector2) {
-        if (vector1.getSize() < vector2.getSize()) {
-            Vector newVector = new Vector(vector2.getSize(), vector1.vector);
-            for (int i = 0; i < newVector.getSize(); ++i) {
-                newVector.setElement(i, newVector.getElement(i) - vector2.getElement(i));
-            }
-            return newVector;
-        } else {
-            Vector newVector = new Vector(vector1.getSize(), vector1.vector);
-            for (int i = 0; i < vector2.getSize(); ++i) {
-                newVector.setElement(i, newVector.getElement(i) - vector2.getElement(i));
-            }
-            return newVector;
-        }
+        return new Vector(vector1.getDifference(vector2));
     }
 
     public static double scalarProduct(Vector vector1, Vector vector2) {
         double scalarProduct = 0;
         if (vector1.getSize() < vector2.getSize()) {
-            for (int i = 0; i < vector1.getSize(); ++i) {
+            Vector newVector = new Vector(vector1);
+            for (int i = 0; i < newVector.getSize(); ++i) {
                 scalarProduct += vector1.getElement(i) * vector2.getElement(i);
             }
-            return scalarProduct;
         } else {
-            for (int i = 0; i < vector2.getSize(); ++i) {
+            Vector newVector = new Vector(vector2);
+            for (int i = 0; i < newVector.getSize(); ++i) {
                 scalarProduct += vector1.getElement(i) * vector2.getElement(i);
             }
-            return scalarProduct;
         }
+        return scalarProduct;
     }
 }
