@@ -32,7 +32,7 @@ public class Main {
         System.out.println(a);
         System.out.println(b);
 
-        Vector c = a.getSum(b);
+        Vector c = b.getSum(a);
         System.out.println("Cумма векторов ");
         System.out.println(c);
 

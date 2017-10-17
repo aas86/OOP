@@ -44,25 +44,22 @@ public class Vector {
     }
 
     public Vector getSum(Vector vector) {
-        if (this.vector.length > vector.vector.length) {
+        if (this.vector.length < vector.vector.length) {
+            this.vector = Arrays.copyOf(this.vector, vector.vector.length);
             for (int i = 0; i < vector.vector.length; ++i) {
                 this.vector[i] = this.vector[i] + vector.vector[i];
             }
             return this;
         } else {
-            for (int i = 0; i < this.vector.length; ++i) {
-                vector.vector[i] = this.vector[i] + vector.vector[i];
+            for (int i = 0; i < vector.vector.length; ++i) {
+                this.vector[i] = this.vector[i] + vector.vector[i];
             }
-            return vector;
+            return this;
         }
     }
 
     public Vector getDifference(Vector vector) {
         if (this.vector.length < vector.vector.length) {
-            /*double[] temp = new double[this.vector.length];
-            System.arraycopy(this.vector, 0, temp, 0, this.vector.length);
-            this.vector = new double[vector.vector.length];
-            System.arraycopy(temp, 0, this.vector, 0, temp.length);*/
             this.vector = Arrays.copyOf(this.vector, vector.vector.length);
             for (int i = 0; i < vector.vector.length; ++i) {
                 this.vector[i] = this.vector[i] - vector.vector[i];
