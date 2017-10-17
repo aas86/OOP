@@ -110,13 +110,11 @@ public class Vector {
     public static double scalarProduct(Vector vector1, Vector vector2) {
         double scalarProduct = 0;
         if (vector1.getSize() < vector2.getSize()) {
-            Vector newVector = new Vector(vector1);
-            for (int i = 0; i < newVector.getSize(); ++i) {
+            for (int i = 0; i < vector1.getSize(); ++i) {
                 scalarProduct += vector1.getElement(i) * vector2.getElement(i);
             }
         } else {
-            Vector newVector = new Vector(vector2);
-            for (int i = 0; i < newVector.getSize(); ++i) {
+            for (int i = 0; i < vector2.getSize(); ++i) {
                 scalarProduct += vector1.getElement(i) * vector2.getElement(i);
             }
         }
