@@ -1,5 +1,6 @@
 package ru.academits.alaev;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import ru.academits.alaev.vector.Vector;
 
 public class Main {
@@ -61,13 +62,27 @@ public class Main {
         Vector y = new Vector(array9);
         System.out.println(x);
         System.out.println(y);
-        Vector z1 = Vector.getSum(x, y);
-        System.out.println("Сумма векторов(static метод) " + z1);
-        Vector z2 = Vector.getDifference(x, y);
-        System.out.println("Разность векторов(static метод) " + z2);
+        //  Vector z1 = Vector.getSum(x, y);
+        // System.out.println("Сумма векторов(static метод) " + z1);
+        //  Vector z2 = Vector.getDifference(x, y);
+        //   System.out.println("Разность векторов(static метод) " + z2);
         double scalarProduct = Vector.scalarProduct(x, y);
         System.out.println("Скалярное произведение векторов = " + scalarProduct);
 
+        if (y.equals(x)) {
+            System.out.println("Векторы " + x.toString() + " и " + y.toString() + " Равны");
+        } else {
+            System.out.println("Векторы " + x.toString() + " и " + y.toString() + " Не равны");
+        }
+
+        // Проверка hashCode() и equals();
+        Vector m = new Vector(new double[]{1, 2, 3, 4});
+        Vector n = new Vector(new double[]{1, 2, 3});
+        if (m.hashCode() != n.hashCode()) {
+            System.out.println("Хэши разные => объекты разные");
+        } else if (m.equals(n)) {
+            System.out.println("Объекты равны");
+        }
     }
 }
 

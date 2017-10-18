@@ -90,6 +90,7 @@ public class Vector {
         return Math.sqrt(sum);
     }
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (double e : this.vector) {
@@ -97,6 +98,26 @@ public class Vector {
         }
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 37;
+        return prime * Arrays.hashCode(this.vector);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {   // Если объект сравниваем сам с собой
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()) {
+            // Если объекты принадлежат разным классам
+            // т.к. не статик метод, то вызываем обязательно от какого-то объекта, а значит он уже не null
+            return false;
+        }
+        Vector v = (Vector) o; // Приводим тип объекта аргумента к классу с которым сравниваем
+        return (v.vector.length == this.vector.length && Arrays.equals(this.vector, v.vector));
     }
 
     public static Vector getSum(Vector vector1, Vector vector2) {
@@ -109,16 +130,14 @@ public class Vector {
 
     public static double scalarProduct(Vector vector1, Vector vector2) {
         double scalarProduct = 0;
+        int n;
         if (vector1.getSize() < vector2.getSize()) {
-            Vector newVector = new Vector(vector1);
-            for (int i = 0; i < newVector.getSize(); ++i) {
-                scalarProduct += vector1.getElement(i) * vector2.getElement(i);
-            }
+            n = vector1.getSize();
         } else {
-            Vector newVector = new Vector(vector2);
-            for (int i = 0; i < newVector.getSize(); ++i) {
-                scalarProduct += vector1.getElement(i) * vector2.getElement(i);
-            }
+            n = vector2.getSize();
+        }
+        for (int i = 0; i < n; ++i) {
+            scalarProduct += vector1.getElement(i) * vector2.getElement(i);
         }
         return scalarProduct;
     }
