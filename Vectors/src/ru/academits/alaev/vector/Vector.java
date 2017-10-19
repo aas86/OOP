@@ -19,27 +19,31 @@ public class Vector {
     }
 
     public Vector(double[] array) {
+        if (array.length == 0) {
+            throw new IllegalArgumentException("Value of 'n' is negative or 0: n = " + array.length + "");
+        }
+
         this.vector = Arrays.copyOf(array, array.length);
     }
 
     public Vector(int n, double[] array) {
         if (n <= 0) { // Нельзя создать нулевой вектор
-            throw new IllegalArgumentException("value of 'n' is negative or: n = " + n + "");
+            throw new IllegalArgumentException("Value of 'n' is negative or: n = " + n + "");
         }
         this.vector = Arrays.copyOf(array, n);
     }
 
     public double getElement(int i) {
-        if (i < 0 || i > this.vector.length) { //
-            throw new IllegalArgumentException("value of 'i' is negative or out of range: i = " + i + "");
+        if (i < 0 || i >= this.vector.length) { //
+            throw new IndexOutOfBoundsException("Value of 'i' is negative or out of bound : i = " + i + "");
         } else {
             return this.vector[i];
         }
     }
 
     public void setElement(int i, double element) {
-        if (i < 0 || i > this.vector.length) { //
-            throw new IllegalArgumentException("value of 'i' is negative or out of range: i = " + i + "");
+        if (i < 0 || i >= this.vector.length) { //
+            throw new IndexOutOfBoundsException("Value of 'i' is negative or out of bound: i = " + i + "");
         } else {
             this.vector[i] = element;
         }
@@ -77,9 +81,7 @@ public class Vector {
     }
 
     public void rotate() {
-        for (int i = 0; i < this.vector.length; ++i) {
-            this.vector[i] = this.vector[i] * (-1);
-        }
+        this.scalarMultiplication(-1);
     }
 
     public double getLength() {
@@ -94,9 +96,9 @@ public class Vector {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (double e : this.vector) {
-            sb.append(e).append(" ,");
+            sb.append(e).append(", ");
         }
-        sb.deleteCharAt(sb.length() - 1);
+        sb.deleteCharAt(sb.length() - 2);
         return sb.toString();
     }
 
@@ -121,17 +123,19 @@ public class Vector {
     }
 
     public static Vector getSum(Vector vector1, Vector vector2) {
-        return new Vector(vector1.getSum(vector2));
+        Vector newVector = new Vector(vector1);
+        return new Vector(newVector.getSum(vector2));
     }
 
     public static Vector getDifference(Vector vector1, Vector vector2) {
-        return new Vector(vector1.getDifference(vector2));
+        Vector newVector = new Vector(vector1);
+        return new Vector(newVector.getDifference(vector2));
     }
 
     public static double scalarProduct(Vector vector1, Vector vector2) {
         double scalarProduct = 0;
         int n;
-        if (vector1.getSize() < vector2.getSize()) {
+        if (Math.min(vector1.vector.length, vector2.vector.length) == vector1.vector.length) {
             n = vector1.getSize();
         } else {
             n = vector2.getSize();
