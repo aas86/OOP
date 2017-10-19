@@ -129,18 +129,12 @@ public class Vector {
 
     public static Vector getDifference(Vector vector1, Vector vector2) {
         Vector newVector = new Vector(vector1);
-        return new Vector(newVector.getDifference(vector2));
+        return newVector.getDifference(vector2);
     }
 
     public static double scalarProduct(Vector vector1, Vector vector2) {
         double scalarProduct = 0;
-        int n;
-        if (Math.min(vector1.vector.length, vector2.vector.length) == vector1.vector.length) {
-            n = vector1.getSize();
-        } else {
-            n = vector2.getSize();
-        }
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < Math.min(vector1.vector.length, vector2.vector.length); ++i) {
             scalarProduct += vector1.getElement(i) * vector2.getElement(i);
         }
         return scalarProduct;

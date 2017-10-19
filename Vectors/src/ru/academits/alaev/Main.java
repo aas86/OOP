@@ -56,14 +56,14 @@ public class Main {
         System.out.println("Длина вектора " + g.getLength());
 
         // Проверка статических методов getSum() и getDifference();
-        Vector x = new Vector(new double[]{1, 2, 3, 4});
-        Vector y = new Vector(new double[]{1, 2, 3, 100, 200});
+        Vector x = new Vector(new double[]{1, 2, 3, 100});
+        Vector y = new Vector(new double[]{1, 2, 3, });
         System.out.println(x);
         System.out.println(y);
-    //    Vector z1 = Vector.getSum(x, y);
-    //    System.out.println("Сумма векторов(static метод) " + z1);
-        Vector z2 = Vector.getDifference(x, y);
-        System.out.println("Разность векторов(static метод) " + z2);
+    //  Vector z1 = Vector.getSum(x, y);
+    //  System.out.println("Сумма векторов(static метод) " + z1);
+    //  Vector z2 = Vector.getDifference(x, y);
+    //  System.out.println("Разность векторов(static метод) " + z2);
         double scalarProduct = Vector.scalarProduct(x, y);
         System.out.println("Скалярное произведение векторов = " + scalarProduct);
 
