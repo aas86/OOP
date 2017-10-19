@@ -124,7 +124,7 @@ public class Vector {
 
     public static Vector getSum(Vector vector1, Vector vector2) {
         Vector newVector = new Vector(vector1);
-        return new Vector(newVector.getSum(vector2));
+        return newVector.getSum(vector2);
     }
 
     public static Vector getDifference(Vector vector1, Vector vector2) {
@@ -134,7 +134,8 @@ public class Vector {
 
     public static double scalarProduct(Vector vector1, Vector vector2) {
         double scalarProduct = 0;
-        for (int i = 0; i < Math.min(vector1.vector.length, vector2.vector.length); ++i) {
+        int n = Math.min(vector1.vector.length, vector2.vector.length);
+        for (int i = 0; i < n; ++i) {
             scalarProduct += vector1.getElement(i) * vector2.getElement(i);
         }
         return scalarProduct;
