@@ -22,4 +22,21 @@ public class Circle implements Shape {
     public double getPerimeter() {
         return 2 * Math.PI * radius;
     }
+    @Override
+    public int hashCode(){
+        final int prime = 77;
+        int hash = 1;
+        return  prime * hash + (int)radius;
+    }
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return true;
+        }
+        if ((o == null) || o.getClass() != this.getClass()){
+            return false;
+        }
+        Circle circle = (Circle) o;
+        return this.radius == circle.radius;
+    }
 }
