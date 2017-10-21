@@ -24,17 +24,25 @@ public class Square implements Shape {
     }
 
     @Override
-    public int hashCode(){
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Квадрат со стороной ").append(side);
+        return sb.toString();
+    }
+
+    @Override
+    public int hashCode() {
         final int prime = 77;
         int hash = 1;
-        return prime * hash + (int)this.side;
+        return prime * hash + (int) this.side;
     }
+
     @Override
-    public boolean equals(Object o){
-        if (o == this){
+    public boolean equals(Object o) {
+        if (o == this) {
             return true;
         }
-        if (o == null || o.getClass() != this.getClass()){
+        if (o == null || o.getClass() != this.getClass()) {
             return false;
         }
         Square square = (Square) o;

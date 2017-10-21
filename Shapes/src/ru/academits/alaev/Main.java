@@ -65,6 +65,12 @@ public class Main {
         } else {
             System.out.println("Хэши равны, но по equals не равны!");
         }
+
+        System.out.println(circle.toString());
+        System.out.println(square.toString());
+        System.out.println(square1.toString());
+        System.out.println(P1.toString());
+        System.out.println(triangle1.toString());
     }
 
 }

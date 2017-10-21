@@ -17,7 +17,7 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    private double getSide(double x1, double y1, double x2, double y2) {
+    private static double getSide(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
@@ -50,6 +50,14 @@ public class Triangle implements Shape {
         double b = getSide(x3, y3, x2, y2);
         double c = getSide(x3, y3, x1, y1);
         return a + b + c;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Треугольник с координатами x1 = ").append(x1).append(" y1 = ").append(y1).append(" x2 = ").append(x2)
+                .append(" y2 = ").append(y2).append(" x3 = ").append(x3).append(" y3 = ").append(y3);
+        return sb.toString();
     }
 
     @Override
