@@ -27,9 +27,7 @@ public class Rectangle implements Shape {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Прямоугольник с шириной ").append(width).append(" и с высотой ").append(height);
-        return sb.toString();
+        return "Прямоугольник с шириной " + width + " и с высотой " + height;
     }
 
     @Override

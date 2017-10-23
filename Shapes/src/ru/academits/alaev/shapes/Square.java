@@ -25,9 +25,7 @@ public class Square implements Shape {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Квадрат со стороной ").append(side);
-        return sb.toString();
+        return "Квадрат со стороной " + side;
     }
 
     @Override

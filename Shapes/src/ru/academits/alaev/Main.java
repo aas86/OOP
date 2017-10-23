@@ -5,7 +5,7 @@ import ru.academits.alaev.shapes.*;
 import java.util.Arrays;
 
 public class Main {
-    public static double maxArea(Shape... shape) {
+    private static double maxArea(Shape... shape) {
         double maxArea = 0;
         for (Shape e : shape) {
             if (e.getArea() > maxArea) {
@@ -15,7 +15,7 @@ public class Main {
         return maxArea;
     }
 
-    public static double secondPerimeter(Shape... shape) {
+    private static double secondPerimeter(Shape... shape) {
         double[] array = new double[shape.length];
         for (int i = 0; i < shape.length; ++i) {
             array[i] = shape[i].getPerimeter();
@@ -71,6 +71,12 @@ public class Main {
         System.out.println(square1.toString());
         System.out.println(P1.toString());
         System.out.println(triangle1.toString());
+
+        Shape[] array = new Shape[]{square, square1, circle, triangle, P1, triangle1};
+
+        Arrays.sort(array, new ShapesAreaComparator());
+        System.out.println("Фигура с самой большой площадью - " + array[array.length - 1] + " S = " + array[array.length - 1].getArea());
+        System.out.println("Фигура со вторым периметром - " + array[array.length - 2] + " P = " + array[array.length - 2].getPerimeter());
     }
 
 }

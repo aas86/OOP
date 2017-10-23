@@ -44,8 +44,6 @@ public class Circle implements Shape {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Окружность с радиусом ").append(radius);
-        return sb.toString();
+        return "Окружность с радиусом " + radius;
     }
 }

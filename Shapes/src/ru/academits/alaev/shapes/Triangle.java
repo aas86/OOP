@@ -21,6 +21,7 @@ public class Triangle implements Shape {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
+    @Override
     public double getWidth() {
         double max = Math.max(Math.max(x1, x2), x3);
         double min = Math.min(Math.min(x1, x2), x3);
@@ -54,10 +55,8 @@ public class Triangle implements Shape {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Треугольник с координатами x1 = ").append(x1).append(" y1 = ").append(y1).append(" x2 = ").append(x2)
-                .append(" y2 = ").append(y2).append(" x3 = ").append(x3).append(" y3 = ").append(y3);
-        return sb.toString();
+        return "Треугольник с координатами x1 = " + x1 + " y1 = " + y1 + " x2 = " + x2 +
+                " y2 = " + y2 + " x3 = " + x3 + " y3 = " + y3;
     }
 
     @Override
