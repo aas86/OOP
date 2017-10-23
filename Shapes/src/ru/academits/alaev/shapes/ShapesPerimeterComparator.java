@@ -1,6 +1,5 @@
 package ru.academits.alaev.shapes;
 
-
 import java.util.Comparator;
 
 public class ShapesPerimeterComparator implements Comparator<Shape> {

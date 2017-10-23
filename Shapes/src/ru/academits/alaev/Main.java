@@ -72,11 +72,14 @@ public class Main {
         System.out.println(P1.toString());
         System.out.println(triangle1.toString());
 
-        Shape[] array = new Shape[]{square, square1, circle, triangle, P1, triangle1};
+        Square square2 = new Square(7.6);
 
-        Arrays.sort(array, new ShapesAreaComparator());
+        Shape[] array = new Shape[]{square, square1, circle, triangle, P1, triangle1, square2};
+
+        Arrays.sort(array, new ShapesAreaComparator()); // Сортируем массив Shape[] по площади при помощи ShapesAreaComparator()
         System.out.println("Фигура с самой большой площадью - " + array[array.length - 1] + " S = " + array[array.length - 1].getArea());
-        System.out.println("Фигура со вторым периметром - " + array[array.length - 2] + " P = " + array[array.length - 2].getPerimeter());
+        Arrays.sort(array, new ShapesPerimeterComparator()); // Сортируем массив Shape[] по периметру при помощи ShapesPerimeterComparator()
+        System.out.println("Фигура со вторым по величине периметром - " + array[array.length - 2] + " P = " + array[array.length - 2].getPerimeter());
     }
 
 }
