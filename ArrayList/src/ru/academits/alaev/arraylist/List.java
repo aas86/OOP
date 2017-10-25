@@ -40,12 +40,12 @@ public class List {
 
             for (int j = 0; j < list1.size() - 1; j++) {
                 if (list1.get(j+1).equals(list1.get(j))) {
-                    list1.remove(j);
+                  //  list1.remove(j);
                     ++j;
-                    newList.add(list1.get(j));
+                   // newList.add(list1.get(j));
                 }
                 newList.add(list1.get(j + 1));
-                ++j;
+               // ++j;
           //  }
         }
         System.out.println(list1);
