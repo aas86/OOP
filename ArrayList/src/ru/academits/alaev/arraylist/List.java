@@ -3,7 +3,6 @@ package ru.academits.alaev.arraylist;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.Scanner;
 
 public class List {
@@ -33,10 +32,14 @@ public class List {
         System.out.println();
         System.out.println("Удалили все чётные числа" + list);
 
-        ArrayList<Integer> list1 = new ArrayList<>(Arrays.asList(1, 1, 1, 1, 1, 11, 1, 5, 5, 1, 2, 2, 3));
+        ArrayList<Integer> list1 = new ArrayList<>(Arrays.asList(1, 1, 1, 1, 1, 5, 2, 1, 3, 5, 5, 5, 5));
         System.out.println(list1);
-
-        ArrayList<Integer> newList = new ArrayList<Integer>(new LinkedHashSet<Integer>(list1));
+        ArrayList<Integer> newList = new ArrayList<Integer>();
+        for (Integer e : list1) {
+            if (!(newList.contains(e))) {
+                newList.add(e);
+            }
+        }
 
         System.out.println(list1);
         System.out.println(newList);
