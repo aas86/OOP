@@ -15,13 +15,14 @@ public class List {
         }
 
         ArrayList<Integer> list = new ArrayList<>();
-        list.add(0);
+       /* list.add(0);
         list.add(4);
         list.add(2);
         list.add(2);
         list.add(4);
-        list.add(5);
+        list.add(5);*/
         System.out.println("Создали список" + list);
+        list.set(0, 4);
 
         for (int i = 0; i < list.size(); ++i) {
             if (list.get(i) % 2 == 0) {
@@ -43,5 +44,6 @@ public class List {
 
         System.out.println(list1);
         System.out.println(newList);
+
     }
 }
