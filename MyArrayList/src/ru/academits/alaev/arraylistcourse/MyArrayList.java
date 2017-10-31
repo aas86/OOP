@@ -1,22 +1,66 @@
 package ru.academits.alaev.arraylistcourse;
 
-import java.util.Arrays;
+import com.sun.xml.internal.bind.v2.TODO;
 
-public class MyArrayList<T> {
+import java.util.*;
+
+public class MyArrayList<T> implements List<T> {
     private T[] items = (T[]) new Object[2];
     private int length;
 
     public MyArrayList() {
     }
 
-    public int getSize() {
+    @Override
+    public int size() {
         return length;
     }
 
+    @Override
+    public ListIterator<T> listIterator(int index) {
+        if (index < 0 || index > length) {
+            throw new IndexOutOfBoundsException("Несуществующий индекс");
+        }
+        return null;
+    }
+    // TODO
+    @Override
+    public ListIterator<T> listIterator() { // Не понял что это
+
+        return null;
+    }
+    // TODO
+    @Override
+    public Iterator<T> iterator() {         // Не понял что это
+        return null;
+    }
+
+    @Override
+    public void clear() {
+        length = 0;
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        for (int i = 0; i < length; ++i) {
+            if (items.equals(o)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    // TODO
+    @Override
+    public boolean containsAll(Collection <?> c) {
+        return items.equals(c);
+    }
+
+    @Override
     public boolean isEmpty() {
         return length == 0;
     }
 
+    @Override
     public T get(int index) {
         if (index >= length || index < 0) {
             throw new IndexOutOfBoundsException("Несуществующий индекс");
@@ -24,22 +68,28 @@ public class MyArrayList<T> {
         return items[index];
     }
 
-    public void set(int index, T object) {
+    @Override
+    public T set(int index, T object) { //Должен возвращать значение по индексу до замены
         if (index >= length || index < 0) {
             throw new IndexOutOfBoundsException("Несуществующий индекс");
         }
+        T temp = items[index];
         items[index] = object;
+        return temp;
     }
 
-    public void add(T object) {
+    @Override
+    public boolean add(T object) {
         if (length >= items.length) {
             increaseCapacity();
         }
         items[length] = object;
         ++length;
+        return true;
     }
 
-    public void add(T object, int index) {
+    @Override
+    public void add(int index, T object) {
         length++;
         if (length >= items.length) {
             increaseCapacity();
@@ -49,12 +99,29 @@ public class MyArrayList<T> {
         }
         items[index] = object;
     }
+    // TODO
+    @Override
+    public boolean addAll(Collection<? extends T> c){
+        return false;
+    }
+    @Override
+    public boolean addAll(int index, Collection<? extends T> list) {
+
+        length = length + list.size();
+        if (length >= items.length) {
+            increaseCapacity();
+        }
+        System.arraycopy(items, index, items, index + list.size(), list.size());
+        System.arraycopy(list, 0, items, index, list.size());
+        return true;
+    }
 
     private void increaseCapacity() {
         items = Arrays.copyOf(items, items.length * 2);
     }
 
-    public void remove(int index) {
+    @Override
+    public T remove(int index) {
         if (index < 0 || index >= length) {
             throw new IndexOutOfBoundsException("Несуществующий индекс");
         }
@@ -62,14 +129,43 @@ public class MyArrayList<T> {
             System.arraycopy(items, index + 1, items, index, length - index - 1);
         }
         --length;
+        return items[index];
     }
 
-    public void remove(T object) {
+    @Override
+    public boolean remove(Object object) {
         for (int i = 0; i < length; ++i) {
             if (items[i].equals(object)) {
                 remove(i);
+                return true;
             }
         }
+        return false;
+    }
+
+    // TODO
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        return true;
+    }
+
+    // TODO
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public T[] toArray() {
+        T[] array = (T[]) new Object[length];
+        System.arraycopy(items, 0, array, 0, length);
+        return array;
+    }
+
+    // TODO
+    @Override
+    public <T> T[] toArray(T[] a) {     //Не понял что метод делает и что возвращает и что вообще это такое <T> T[]
+        return null;
     }
 
     @Override
@@ -80,5 +176,30 @@ public class MyArrayList<T> {
         }
         sb.deleteCharAt(sb.length() - 2);
         return sb.toString();
+    }
+
+    @Override
+    public List<T> subList(int fromIndex, int toIndex) {
+        return null;
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        for (int i = 0; i < length; ++i) {
+            if (items[i] == o) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    @Override
+    public int lastIndexOf(Object o){
+        int index = 0;
+        for (int i = 0; i < length; i++){
+            if (items[i].equals(o)){
+                index = i;
+            }
+        }
+        return index;
     }
 }
