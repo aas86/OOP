@@ -1,14 +1,28 @@
 package ru.academits.alaev.arraylistcourse;
 
-import com.sun.xml.internal.bind.v2.TODO;
 
 import java.util.*;
 
 public class MyArrayList<T> implements List<T> {
-    private T[] items = (T[]) new Object[2];
+    private T[] items = (T[]) new Object[5];
     private int length;
 
     public MyArrayList() {
+    }
+
+    private class MyIterator implements Iterator<T> {
+        private int currentindex = -1;
+
+        @Override
+        public boolean hasNext() {
+            return currentindex + 1 < length;
+        }
+
+        @Override
+        public T next() {
+            ++currentindex;
+            return items[currentindex];
+        }
     }
 
     @Override
@@ -23,16 +37,18 @@ public class MyArrayList<T> implements List<T> {
         }
         return null;
     }
+
     // TODO
     @Override
     public ListIterator<T> listIterator() { // Не понял что это
 
         return null;
     }
+
     // TODO
     @Override
     public Iterator<T> iterator() {         // Не понял что это
-        return null;
+        return new MyIterator();
     }
 
     @Override
@@ -43,16 +59,28 @@ public class MyArrayList<T> implements List<T> {
     @Override
     public boolean contains(Object o) {
         for (int i = 0; i < length; ++i) {
-            if (items.equals(o)) {
+            if (items[i].equals(o)) {
                 return true;
             }
         }
         return false;
     }
+
+
     // TODO
     @Override
-    public boolean containsAll(Collection <?> c) {
-        return items.equals(c);
+    // Collection <?> => можно передать коллекцию любого типа, если бы Collection <Object>, то только object`ы. А так
+    // Object и все его наследники, т.е. вообще что угодно.
+    public boolean containsAll(Collection<?> collection) {
+        int count = 0;
+        for (Object element : collection) {
+            if (this.contains(element)) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        return count == collection.size();
     }
 
     @Override
@@ -99,11 +127,13 @@ public class MyArrayList<T> implements List<T> {
         }
         items[index] = object;
     }
+
     // TODO
     @Override
-    public boolean addAll(Collection<? extends T> c){
+    public boolean addAll(Collection<? extends T> c) {
         return false;
     }
+
     @Override
     public boolean addAll(int index, Collection<? extends T> list) {
 
@@ -192,11 +222,12 @@ public class MyArrayList<T> implements List<T> {
         }
         return -1;
     }
+
     @Override
-    public int lastIndexOf(Object o){
+    public int lastIndexOf(Object o) {
         int index = 0;
-        for (int i = 0; i < length; i++){
-            if (items[i].equals(o)){
+        for (int i = 0; i < length; i++) {
+            if (items[i].equals(o)) {
                 index = i;
             }
         }
