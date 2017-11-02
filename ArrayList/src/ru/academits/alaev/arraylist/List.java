@@ -45,6 +45,14 @@ public class List {
         System.out.println(list1);
         System.out.println(newList);
 
+        ArrayList<Integer> list2 = new ArrayList<>(Arrays.asList(1, 5, 3, 4, 1, 5));
+        ArrayList<Integer> list3 = new ArrayList<>(Arrays.asList(1,5));
+        if (list2.retainAll(list3)){
+            System.out.println("Произошло удаление всей коллекции " + list3 + " из " + list2);
+        } else{
+            System.out.println("Не было удаления");
+        }
+
 
     }
 }
