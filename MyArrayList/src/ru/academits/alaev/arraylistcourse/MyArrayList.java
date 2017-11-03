@@ -6,22 +6,27 @@ import java.util.*;
 public class MyArrayList<T> implements List<T> {
     private T[] items = (T[]) new Object[5];
     private int length;
+    private int modCount;
 
     public MyArrayList() {
     }
 
     private class MyIterator implements Iterator<T> {
-        private int currentindex = -1;
+        private int currentIndex = -1;
+        private int initialModCount = modCount;
 
         @Override
         public boolean hasNext() {
-            return currentindex + 1 < length;
+            if (initialModCount != modCount) {
+                throw new ConcurrentModificationException();
+            }
+            return currentIndex + 1 < length;
         }
 
         @Override
         public T next() {
-            ++currentindex;
-            return items[currentindex];
+            ++currentIndex;
+            return items[currentIndex];
         }
     }
 
@@ -62,19 +67,17 @@ public class MyArrayList<T> implements List<T> {
             if (items[i] == null) {
                 continue;
             }
-            if (items[i].equals(o)) {
-                return true;
+            if (this.indexOf(o) == -1) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
-
 
     @Override
     // Collection <?> => можно передать коллекцию любого типа, если бы Collection <Object>, то только object`ы. А так
     // Object и все его наследники, т.е. вообще что угодно.
     public boolean containsAll(Collection<?> collection) {
-
         for (Object element : collection) {
             if (!(this.contains(element))) {
                 return false;
@@ -113,14 +116,12 @@ public class MyArrayList<T> implements List<T> {
         }
         items[length] = object;
         ++length;
+        modCount++;
         return true;
     }
 
     @Override
     public void add(int index, T object) {
-        if (object == null) {
-            throw new NullPointerException("Нельзя сюда NULL передевать!!!");
-        }
         if (index < 0 || index >= length) {
             throw new IndexOutOfBoundsException("index : " + index + " doesn't exists");
         }
@@ -132,12 +133,21 @@ public class MyArrayList<T> implements List<T> {
             items[i] = items[i - 1];
         }
         items[index] = object;
+        modCount++;
     }
 
-    // TODO
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        return false;
+        int changesCount = 0;
+        for (Object element : c) {
+            if (length >= items.length) {
+                increaseCapacity();
+            }
+            length++;
+            items[length - 1] = (T) element;
+            changesCount++;
+        }
+        return changesCount != 0;
     }
 
     @Override
@@ -146,8 +156,15 @@ public class MyArrayList<T> implements List<T> {
         if (length >= items.length) {
             increaseCapacity();
         }
-        System.arraycopy(items, index, items, index + list.size(), list.size());
-        System.arraycopy(list, 0, items, index, list.size());
+        for (Object e : list) {
+            int j = index;
+            for (int i = index; i < index + list.size(); ++i) {
+                items[i + list.size()] = items[i];
+                this.set(j, (T) e);
+                break;
+            }
+            index = index + 1;
+        }
         return true;
     }
 
@@ -164,20 +181,19 @@ public class MyArrayList<T> implements List<T> {
             System.arraycopy(items, index + 1, items, index, length - index - 1);
         }
         --length;
+        modCount++;
         return items[index];
     }
 
     @Override
     public boolean remove(Object object) {
         if (object == null) {
-            throw new NullPointerException("Нельзя сюда NULL передевать!!!");
+            this.remove(this.indexOf(null));
         }
         for (int i = 0; i < length; ++i) {
-            if (items[i] == null) {
-                continue;
-            }
             if (items[i].equals(object)) {
                 remove(i);
+                modCount++;
                 return true;
             }
         }
@@ -199,18 +215,14 @@ public class MyArrayList<T> implements List<T> {
         return count != 0;
     }
 
-    // TODO
     @Override
     public boolean retainAll(Collection<?> collection) {
-        for (int i = 0; i < items.length; ++i) {
-            for (Object element : collection) {
-                if (items[i].equals(element)) {
-                 break;
+        for (Object element : collection) {
+            for (int i = 0; i < length; ++i) {
+                if (!(collection.contains(this.items[i]))) {
+                    this.remove(items[i]);
                 }
             }
-            this.remove(items[i]);
-            i--;
-
         }
         return true;
     }
@@ -247,9 +259,6 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public int indexOf(Object o) {
-        if (o == null) {
-            throw new NullPointerException("Нельзя сюда NULL передевать!!!");
-        }
         for (int i = 0; i < length; ++i) {
             if (items[i] == o) {
                 return i;
@@ -260,18 +269,14 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public int lastIndexOf(Object o) {
-        if (o == null) {
-            throw new NullPointerException("Нельзя сюда NULL передевать!!!");
-        }
         int index = 0;
-        for (int i = 0; i < length; i++) {
-            if (items[i] == null) {
-                continue;
-            }
-            if (items[i].equals(o)) {
+        for (int i = length - 1; i > 0; i--) {
+            if (items[i] == o) {
                 index = i;
+                break;
             }
         }
         return index;
     }
+
 }

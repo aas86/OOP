@@ -32,7 +32,7 @@ public class Main {
         MyArrayList<Integer> list2 = new MyArrayList<>();
         list2.add(1);
         list2.add(5);
-        list2.add(null);
+        list2.add(8);
         list2.add(9);
         System.out.println(list2.toString());
         if (list2.contains(2)) {
@@ -75,21 +75,52 @@ public class Main {
         } else {
             System.out.println("Не было удаления");
         }
-        System.out.println("Проверка метода retainAll(Collection<?> c)");
+        System.out.println("Проверка метода retainAll и contains");
         MyArrayList<Integer> list5 = new MyArrayList<>();
         list5.add(1);
         list5.add(5);
         list5.add(3);
         list5.add(4);
-        list5.add(1);
+        list5.add(null);
         list5.add(5);
         MyArrayList<Integer> list6 = new MyArrayList<>();
-        list6.add(5);
         list6.add(3);
+        list6.add(67);
         System.out.println(list5);
         System.out.println(list6);
+        if(list5.contains(null)){
+            System.out.println("Содержит ");
+        } else{
+            System.out.println("Не содержит");
+        }
         list5.retainAll(list6);
+        System.out.println(list5);
+        System.out.println("Проверка добавления, поиска и удаления NULLов");
+        list5.add(null);
+        System.out.println(list5);
+        System.out.println(list5.indexOf(5));
+        System.out.println(list5.lastIndexOf(null));
+        list5.add(5);
+        list5.add(5);
 
         System.out.println(list5);
+        list5.add(4,null);
+        System.out.println(list5);
+        System.out.println(list5.lastIndexOf(null));
+
+        System.out.println("Проверка addAll");
+        MyArrayList<Integer> list7 = new MyArrayList<>();
+        list7.add(1);
+        list7.add(2);
+        list7.add(3);
+        list7.add(4);
+        MyArrayList<Integer> list8 = new MyArrayList<>();
+        list8.add(0);
+        list8.add(0);
+        list8.add(0);
+        System.out.println(list7.addAll(1,list8));
+        System.out.println(list7);
+
+
     }
 }
