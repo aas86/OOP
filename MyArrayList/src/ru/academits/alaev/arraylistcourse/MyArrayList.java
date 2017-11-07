@@ -63,15 +63,7 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < length; ++i) {
-            if (items[i] == null) {
-                continue;
-            }
-            if (this.indexOf(o) == -1) {
-                return false;
-            }
-        }
-        return true;
+        return this.indexOf(o) != -1;
     }
 
     @Override
@@ -79,7 +71,7 @@ public class MyArrayList<T> implements List<T> {
     // Object и все его наследники, т.е. вообще что угодно.
     public boolean containsAll(Collection<?> collection) {
         for (Object element : collection) {
-            if (!(this.contains(element))) {
+            if (!this.contains(element)) {
                 return false;
             }
         }
@@ -122,16 +114,14 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public void add(int index, T object) {
-        if (index < 0 || index >= length) {
+        if (index < 0 || index > length) {
             throw new IndexOutOfBoundsException("index : " + index + " doesn't exists");
         }
         length++;
         if (length >= items.length) {
             increaseCapacity();
         }
-        for (int i = length - 1; i > index; --i) {
-            items[i] = items[i - 1];
-        }
+        System.arraycopy(items, index, items, index + 1, length - 1 - index);
         items[index] = object;
         modCount++;
     }
@@ -139,12 +129,12 @@ public class MyArrayList<T> implements List<T> {
     @Override
     public boolean addAll(Collection<? extends T> c) {
         int changesCount = 0;
-        for (Object element : c) {
-            if (length >= items.length) {
-                increaseCapacity();
-            }
+        if (length + c.size() >= items.length) {
+            ensureCapacity(c.size() + length);
+        }
+        for (T element : c) {
             length++;
-            items[length - 1] = (T) element;
+            items[length - 1] = element;
             changesCount++;
         }
         return changesCount != 0;
@@ -257,26 +247,47 @@ public class MyArrayList<T> implements List<T> {
         return null;
     }
 
+
+    //(o==null ? get(i)==null : o.equals(get(i))), or -1 if there is no such index.
     @Override
-    public int indexOf(Object o) {
-        for (int i = 0; i < length; ++i) {
-            if (items[i] == o) {
-                return i;
+    public int indexOf(Object object) {
+        if (object == null) {
+            for (int i = 0; i < length; ++i) {
+                if (this.get(i) == null) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = 0; i < length; ++i) {
+                if (object.equals(this.get(i))) {
+                    return i;
+                }
             }
         }
         return -1;
     }
 
+
+    //(o==null ? get(i)==null : o.equals(get(i))), or -1 if there is no such index.
     @Override
-    public int lastIndexOf(Object o) {
-        int index = 0;
-        for (int i = length - 1; i > 0; i--) {
-            if (items[i] == o) {
-                index = i;
-                break;
+    public int lastIndexOf(Object object) {
+        if (object == null) {
+            for (int i = length - 1; i >= 0; --i) {
+                if (this.get(i) == null) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = length - 1; i >= 0; --i) {
+                if (object.equals(this.get(i))) {
+                    return i;
+                }
             }
         }
-        return index;
+        return -1;
     }
 
+    private void ensureCapacity(int length) {
+        items = Arrays.copyOf(items, length);
+    }
 }

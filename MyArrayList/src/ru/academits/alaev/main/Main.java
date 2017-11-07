@@ -2,12 +2,6 @@ package ru.academits.alaev.main;
 
 import ru.academits.alaev.arraylistcourse.MyArrayList;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-
-
 public class Main {
     public static void main(String[] args) {
         MyArrayList<Integer> list1 = new MyArrayList<>();
@@ -83,11 +77,13 @@ public class Main {
         list5.add(4);
         list5.add(null);
         list5.add(5);
+        list5.add(6,8);
         MyArrayList<Integer> list6 = new MyArrayList<>();
         list6.add(3);
         list6.add(67);
         System.out.println(list5);
         System.out.println(list6);
+        System.out.println(list5.lastIndexOf(null));
         if(list5.contains(null)){
             System.out.println("Содержит ");
         } else{
@@ -96,17 +92,8 @@ public class Main {
         list5.retainAll(list6);
         System.out.println(list5);
         System.out.println("Проверка добавления, поиска и удаления NULLов");
-        list5.add(null);
-        System.out.println(list5);
-        System.out.println(list5.indexOf(5));
-        System.out.println(list5.lastIndexOf(null));
-        list5.add(5);
-        list5.add(5);
 
         System.out.println(list5);
-        list5.add(4,null);
-        System.out.println(list5);
-        System.out.println(list5.lastIndexOf(null));
 
         System.out.println("Проверка addAll");
         MyArrayList<Integer> list7 = new MyArrayList<>();
@@ -114,11 +101,26 @@ public class Main {
         list7.add(2);
         list7.add(3);
         list7.add(4);
+        list7.add(null);
         MyArrayList<Integer> list8 = new MyArrayList<>();
         list8.add(0);
         list8.add(0);
         list8.add(0);
-        System.out.println(list7.addAll(1,list8));
+        list8.add(0);
+        list8.add(0);
+        list8.add(0);
+        list8.add(0);
+        list8.add(0);
+        list8.add(0);
+        list8.add(null);
+        list8.add(null);
+        list8.add(null);
+        list8.add(null);
+        list8.add(null);
+        list8.add(null);
+        list8.add(null);
+        list8.add(null);
+        System.out.println(list7.addAll(list8));
         System.out.println(list7);
 
 
