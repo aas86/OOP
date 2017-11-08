@@ -2,6 +2,10 @@ package ru.academits.alaev.main;
 
 import ru.academits.alaev.arraylistcourse.MyArrayList;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.ListIterator;
+
 public class Main {
     public static void main(String[] args) {
         MyArrayList<Integer> list1 = new MyArrayList<>();
@@ -69,7 +73,7 @@ public class Main {
         } else {
             System.out.println("Не было удаления");
         }
-        System.out.println("Проверка метода retainAll и contains");
+        System.out.println("Проверка методов contains add(i,o)");
         MyArrayList<Integer> list5 = new MyArrayList<>();
         list5.add(1);
         list5.add(5);
@@ -89,11 +93,8 @@ public class Main {
         } else{
             System.out.println("Не содержит");
         }
-        list5.retainAll(list6);
-        System.out.println(list5);
-        System.out.println("Проверка добавления, поиска и удаления NULLов");
 
-        System.out.println(list5);
+        System.out.println("Проверка добавления, поиска и удаления NULLов");
 
         System.out.println("Проверка addAll");
         MyArrayList<Integer> list7 = new MyArrayList<>();
@@ -104,25 +105,64 @@ public class Main {
         list7.add(null);
         MyArrayList<Integer> list8 = new MyArrayList<>();
         list8.add(0);
-        list8.add(0);
-        list8.add(0);
-        list8.add(0);
-        list8.add(0);
-        list8.add(0);
-        list8.add(0);
-        list8.add(0);
-        list8.add(0);
-        list8.add(null);
-        list8.add(null);
-        list8.add(null);
-        list8.add(null);
-        list8.add(null);
-        list8.add(null);
         list8.add(null);
         list8.add(null);
         System.out.println(list7.addAll(list8));
         System.out.println(list7);
 
+        System.out.println("Проверка addAll по индексу");
+        MyArrayList<Integer> list9 = new MyArrayList<>();
+        list9.add(1);
+        list9.add(1);
+        list9.add(null);
+        list9.add(4);
+        list9.add(5);
+        MyArrayList<Integer> list10 = new MyArrayList<>();
+        list10.add(110);
+        list10.add(120);
+        list10.add(130);
+        System.out.println(list9.addAll(2, list10));
+        System.out.println(list9);
 
+        System.out.println("Проверка remove(Object)");
+        System.out.println(list9.remove((Integer) 50));
+        System.out.println(list9);
+
+        System.out.println("Проверка removeAll(Collection<?> c)");
+        MyArrayList<Integer> list11 = new MyArrayList<>();
+        list11.add(2);
+        list11.add(4);
+        System.out.println(list9.removeAll(list11));
+        System.out.println(list9);
+
+        System.out.println("Проверка метода retainAll");
+        MyArrayList<Integer> list12 = new MyArrayList<>();
+        list12.add(1);
+        list12.add(2);
+        list12.add(3);
+        list12.add(4);
+        MyArrayList<Integer> list13 = new MyArrayList<>();
+        list13.add(1);
+        list13.add(null);
+        list12.retainAll(list13);
+        System.out.println(list12);
+
+        Object[] ar =  list13.toArray();
+        for (Object e : ar) {
+            System.out.println(e);
+        }
+        MyArrayList<Integer> list14 = new MyArrayList<>();
+        list14.add(1); list14.add(2); list14.add(null); list14.add(4); list14.add(5);
+        System.out.println(list14);
+        ListIterator<Integer> iterator = list14.listIterator(2);
+        System.out.println(iterator.hasNext());
+        System.out.println(iterator.hasPrevious());
+        System.out.println(iterator.next());
+
+       // System.out.println(iterator.previous());
+        System.out.println(iterator.nextIndex());
+        System.out.println(iterator.previousIndex());
+        iterator.remove();
+        System.out.println(list14);
     }
 }

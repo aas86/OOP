@@ -11,6 +11,78 @@ public class MyArrayList<T> implements List<T> {
     public MyArrayList() {
     }
 
+    private class MyListIterator implements ListIterator<T> {
+        private int currentIndex;
+
+        public MyListIterator() {
+            this.currentIndex = 0;
+        }
+
+        public MyListIterator(int index) {
+            this.currentIndex = index;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex + 1 < length;
+        }
+
+        @Override
+        public T next() {
+            if (currentIndex + 1 >= length) {
+                throw new NoSuchElementException();
+            }
+            return items[currentIndex + 1];
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return currentIndex - 1 >= 0;
+        }
+
+        @Override
+        public T previous() {
+            if (currentIndex - 1 < 0) {
+                throw new NoSuchElementException();
+            }
+            return items[currentIndex - 1];
+        }
+
+        @Override
+        public int nextIndex() {
+            if (currentIndex == length - 1) {
+                return length;
+            } else {
+                return currentIndex + 1;
+            }
+
+        }
+
+        @Override
+        public int previousIndex() {
+            if (currentIndex == 0) {
+                return -1;
+            } else {
+                return currentIndex - 1;
+            }
+        }
+
+        @Override
+        public void remove() {
+            items[currentIndex] = null;
+        }
+
+        @Override
+        public void set(T t) {
+            items[currentIndex] = t;
+        }
+
+        @Override
+        public void add(T t) {
+
+        }
+    }
+
     private class MyIterator implements Iterator<T> {
         private int currentIndex = -1;
         private int initialModCount = modCount;
@@ -40,19 +112,19 @@ public class MyArrayList<T> implements List<T> {
         if (index < 0 || index >= length) {
             throw new IndexOutOfBoundsException("index : " + index + " doesn't exists");
         }
-        return null;
+        return new MyListIterator(index);
     }
 
     // TODO
     @Override
     public ListIterator<T> listIterator() { // Не понял что это
 
-        return null;
+        return new MyListIterator();
     }
 
 
     @Override
-    public Iterator<T> iterator() {         // Не понял что это
+    public Iterator<T> iterator() {
         return new MyIterator();
     }
 
@@ -141,21 +213,25 @@ public class MyArrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends T> list) {
-        length = length + list.size();
-        if (length >= items.length) {
-            increaseCapacity();
+    public boolean addAll(int index, Collection<? extends T> c) {
+        int changesCount = 0;
+        if (index < 0 || index > length) {
+            throw new IndexOutOfBoundsException();
         }
-        for (Object e : list) {
-            int j = index;
-            for (int i = index; i < index + list.size(); ++i) {
-                items[i + list.size()] = items[i];
-                this.set(j, (T) e);
-                break;
-            }
-            index = index + 1;
+        // 1. Увеличиваем массив, до нужной длины 1 раз
+        if (length + c.size() >= items.length) {
+            ensureCapacity(length + c.size());
         }
-        return true;
+        // 2. Раздвигаем исходный массив
+        System.arraycopy(items, index, items, index + c.size(), length - index);
+        length = length + c.size();
+        // 3. На освободившееся место ставим элементы коллекции - аргумента
+        for (T e : c) {
+            items[index] = e;
+            index++;
+            changesCount++;
+        }
+        return changesCount != 0;
     }
 
     private void increaseCapacity() {
@@ -177,49 +253,78 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public boolean remove(Object object) {
+        int changesCount = 0;
         if (object == null) {
-            this.remove(this.indexOf(null));
-        }
-        for (int i = 0; i < length; ++i) {
-            if (items[i].equals(object)) {
-                remove(i);
-                modCount++;
-                return true;
+            for (int i = 0; i < length; ++i) {
+                if (this.get(i) == null) {
+                    remove(i);
+                    modCount++;
+                    changesCount++;
+                }
+            }
+        } else {
+            for (int i = 0; i < length; ++i) {
+                if (object.equals(get(i))) {
+                    remove(i);
+                    modCount++;
+                    changesCount++;
+                }
             }
         }
-        return false;
+        return changesCount != 0;
     }
 
     @Override
     public boolean removeAll(Collection<?> collection) {
-        int count = 0;
+        int changesCount = 0;
         for (Object element : collection) {
-            for (int i = 0; i < length; ++i) {
-                if (this.items[i].equals(element)) {
-                    this.remove(element);
-                    count++;
-                    --i;
+            if (element == null) {
+                for (int i = 0; i < length; ++i) {
+                    if (this.get(i) == null) {
+                        this.remove(i);
+                        changesCount++;
+                        --i;
+                    }
+                }
+            } else {
+                for (int i = 0; i < length; ++i) {
+                    if (element.equals(get(i))) {
+                        this.remove(i);
+                        --i;
+                        changesCount++;
+                    }
                 }
             }
         }
-        return count != 0;
+        return changesCount != 0;
     }
 
     @Override
     public boolean retainAll(Collection<?> collection) {
-        for (Object element : collection) {
-            for (int i = 0; i < length; ++i) {
-                if (!(collection.contains(this.items[i]))) {
-                    this.remove(items[i]);
+        int changesCount = 0;
+     /*   for (Object element : collection) {
+            if (element == null) {
+                for (int i = 0; i < length; ++i) {
+                    if (!(this.items[i] == (null))) {
+                        this.remove(i);
+                        changesCount++;
+                    }
+                }
+            } else {
+                for (int i = 0; i < length; ++i) {
+                    if (!(this.items[i].equals(element))) {
+                        this.remove(i);
+                        changesCount++;
+                    }
                 }
             }
-        }
-        return true;
+        }*/
+        return changesCount != 0;
     }
 
     @Override
-    public T[] toArray() {
-        T[] array = (T[]) new Object[length];
+    public Object[] toArray() {
+        Object[] array = (T[]) new Object[length];
         System.arraycopy(items, 0, array, 0, length);
         return array;
     }
