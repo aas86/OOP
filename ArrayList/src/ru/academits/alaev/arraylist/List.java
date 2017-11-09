@@ -3,6 +3,7 @@ package ru.academits.alaev.arraylist;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ListIterator;
 import java.util.Scanner;
 
 public class List {
@@ -51,7 +52,10 @@ public class List {
         System.out.println(list2);
         list2.remove((Integer)1);
         System.out.println(list2);
-
-
+        ListIterator<Integer> i = list2.listIterator(1);
+        System.out.println();
+        System.out.println(list2);
+        i.remove();
+        System.out.println(list2);
     }
 }

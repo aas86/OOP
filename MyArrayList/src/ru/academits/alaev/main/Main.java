@@ -2,13 +2,14 @@ package ru.academits.alaev.main;
 
 import ru.academits.alaev.arraylistcourse.MyArrayList;
 
+import java.util.Iterator;
 import java.util.ListIterator;
 
 public class Main {
     public static void main(String[] args) {
         MyArrayList<Integer> list1 = new MyArrayList<>();
         list1.add(1);
-        list1.add(1);
+        list1.add(null);
         list1.add(1);
         list1.add(4);
         list1.add(5);
@@ -18,9 +19,9 @@ public class Main {
         list1.add(0, 1);
         System.out.println(list1.toString());
         System.out.println(list1.get(7));
-        list1.set(0, 5);
+        list1.set(0, null);
         System.out.println(list1.toString());
-        list1.remove(0);
+        list1.remove(2);
         System.out.println(list1.toString());
         list1.remove(5);
         System.out.println(list1.toString());
@@ -28,7 +29,7 @@ public class Main {
         MyArrayList<Integer> list2 = new MyArrayList<>();
         list2.add(1);
         list2.add(5);
-        list2.add(8);
+        list2.add(null);
         list2.add(9);
         System.out.println(list2.toString());
         if (list2.contains(2)) {
@@ -36,8 +37,6 @@ public class Main {
         } else {
             System.out.println("List2 не содержит в себе проверяемый объект ");
         }
-
-        System.out.println(list2.indexOf(9));
 
         System.out.println("Проверка containsAll ");
         System.out.println("List1 :" + list1.toString());
@@ -55,12 +54,13 @@ public class Main {
         list3.add(5);
         list3.add(2);
         list3.add(1);
-        list3.add(3);
+        list3.add(2);
         list3.add(5);
-        list3.add(5);
-        list3.add(5);
+        list3.add(null);
+        list3.add(null);
         list3.add(1);
-        System.out.println(list3.lastIndexOf(3));
+        System.out.println(list3.indexOf(2));
+        System.out.println(list3.lastIndexOf(null));
 
         System.out.println("Проверка метода removeAll(Collection<?> c)");
         MyArrayList<Integer> list4 = new MyArrayList<>();
@@ -79,16 +79,16 @@ public class Main {
         list5.add(4);
         list5.add(null);
         list5.add(5);
-        list5.add(6,8);
+        list5.add(6, 8);
         MyArrayList<Integer> list6 = new MyArrayList<>();
         list6.add(3);
         list6.add(67);
         System.out.println(list5);
         System.out.println(list6);
         System.out.println(list5.lastIndexOf(null));
-        if(list5.contains(null)){
+        if (list5.contains(null)) {
             System.out.println("Содержит ");
-        } else{
+        } else {
             System.out.println("Не содержит");
         }
 
@@ -147,22 +147,34 @@ public class Main {
         list12.retainAll(list13);
         System.out.println(list12);
 
-        Object[] ar =  list13.toArray();
+        Object[] ar = list13.toArray();
         for (Object e : ar) {
             System.out.println(e);
         }
         MyArrayList<Integer> list14 = new MyArrayList<>();
-        list14.add(1); list14.add(2); list14.add(null); list14.add(4); list14.add(5);
+        list14.add(1);
+        list14.add(2);
+        list14.add(null);
+        list14.add(4);
+        list14.add(5);
         System.out.println(list14);
-        ListIterator<Integer> iterator = list14.listIterator(2);
+        ListIterator<Integer> iterator = list14.listIterator(3);
         System.out.println(iterator.hasNext());
         System.out.println(iterator.hasPrevious());
         System.out.println(iterator.next());
 
-       // System.out.println(iterator.previous());
+        // System.out.println(iterator.previous());
         System.out.println(iterator.nextIndex());
         System.out.println(iterator.previousIndex());
         iterator.remove();
         System.out.println(list14);
+        iterator.add(null);
+        System.out.println(iterator.nextIndex());
+        System.out.println(list14);
+        MyArrayList<Double> list15 = new MyArrayList<>();
+        list15.add(1.1); list15.add(2.2); list15.add(null);
+        ListIterator<Integer> i = list5.listIterator(2);
+        System.out.println(i.next());
+
     }
 }

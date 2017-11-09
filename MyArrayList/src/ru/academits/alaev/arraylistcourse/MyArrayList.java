@@ -1,4 +1,5 @@
 package ru.academits.alaev.arraylistcourse;
+
 import java.util.*;
 
 public class MyArrayList<T> implements List<T> {
@@ -54,7 +55,6 @@ public class MyArrayList<T> implements List<T> {
             } else {
                 return currentIndex + 1;
             }
-
         }
 
         @Override
@@ -68,7 +68,7 @@ public class MyArrayList<T> implements List<T> {
 
         @Override
         public void remove() {
-            items[currentIndex] = null;
+            MyArrayList.this.remove(currentIndex);
         }
 
         @Override
@@ -78,7 +78,7 @@ public class MyArrayList<T> implements List<T> {
 
         @Override
         public void add(T t) {
-
+            MyArrayList.this.add(currentIndex, t);
         }
     }
 
@@ -96,6 +96,9 @@ public class MyArrayList<T> implements List<T> {
 
         @Override
         public T next() {
+            if (currentIndex + 1 > length){
+                throw new NoSuchElementException();
+            }
             ++currentIndex;
             return items[currentIndex];
         }
@@ -256,7 +259,7 @@ public class MyArrayList<T> implements List<T> {
     @Override
     public boolean remove(Object object) {
         int changesCount = 0;
-        if (object == null) {
+ /*       if (object == null) {
             for (int i = 0; i < length; ++i) {
                 if (this.get(i) == null) {
                     remove(i);
@@ -274,6 +277,14 @@ public class MyArrayList<T> implements List<T> {
                     break;
                 }
             }
+        }*/
+        for (int i = 0; i < length; ++i) {
+            if (Objects.equals(items[i], object)) {
+                remove(i);
+                modCount++;
+                changesCount++;
+                break;
+            }
         }
         return changesCount != 0;
     }
@@ -281,7 +292,7 @@ public class MyArrayList<T> implements List<T> {
     @Override
     public boolean removeAll(Collection<?> collection) {
         int changesCount = 0;
-        for (Object element : collection) {
+      /*  for (Object element : collection) {
             if (element == null) {
                 for (int i = 0; i < length; ++i) {
                     if (this.get(i) == null) {
@@ -301,6 +312,16 @@ public class MyArrayList<T> implements List<T> {
                     }
                 }
             }
+        }*/
+        for (Object element : collection) {
+            for (int i = 0; i < length; ++i) {
+                if (Objects.equals(items[i], element)) {
+                    this.remove(i);
+                    --i;
+                    changesCount++;
+                    modCount++;
+                }
+            }
         }
         return changesCount != 0;
     }
@@ -309,7 +330,7 @@ public class MyArrayList<T> implements List<T> {
     public boolean retainAll(Collection<?> collection) {
         int changesCount = 0;
         for (int i = 0; i <= length; ++i) {
-            if (!(collection.contains(items[i]))){
+            if (!(collection.contains(items[i]))) {
                 remove(items[i]);
                 changesCount++;
                 modCount++;
@@ -353,7 +374,7 @@ public class MyArrayList<T> implements List<T> {
     //(o==null ? get(i)==null : o.equals(get(i))), or -1 if there is no such index.
     @Override
     public int indexOf(Object object) {
-        if (object == null) {
+       /* if (object == null) {
             for (int i = 0; i < length; ++i) {
                 if (this.get(i) == null) {
                     return i;
@@ -365,15 +386,20 @@ public class MyArrayList<T> implements List<T> {
                     return i;
                 }
             }
+        }*/
+        for (int i = 0; i < length; ++i){
+            if (Objects.equals(items[i], object)){
+                return i;
+            }
         }
-        return -1;
+            return -1;
     }
 
 
     //(o==null ? get(i)==null : o.equals(get(i))), or -1 if there is no such index.
     @Override
     public int lastIndexOf(Object object) {
-        if (object == null) {
+       /* if (object == null) {
             for (int i = length - 1; i >= 0; --i) {
                 if (this.get(i) == null) {
                     return i;
@@ -384,6 +410,11 @@ public class MyArrayList<T> implements List<T> {
                 if (object.equals(this.get(i))) {
                     return i;
                 }
+            }
+        }*/
+        for (int i = length - 1; i >= 0; --i){
+            if (Objects.equals(items[i], object)){
+                return i;
             }
         }
         return -1;
