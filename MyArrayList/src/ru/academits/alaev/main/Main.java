@@ -2,8 +2,6 @@ package ru.academits.alaev.main;
 
 import ru.academits.alaev.arraylistcourse.MyArrayList;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ListIterator;
 
 public class Main {
@@ -122,10 +120,12 @@ public class Main {
         list10.add(120);
         list10.add(130);
         System.out.println(list9.addAll(2, list10));
+        list9.add(110);
+        list9.add(null);
         System.out.println(list9);
 
         System.out.println("Проверка remove(Object)");
-        System.out.println(list9.remove((Integer) 50));
+        System.out.println(list9.remove(null));
         System.out.println(list9);
 
         System.out.println("Проверка removeAll(Collection<?> c)");
@@ -139,7 +139,7 @@ public class Main {
         MyArrayList<Integer> list12 = new MyArrayList<>();
         list12.add(1);
         list12.add(2);
-        list12.add(3);
+        list12.add(null);
         list12.add(4);
         MyArrayList<Integer> list13 = new MyArrayList<>();
         list13.add(1);

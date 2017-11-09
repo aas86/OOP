@@ -1,9 +1,8 @@
 package ru.academits.alaev.arraylistcourse;
-
-
 import java.util.*;
 
 public class MyArrayList<T> implements List<T> {
+    @SuppressWarnings("unchecked")
     private T[] items = (T[]) new Object[5];
     private int length;
     private int modCount;
@@ -201,13 +200,14 @@ public class MyArrayList<T> implements List<T> {
     @Override
     public boolean addAll(Collection<? extends T> c) {
         int changesCount = 0;
-        if (length + c.size() >= items.length) {
+        if (length + c.size() > items.length) {
             ensureCapacity(c.size() + length);
         }
         for (T element : c) {
             length++;
             items[length - 1] = element;
             changesCount++;
+            modCount++;
         }
         return changesCount != 0;
     }
@@ -219,17 +219,19 @@ public class MyArrayList<T> implements List<T> {
             throw new IndexOutOfBoundsException();
         }
         // 1. Увеличиваем массив, до нужной длины 1 раз
-        if (length + c.size() >= items.length) {
+        if (length + c.size() > items.length) {
             ensureCapacity(length + c.size());
         }
         // 2. Раздвигаем исходный массив
         System.arraycopy(items, index, items, index + c.size(), length - index);
         length = length + c.size();
         // 3. На освободившееся место ставим элементы коллекции - аргумента
+        int j = index;
         for (T e : c) {
-            items[index] = e;
-            index++;
+            items[j] = e;
+            j++;
             changesCount++;
+            modCount++;
         }
         return changesCount != 0;
     }
@@ -260,6 +262,7 @@ public class MyArrayList<T> implements List<T> {
                     remove(i);
                     modCount++;
                     changesCount++;
+                    break;
                 }
             }
         } else {
@@ -268,6 +271,7 @@ public class MyArrayList<T> implements List<T> {
                     remove(i);
                     modCount++;
                     changesCount++;
+                    break;
                 }
             }
         }
@@ -283,6 +287,7 @@ public class MyArrayList<T> implements List<T> {
                     if (this.get(i) == null) {
                         this.remove(i);
                         changesCount++;
+                        modCount++;
                         --i;
                     }
                 }
@@ -292,6 +297,7 @@ public class MyArrayList<T> implements List<T> {
                         this.remove(i);
                         --i;
                         changesCount++;
+                        modCount++;
                     }
                 }
             }
@@ -302,29 +308,20 @@ public class MyArrayList<T> implements List<T> {
     @Override
     public boolean retainAll(Collection<?> collection) {
         int changesCount = 0;
-     /*   for (Object element : collection) {
-            if (element == null) {
-                for (int i = 0; i < length; ++i) {
-                    if (!(this.items[i] == (null))) {
-                        this.remove(i);
-                        changesCount++;
-                    }
-                }
-            } else {
-                for (int i = 0; i < length; ++i) {
-                    if (!(this.items[i].equals(element))) {
-                        this.remove(i);
-                        changesCount++;
-                    }
-                }
+        for (int i = 0; i <= length; ++i) {
+            if (!(collection.contains(items[i]))){
+                remove(items[i]);
+                changesCount++;
+                modCount++;
             }
-        }*/
+
+        }
         return changesCount != 0;
     }
 
     @Override
     public Object[] toArray() {
-        Object[] array = (T[]) new Object[length];
+        Object[] array = new Object[length];
         System.arraycopy(items, 0, array, 0, length);
         return array;
     }
@@ -393,6 +390,8 @@ public class MyArrayList<T> implements List<T> {
     }
 
     private void ensureCapacity(int length) {
-        items = Arrays.copyOf(items, length);
+        if (this.length < length) {
+            items = Arrays.copyOf(items, length);
+        }
     }
 }
