@@ -4,6 +4,7 @@ import ru.academits.alaev.arraylistcourse.MyArrayList;
 
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
@@ -79,6 +80,11 @@ public class Main {
         list5.add(4);
         list5.add(null);
         list5.add(5);
+        list5.add(5);
+        list5.add(5);
+        list5.add(5);
+        list5.add(5);
+        System.out.println(list5.size());
         list5.add(6, 8);
         MyArrayList<Integer> list6 = new MyArrayList<>();
         list6.add(3);
@@ -139,11 +145,12 @@ public class Main {
         MyArrayList<Integer> list12 = new MyArrayList<>();
         list12.add(1);
         list12.add(2);
-        list12.add(null);
+        list12.add(3);
         list12.add(4);
+        list12.add(2);
         MyArrayList<Integer> list13 = new MyArrayList<>();
         list13.add(1);
-        list13.add(null);
+        list13.add(2);
         list12.retainAll(list13);
         System.out.println(list12);
 
@@ -176,5 +183,11 @@ public class Main {
         ListIterator<Integer> i = list5.listIterator(2);
         System.out.println(i.next());
 
+        System.out.println(list15);
+        Double[] arr = new Double[7];
+        arr = list15.toArray(arr);
+        for (Double e : arr ) {
+            System.out.println(e);
+        }
     }
 }

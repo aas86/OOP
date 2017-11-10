@@ -96,7 +96,7 @@ public class MyArrayList<T> implements List<T> {
 
         @Override
         public T next() {
-            if (currentIndex + 1 > length){
+            if (currentIndex + 1 > length) {
                 throw new NoSuchElementException();
             }
             ++currentIndex;
@@ -117,13 +117,11 @@ public class MyArrayList<T> implements List<T> {
         return new MyListIterator(index);
     }
 
-    // TODO
     @Override
-    public ListIterator<T> listIterator() { // Не понял что это
+    public ListIterator<T> listIterator() {
 
         return new MyListIterator();
     }
-
 
     @Override
     public Iterator<T> iterator() {
@@ -192,7 +190,7 @@ public class MyArrayList<T> implements List<T> {
             throw new IndexOutOfBoundsException("index : " + index + " doesn't exists");
         }
         length++;
-        if (length >= items.length) {
+        if (length > items.length) {
             increaseCapacity();
         }
         System.arraycopy(items, index, items, index + 1, length - 1 - index);
@@ -259,25 +257,6 @@ public class MyArrayList<T> implements List<T> {
     @Override
     public boolean remove(Object object) {
         int changesCount = 0;
- /*       if (object == null) {
-            for (int i = 0; i < length; ++i) {
-                if (this.get(i) == null) {
-                    remove(i);
-                    modCount++;
-                    changesCount++;
-                    break;
-                }
-            }
-        } else {
-            for (int i = 0; i < length; ++i) {
-                if (object.equals(get(i))) {
-                    remove(i);
-                    modCount++;
-                    changesCount++;
-                    break;
-                }
-            }
-        }*/
         for (int i = 0; i < length; ++i) {
             if (Objects.equals(items[i], object)) {
                 remove(i);
@@ -292,27 +271,6 @@ public class MyArrayList<T> implements List<T> {
     @Override
     public boolean removeAll(Collection<?> collection) {
         int changesCount = 0;
-      /*  for (Object element : collection) {
-            if (element == null) {
-                for (int i = 0; i < length; ++i) {
-                    if (this.get(i) == null) {
-                        this.remove(i);
-                        changesCount++;
-                        modCount++;
-                        --i;
-                    }
-                }
-            } else {
-                for (int i = 0; i < length; ++i) {
-                    if (element.equals(get(i))) {
-                        this.remove(i);
-                        --i;
-                        changesCount++;
-                        modCount++;
-                    }
-                }
-            }
-        }*/
         for (Object element : collection) {
             for (int i = 0; i < length; ++i) {
                 if (Objects.equals(items[i], element)) {
@@ -329,11 +287,12 @@ public class MyArrayList<T> implements List<T> {
     @Override
     public boolean retainAll(Collection<?> collection) {
         int changesCount = 0;
-        for (int i = 0; i <= length; ++i) {
-            if (!(collection.contains(items[i]))) {
+        for (int i = 0; i < length; ++i) {
+            if (!collection.contains(items[i])) {
                 remove(items[i]);
                 changesCount++;
                 modCount++;
+                i--;
             }
 
         }
@@ -349,8 +308,23 @@ public class MyArrayList<T> implements List<T> {
 
     // TODO
     @Override
-    public <T> T[] toArray(T[] a) {     //Не понял что метод делает и что возвращает и что вообще это такое <T> T[]
-        return null;
+    // В качестве аргумента передаётся массив, в который нужно сложить коллекцию, от которой вызван метод. Если длины
+    // массива-аргумента не достаточно, то выделить новый массив, с типом, как у массива-аргумента и размерностью списка (1 случай)
+    // Если массив - аргумент больше списка, то положить список в массив - аргумент, а недостающие заполнить null (2)
+    // Это дженерик метод, только вот зачем это всё не понимаю.
+    public <E> E[] toArray(E[] a) {
+        /*1.*/
+        if (a.length < length) {
+            // Make a new array of a's runtime type, but my contents:
+            //noinspection unchecked
+            return (E[]) Arrays.copyOf(items, length, a.getClass());
+        }
+        /*2*/
+        System.arraycopy(items, 0, a, 0, length);
+        if (a.length > length) {
+            a[length] = null;
+        }
+        return a;
     }
 
     @Override
@@ -374,46 +348,20 @@ public class MyArrayList<T> implements List<T> {
     //(o==null ? get(i)==null : o.equals(get(i))), or -1 if there is no such index.
     @Override
     public int indexOf(Object object) {
-       /* if (object == null) {
-            for (int i = 0; i < length; ++i) {
-                if (this.get(i) == null) {
-                    return i;
-                }
-            }
-        } else {
-            for (int i = 0; i < length; ++i) {
-                if (object.equals(this.get(i))) {
-                    return i;
-                }
-            }
-        }*/
-        for (int i = 0; i < length; ++i){
-            if (Objects.equals(items[i], object)){
+        for (int i = 0; i < length; ++i) {
+            if (Objects.equals(items[i], object)) {
                 return i;
             }
         }
-            return -1;
+        return -1;
     }
 
 
     //(o==null ? get(i)==null : o.equals(get(i))), or -1 if there is no such index.
     @Override
     public int lastIndexOf(Object object) {
-       /* if (object == null) {
-            for (int i = length - 1; i >= 0; --i) {
-                if (this.get(i) == null) {
-                    return i;
-                }
-            }
-        } else {
-            for (int i = length - 1; i >= 0; --i) {
-                if (object.equals(this.get(i))) {
-                    return i;
-                }
-            }
-        }*/
-        for (int i = length - 1; i >= 0; --i){
-            if (Objects.equals(items[i], object)){
+        for (int i = length - 1; i >= 0; --i) {
+            if (Objects.equals(items[i], object)) {
                 return i;
             }
         }
