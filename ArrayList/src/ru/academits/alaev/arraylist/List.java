@@ -52,8 +52,13 @@ public class List {
         ListIterator<Integer> i = list2.listIterator(1);
         System.out.println();
         System.out.println(list2);
-        //  String[] string = list2.toArray(new String[10]);
-        // System.out.println(Arrays.toString(string));
+        Integer[] array = new Integer[4];
+        list2.toArray(array);
+        for (Integer e : array) {
+            System.out.println(e);
+        }
+
+
 
 
 

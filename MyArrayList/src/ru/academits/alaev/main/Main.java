@@ -133,13 +133,14 @@ public class Main {
         System.out.println("Проверка remove(Object)");
         System.out.println(list9.remove(null));
         System.out.println(list9);
-
         System.out.println("Проверка removeAll(Collection<?> c)");
         MyArrayList<Integer> list11 = new MyArrayList<>();
-        list11.add(2);
+        list11.add(1);
         list11.add(4);
+        list11.add(5);
         System.out.println(list9.removeAll(list11));
         System.out.println(list9);
+        System.out.println(list9.size());
 
         System.out.println("Проверка метода retainAll");
         MyArrayList<Integer> list12 = new MyArrayList<>();
@@ -180,14 +181,19 @@ public class Main {
         System.out.println(list14);
         MyArrayList<Double> list15 = new MyArrayList<>();
         list15.add(1.1); list15.add(2.2); list15.add(null);
-        ListIterator<Integer> i = list5.listIterator(2);
-        System.out.println(i.next());
+        System.out.println(list5);
+        ListIterator<Integer> i = list5.listIterator(0);
+        i.add(500);
+        System.out.println(list5);
+        i.remove();
+        System.out.println(list5);
 
         System.out.println(list15);
-        Double[] arr = new Double[7];
+        Double[] arr = new Double[1];
         arr = list15.toArray(arr);
         for (Double e : arr ) {
             System.out.println(e);
         }
+
     }
 }

@@ -13,6 +13,7 @@ public class MyArrayList<T> implements List<T> {
 
     private class MyListIterator implements ListIterator<T> {
         private int currentIndex;
+        private int initialModCount = modCount;
 
         public MyListIterator() {
             this.currentIndex = 0;
@@ -24,6 +25,9 @@ public class MyArrayList<T> implements List<T> {
 
         @Override
         public boolean hasNext() {
+            if (initialModCount != modCount){
+                throw new ConcurrentModificationException();
+            }
             return currentIndex + 1 < length;
         }
 
@@ -32,11 +36,18 @@ public class MyArrayList<T> implements List<T> {
             if (currentIndex + 1 >= length) {
                 throw new NoSuchElementException();
             }
-            return items[currentIndex + 1];
+            if (initialModCount != modCount){
+                throw new ConcurrentModificationException();
+            }
+            ++currentIndex;
+            return items[currentIndex];
         }
 
         @Override
         public boolean hasPrevious() {
+            if (initialModCount != modCount){
+                throw new ConcurrentModificationException();
+            }
             return currentIndex - 1 >= 0;
         }
 
@@ -45,7 +56,11 @@ public class MyArrayList<T> implements List<T> {
             if (currentIndex - 1 < 0) {
                 throw new NoSuchElementException();
             }
-            return items[currentIndex - 1];
+            if (initialModCount != modCount){
+                throw new ConcurrentModificationException();
+            }
+            --currentIndex;
+            return items[currentIndex];
         }
 
         @Override
@@ -98,6 +113,9 @@ public class MyArrayList<T> implements List<T> {
         public T next() {
             if (currentIndex + 1 > length) {
                 throw new NoSuchElementException();
+            }
+            if (initialModCount != modCount) {
+                throw new ConcurrentModificationException();
             }
             ++currentIndex;
             return items[currentIndex];
@@ -260,7 +278,6 @@ public class MyArrayList<T> implements List<T> {
         for (int i = 0; i < length; ++i) {
             if (Objects.equals(items[i], object)) {
                 remove(i);
-                modCount++;
                 changesCount++;
                 break;
             }
@@ -277,10 +294,13 @@ public class MyArrayList<T> implements List<T> {
                     this.remove(i);
                     --i;
                     changesCount++;
-                    modCount++;
                 }
             }
         }
+        // Проверка trimToSize
+        System.out.println(items.length);
+        trimToSize();
+        System.out.println(items.length);
         return changesCount != 0;
     }
 
@@ -291,7 +311,6 @@ public class MyArrayList<T> implements List<T> {
             if (!collection.contains(items[i])) {
                 remove(items[i]);
                 changesCount++;
-                modCount++;
                 i--;
             }
 
@@ -370,6 +389,11 @@ public class MyArrayList<T> implements List<T> {
 
     private void ensureCapacity(int length) {
         if (this.length < length) {
+            items = Arrays.copyOf(items, length);
+        }
+    }
+    private void trimToSize(){
+        if (items.length > length){
             items = Arrays.copyOf(items, length);
         }
     }
