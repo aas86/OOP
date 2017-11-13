@@ -12,4 +12,23 @@ public class SinglyLinkedList<T> {
     public SinglyLinkedList() {
 
     }
+
+    public ListItem<T> getHead() {
+
+        return head;
+    }
+
+    public void setHead(ListItem<T> head) {
+        this.head = head;
+    }
+    public int listSize(){
+        int count = 1;
+        for (ListItem<T> p = head; p.getNext() != null; p = p.getNext()){
+            count++;
+        }
+        return count;
+    }
+    public T getFirstElement(){
+        return head.getData();
+    }
 }
