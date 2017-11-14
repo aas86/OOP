@@ -1,6 +1,6 @@
-package ru.academits.alaev;
+package ru.academits.alaev.singlylinkedlist;
 
-public class ListItem <T>{
+public class ListItem<T> {
     private T data;
     private ListItem<T> next; // ссылка на следующий элемент, такого же типа
 
@@ -8,12 +8,13 @@ public class ListItem <T>{
         this.data = data;
         this.next = next;
     }
-    public ListItem(T data){
+
+    public ListItem(T data) {
         this.data = data;
     }
 
     public ListItem() {
-            }
+    }
 
     public T getData() {
         return data;
