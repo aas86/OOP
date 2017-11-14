@@ -180,18 +180,40 @@ public class Main {
         System.out.println(iterator.nextIndex());
         System.out.println(list14);
         MyArrayList<Double> list15 = new MyArrayList<>();
-        list15.add(1.1); list15.add(2.2); list15.add(null);
-        System.out.println(list5);
-        ListIterator<Integer> i = list5.listIterator(0);
-        i.add(500);
-        System.out.println(list5);
-        i.remove();
-        System.out.println(list5);
+        list15.add(1.1);
+        list15.add(2.2);
+        list15.add(null);
 
+        System.out.println("Проверка ListIterator()");
+        System.out.println(list5);
+        ListIterator<Integer> i = list5.listIterator(1);
+        i.hasNext();
+        System.out.println(i.previousIndex());
+        System.out.println(i.nextIndex());
+        i.add(500);
+        System.out.println(i.nextIndex());
+        System.out.println(list5);
+        i.next();
+        System.out.println(i.nextIndex());
+        i.remove();
+        System.out.println(i.nextIndex());
+        System.out.println(list5);
+        i.next();
+        System.out.println(i.nextIndex());
+        i.add(999);
+        System.out.println(list5);
+        i.next();
+        i.next();
+        i.next();
+        i.next();
+        System.out.println(list5.size());
+        System.out.println(i.nextIndex());
+
+        System.out.println("Проверка  toArray(E[] a)");
         System.out.println(list15);
         Double[] arr = new Double[1];
         arr = list15.toArray(arr);
-        for (Double e : arr ) {
+        for (Double e : arr) {
             System.out.println(e);
         }
 

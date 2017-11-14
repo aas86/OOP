@@ -25,7 +25,7 @@ public class MyArrayList<T> implements List<T> {
 
         @Override
         public boolean hasNext() {
-            if (initialModCount != modCount){
+            if (initialModCount != modCount) {
                 throw new ConcurrentModificationException();
             }
             return currentIndex + 1 < length;
@@ -36,7 +36,7 @@ public class MyArrayList<T> implements List<T> {
             if (currentIndex + 1 >= length) {
                 throw new NoSuchElementException();
             }
-            if (initialModCount != modCount){
+            if (initialModCount != modCount) {
                 throw new ConcurrentModificationException();
             }
             ++currentIndex;
@@ -45,7 +45,7 @@ public class MyArrayList<T> implements List<T> {
 
         @Override
         public boolean hasPrevious() {
-            if (initialModCount != modCount){
+            if (initialModCount != modCount) {
                 throw new ConcurrentModificationException();
             }
             return currentIndex - 1 >= 0;
@@ -56,7 +56,7 @@ public class MyArrayList<T> implements List<T> {
             if (currentIndex - 1 < 0) {
                 throw new NoSuchElementException();
             }
-            if (initialModCount != modCount){
+            if (initialModCount != modCount) {
                 throw new ConcurrentModificationException();
             }
             --currentIndex;
@@ -65,25 +65,18 @@ public class MyArrayList<T> implements List<T> {
 
         @Override
         public int nextIndex() {
-            if (currentIndex == length - 1) {
-                return length;
-            } else {
-                return currentIndex + 1;
-            }
+            return currentIndex + 1;
         }
 
         @Override
         public int previousIndex() {
-            if (currentIndex == 0) {
-                return -1;
-            } else {
-                return currentIndex - 1;
-            }
+            return currentIndex - 1;
         }
 
         @Override
         public void remove() {
             MyArrayList.this.remove(currentIndex);
+            initialModCount = modCount;
         }
 
         @Override
@@ -94,6 +87,7 @@ public class MyArrayList<T> implements List<T> {
         @Override
         public void add(T t) {
             MyArrayList.this.add(currentIndex, t);
+            initialModCount = modCount;
         }
     }
 
@@ -297,10 +291,6 @@ public class MyArrayList<T> implements List<T> {
                 }
             }
         }
-        // Проверка trimToSize
-        System.out.println(items.length);
-        trimToSize();
-        System.out.println(items.length);
         return changesCount != 0;
     }
 
@@ -325,7 +315,6 @@ public class MyArrayList<T> implements List<T> {
         return array;
     }
 
-    // TODO
     @Override
     // В качестве аргумента передаётся массив, в который нужно сложить коллекцию, от которой вызван метод. Если длины
     // массива-аргумента не достаточно, то выделить новый массив, с типом, как у массива-аргумента и размерностью списка (1 случай)
@@ -392,8 +381,9 @@ public class MyArrayList<T> implements List<T> {
             items = Arrays.copyOf(items, length);
         }
     }
-    private void trimToSize(){
-        if (items.length > length){
+
+    private void trimToSize() {
+        if (items.length > length) {
             items = Arrays.copyOf(items, length);
         }
     }
