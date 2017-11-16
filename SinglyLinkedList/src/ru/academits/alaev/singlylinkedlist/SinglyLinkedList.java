@@ -163,15 +163,12 @@ public class SinglyLinkedList<T> {
 
     // 11. Разворот
     public void reverse() {
-        ListItem<T> temp = new ListItem<T>();
-        for (ListItem<T> p = head; p != null; p = temp.getNext()) {
-            while (p.getNext() != null) {
-                temp.setNext(p.getNext().getNext());
-                p.getNext().setNext(p);
-                p.setNext(temp.getNext());
-            }
+        ListItem<T> temp = new ListItem<>();
+        for (ListItem<T> p = head, prev = null; p != null; prev = p, p = temp) {
+            temp = p.getNext();
+            p.setNext(prev);
+            head = p;
         }
-
     }
 }
 

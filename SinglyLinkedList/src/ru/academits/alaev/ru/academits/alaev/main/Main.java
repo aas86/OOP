@@ -87,6 +87,7 @@ public class Main {
         for (int i = 0; i < list.getSize(); ++i) {
             System.out.printf("%d ", list.getElement(i));
         }
+        System.out.println();
         System.out.println("Разворот ");
         list.reverse();
         for (int i = 0; i < list.getSize(); ++i) {
