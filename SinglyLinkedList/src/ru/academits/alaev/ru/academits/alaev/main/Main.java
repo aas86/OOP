@@ -9,6 +9,8 @@ public class Main {
         // Создаём объект класса односвязного списка, т.е. объект хранящий ссылку на первый оюъект списка
         SinglyLinkedList<Integer> list = new SinglyLinkedList<>(); //аргумент head, т.е ссылка на object1 - теперь head
 
+        list.deleteFirst();
+
         //Тут создаём объекты списка
         ListItem<Integer> object0 = new ListItem<>(777);
         ListItem<Integer> object1 = new ListItem<>(555);
@@ -25,30 +27,38 @@ public class Main {
         list.beginInsert(object2);
         System.out.println(list.getFirstElement());
         System.out.printf("%d %d %d ", list.getElement(0), list.getElement(1), list.getElement(2));
-        //   System.out.println(list.getElement(1));
+        //   System.out.println(list.getElement1(0));
         //   System.out.println(list.getElement(2));
         System.out.println();
         System.out.println(list.getSize());
-        //  list.insertElement(2, new ListItem<>(7));
+        list.insertElement(1, new ListItem<>(7));
         for (int i = 0; i < list.getSize(); ++i) {
             System.out.printf("%d ", list.getElement(i));
         }
-      /*  System.out.println();
+        System.out.println();
+        //----------------
+        System.out.println();
         System.out.println("Проверка метода удаления элемента по индексу");
-        System.out.println("Удалённый элемент : " + list.delete(2));
-        for (int i = 0; i < list.getSize(); ++i){
-            System.out.printf("%d " , list.getElement(i));
+        System.out.println("Удалённый элемент : " + list.delete1(3));
+        for (int i = 0; i < list.getSize(); ++i) {
+            System.out.printf("%d ", list.getElement(i));
         }
         System.out.println();
         System.out.println("Проверка метода удаления первого элемента:");
         list.deleteFirst();
-        for (int i = 0; i < list.getSize(); ++i){
-            System.out.printf("%d " , list.getElement(i));
-        }*/
-
+        for (int i = 0; i < list.getSize(); ++i) {
+            System.out.printf("%d ", list.getElement(i));
+        }
+        System.out.println();
+//-----------------
+        ListItem<Integer> object7 = new ListItem<>(null);
+        list.insertElement(1, object7);
+        for (int i = 0; i < list.getSize(); ++i) {
+            System.out.printf("%d ", list.getElement(i));
+        }
         System.out.println();
         System.out.println("Проверка метода удаления элемента по значению:");
-        ListItem<Integer> object3 = new ListItem<>(111);
+        ListItem<Integer> object3 = new ListItem<>(555);
         list.delete(object3);
         for (int i = 0; i < list.getSize(); ++i) {
             System.out.printf("%d ", list.getElement(i));
@@ -66,7 +76,7 @@ public class Main {
         for (int i = 0; i < list.getSize(); ++i) {
             System.out.printf("%d ", list.getElement(i));
         }
-
+        System.out.println();
 
         list.deleteAfter(1);
         System.out.println();
@@ -74,16 +84,20 @@ public class Main {
         for (int i = 0; i < list.getSize(); ++i) {
             System.out.printf("%d ", list.getElement(i));
         }
-
         System.out.println();
-   /*     System.out.println("Проверка метода изменения значения по индексу (выдает старое значение) :");
-        ListItem<Integer> object6 = new ListItem<>(0);
-        System.out.println("Старое значение элемента: " + list.setElement(1, object6));
-        for (int i = 0; i < list.getSize(); ++i){
-            System.out.printf("%d " , list.getElement(i));
-        }*/
+
+//--
+        System.out.println("Проверка метода изменения значения по индексу (выдает старое значение) :");
+        ListItem<Integer> object66 = new ListItem<>(0);
+        System.out.println("Старое значение элемента: " + list.setElement(1, object66));
+        for (int i = 0; i < list.getSize(); ++i) {
+            System.out.printf("%d ", list.getElement(i));
+        }
+        System.out.println();
+        // --
         ListItem<Integer> object6 = new ListItem<>(0);
         list.beginInsert(object6);
+        System.out.println();
         for (int i = 0; i < list.getSize(); ++i) {
             System.out.printf("%d ", list.getElement(i));
         }

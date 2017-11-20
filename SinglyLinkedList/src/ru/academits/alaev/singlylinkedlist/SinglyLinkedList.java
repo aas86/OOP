@@ -1,6 +1,7 @@
 package ru.academits.alaev.singlylinkedlist;
 
-import java.util.List;
+import java.io.IOException;
+import java.util.Objects;
 
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
@@ -31,52 +32,35 @@ public class SinglyLinkedList<T> {
 
     // 3. Изменение значения по индексу пусть выдает старое значение.
     public T setElement(int index, ListItem<T> element) {
-        if (index > size - 1 || index < 0) {
-            throw new IndexOutOfBoundsException();
+        if (index >= size || index < 0) {
+            throw new IndexOutOfBoundsException("Нет элемента с таким индексом!");
         }
-        int i = 0;
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (i == index) {
-                ListItem<T> temp = new ListItem<T>();
-                temp.setData(p.getData());
-                p.setData(element.getData());
-                return temp.getData();
-            }
-            i++;
-        }
-        return null;
+        T temp = getNode(index).getData();
+        getNode(index).setData(element.getData());
+        return temp;
     }
 
     // 4. Получение узла по индексу
     public T getElement(int index) {
-        if (index > size - 1 || index < 0) {
-            throw new IndexOutOfBoundsException();
+        if (index >= size || index < 0) {
+            throw new IndexOutOfBoundsException("Нет элемента с таким индексом!");
         }
-        int i = 0;
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (i == index) {
-                return p.getData();
-            }
-            i++;
-        }
-        return null;
+        return getNode(index).getData();
     }
 
     // 5. Удаление элемента по индексу, пусть выдает значение элемента(Удалённого?)
-    public T delete(int index) {
-        int i = 0;
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (i == index - 1) {
-                ListItem<T> q = p.getNext();
-                p.setNext(q.getNext());
-                this.size--;
-                return q.getData();
-            }
-            i++;
+    public T delete1(int index) {
+        if (index == 0) {
+            throw new IndexOutOfBoundsException("Есть отдельный метод для удаления первого элемента коллекции");
+        } else if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Нет элемента с таким индексом");
         }
-        return null;
+        // ListItem<T> p = getNode(index - 1);
+        ListItem<T> q = getNode(index - 1).getNext();
+        getNode(index - 1).setNext(q.getNext());
+        this.size--;
+        return q.getData();
     }
-
 
     // 6. Вставка элемента в начало
     public void beginInsert(ListItem<T> o) {
@@ -86,42 +70,36 @@ public class SinglyLinkedList<T> {
         this.size++;
     }
 
+
     // 7. вставка элемента по индексу
     public void insertElement(int index, ListItem<T> element) {
-        int i = 0;
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (i == index - 1) {
-                element.setNext(p.getNext());
-                p.setNext(element);
-
-                this.size++;
-            }
-            i++;
-        }
+        element.setNext(getNode(index - 1).getNext());
+        getNode(index - 1).setNext(element);
+        this.size++;
     }
 
     // 8. Удаление узла по значению
-    public void delete(ListItem<T> element) {
-        int i = 0;
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (p == head) {
-                if (p.getData().equals(element.getData())) {
-                    deleteFirst();
-                    break;
-                }
-            }
-            ListItem<T> a = p.getNext();
-            if (a.getData().equals(element.getData())) {
-                p.setNext(a.getNext());
-                size--;
-                break;
-            }
-
+    public boolean delete(ListItem<T> element) {
+        if (element.getData() == head.getData()) {
+            deleteFirst();
+            return true;
         }
+        for (ListItem<T> p = head; p != null; p = p.getNext()) {
+            ListItem<T> q = p.getNext();
+            if (/*q.getData() == element.getData()*/ Objects.equals(q.getData(), element.getData())) {
+                p.setNext(q.getNext());
+                size--;
+                return true;
+            }
+        }
+        return false;
     }
 
     // 9. Удаление первого элемента, пусть выдает значение элемента
     public T deleteFirst() {
+        if (head == null){
+            throw new IndexOutOfBoundsException("Коллекция пустая!");
+        }
         this.head = this.head.getNext();
         size--;
         return this.head.getData();
@@ -133,16 +111,9 @@ public class SinglyLinkedList<T> {
         if (index > size - 1 || index < 0) {
             throw new NullPointerException("Нет такого индекса");
         }
-        int i = 0;
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (i == index) {
-                element.setNext(p.getNext());
-                p.setNext(element);
-                this.size++;
-                break;
-            }
-            i++;
-        }
+        element.setNext(getNode(index).getNext());
+        getNode(index).setNext(element);
+        this.size++;
     }
 
     //// 10.2 Удаление
@@ -150,25 +121,30 @@ public class SinglyLinkedList<T> {
         if (index >= size - 1 || index < 0) {
             throw new NullPointerException("Нет элемента за указанным!");
         }
-        int i = 0;
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (i == index) {
-                ListItem<T> q = p.getNext();
-                p.setNext(q.getNext());
-                this.size--;
-            }
-            i++;
-        }
+        ListItem<T> q = getNode(index).getNext();
+        getNode(index).setNext(q.getNext());
+        this.size--;
     }
 
     // 11. Разворот
     public void reverse() {
-        ListItem<T> temp = new ListItem<>();
+        ListItem<T> temp;// = new ListItem<>();
         for (ListItem<T> p = head, prev = null; p != null; prev = p, p = temp) {
             temp = p.getNext();
             p.setNext(prev);
             head = p;
         }
+    }
+
+    private ListItem<T> getNode(int index) {
+        int i = 0;
+        for (ListItem<T> p = head; p != null; p = p.getNext()) {
+            if (i == index) {
+                return p;
+            }
+            i++;
+        }
+        return head; // Тут возвращаю head, только потому, что надо что-то вернуть, если null, то warning'и!
     }
 }
 
