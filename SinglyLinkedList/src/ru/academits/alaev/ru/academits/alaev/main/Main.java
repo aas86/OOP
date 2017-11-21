@@ -9,7 +9,7 @@ public class Main {
         // Создаём объект класса односвязного списка, т.е. объект хранящий ссылку на первый оюъект списка
         SinglyLinkedList<Integer> list = new SinglyLinkedList<>(); //аргумент head, т.е ссылка на object1 - теперь head
 
-        list.deleteFirst();
+        //  list.deleteFirst();
 
         //Тут создаём объекты списка
         ListItem<Integer> object0 = new ListItem<>(777);
@@ -36,10 +36,10 @@ public class Main {
             System.out.printf("%d ", list.getElement(i));
         }
         System.out.println();
-        //----------------
+//----------------
         System.out.println();
         System.out.println("Проверка метода удаления элемента по индексу");
-        System.out.println("Удалённый элемент : " + list.delete1(3));
+        System.out.println("Удалённый элемент : " + list.delete(0));
         for (int i = 0; i < list.getSize(); ++i) {
             System.out.printf("%d ", list.getElement(i));
         }
@@ -58,15 +58,15 @@ public class Main {
         }
         System.out.println();
         System.out.println("Проверка метода удаления элемента по значению:");
-        ListItem<Integer> object3 = new ListItem<>(555);
-        list.delete(object3);
+        Integer element = 777;
+        list.delete(element);
         for (int i = 0; i < list.getSize(); ++i) {
             System.out.printf("%d ", list.getElement(i));
         }
         System.out.println();
         System.out.println("Проверка метода вставка узла после указанного :");
         ListItem<Integer> object4 = new ListItem<>(444);
-        list.insertAfter(1, object4);
+        list.insertAfter(0, object4);
         for (int i = 0; i < list.getSize(); ++i) {
             System.out.printf("%d ", list.getElement(i));
         }
@@ -94,8 +94,8 @@ public class Main {
             System.out.printf("%d ", list.getElement(i));
         }
         System.out.println();
-        // --
-        ListItem<Integer> object6 = new ListItem<>(0);
+// --
+        ListItem<Integer> object6 = new ListItem<>(333);
         list.beginInsert(object6);
         System.out.println();
         for (int i = 0; i < list.getSize(); ++i) {
