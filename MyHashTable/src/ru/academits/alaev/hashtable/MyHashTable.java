@@ -5,13 +5,20 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class MyHashTable<T> implements Collection<T> {
-    @SuppressWarnings("unchecked")
-    private ArrayList<T> [] hashTable = new ArrayList[10];
+    private int size;
+    private ArrayList<T>[] hashTable;
 
+    public MyHashTable(){
+
+    }
+    public MyHashTable(int size) {
+        this.size = size;
+        this.hashTable = new ArrayList[size];
+    }
 
     @Override
     public int size() {
-        return 0;
+        return this.size;
     }
 
     @Override
@@ -41,7 +48,17 @@ public class MyHashTable<T> implements Collection<T> {
 
     @Override
     public boolean add(T t) {
-        return false;
+        int changesCount = 0;
+        int i = t.hashCode();
+        if (hashTable[i] == null) {
+            hashTable[i] = new ArrayList<T>();
+            hashTable[i].add(t);
+            changesCount++;
+        } else {
+            this.hashTable[i].add(t);
+            changesCount++;
+        }
+        return changesCount != 0;
     }
 
     @Override
