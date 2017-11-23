@@ -30,13 +30,13 @@ public class SinglyLinkedList<T> {
     }
 
     // 3. Изменение значения по индексу пусть выдает старое значение.
-    public T setElement(int index, ListItem<T> element) {
+    public T setElement(int index, T element) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Нет элемента с таким индексом!");
         }
         ListItem<T> p = getNode(index);
         T temp = p.getData();
-        p.setData(element.getData());
+        p.setData(element);
         return temp;
     }
 
@@ -50,16 +50,18 @@ public class SinglyLinkedList<T> {
 
     // 5. Удаление элемента по индексу, пусть выдает значение элемента(Удалённого?)
     public T delete(int index) {
-        if (index == 0) {
-            deleteFirst();
-        } else if (index < 0 || index >= size) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Нет элемента с таким индексом");
         }
-        ListItem<T> p = getNode(index - 1);
-        ListItem<T> q = p.getNext();
-        p.setNext(q.getNext());
-        this.size--;
-        return q.getData();
+        if (index == 0) {
+            return deleteFirst();
+        } else {
+            ListItem<T> p = getNode(index - 1);
+            ListItem<T> q = p.getNext();
+            p.setNext(q.getNext());
+            this.size--;
+            return q.getData();
+        }
     }
 
     // 6. Вставка элемента в начало
@@ -73,6 +75,9 @@ public class SinglyLinkedList<T> {
 
     // 7. вставка элемента по индексу
     public void insertElement(int index, ListItem<T> element) {
+        if (index < 0 || index >= this.size) {
+            throw new IndexOutOfBoundsException("Нет элемента с таким индексом");
+        }
         ListItem<T> p = getNode(index - 1);
         element.setNext(p.getNext());
         p.setNext(element);
@@ -85,7 +90,7 @@ public class SinglyLinkedList<T> {
             deleteFirst();
             return true;
         }
-        for (ListItem<T> p = head, q = p.getNext(); p != null; p = p.getNext()) {
+        for (ListItem<T> p = head, q = p.getNext(); q != null; p = p.getNext(), q = p.getNext()) {
             if (Objects.equals(q.getData(), element)) {
                 p.setNext(q.getNext());
                 size--;
@@ -96,13 +101,14 @@ public class SinglyLinkedList<T> {
     }
 
     // 9. Удаление первого элемента, пусть выдает значение элемента
-    public ListItem<T> deleteFirst() {
+    public T deleteFirst() {
         if (head == null) {
             throw new IndexOutOfBoundsException("Коллекция пустая!");
         }
+        T temp = this.head.getData();
         this.head = this.head.getNext();
         size--;
-        return this.head;
+        return temp;
     }
 
     // 10 Вставка и удаление узла после указанного узла

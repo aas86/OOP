@@ -39,13 +39,13 @@ public class Main {
 //----------------
         System.out.println();
         System.out.println("Проверка метода удаления элемента по индексу");
-        System.out.println("Удалённый элемент : " + list.delete(0));
+        System.out.println("Удалённый элемент : " + list.delete(3));
         for (int i = 0; i < list.getSize(); ++i) {
             System.out.printf("%d ", list.getElement(i));
         }
         System.out.println();
         System.out.println("Проверка метода удаления первого элемента:");
-        list.deleteFirst();
+        System.out.println("Удалённый элемент : " + list.deleteFirst());
         for (int i = 0; i < list.getSize(); ++i) {
             System.out.printf("%d ", list.getElement(i));
         }
@@ -58,7 +58,7 @@ public class Main {
         }
         System.out.println();
         System.out.println("Проверка метода удаления элемента по значению:");
-        Integer element = 777;
+        Integer element = 555;
         list.delete(element);
         for (int i = 0; i < list.getSize(); ++i) {
             System.out.printf("%d ", list.getElement(i));
@@ -88,7 +88,7 @@ public class Main {
 
 //--
         System.out.println("Проверка метода изменения значения по индексу (выдает старое значение) :");
-        ListItem<Integer> object66 = new ListItem<>(0);
+        Integer object66 = 888;
         System.out.println("Старое значение элемента: " + list.setElement(1, object66));
         for (int i = 0; i < list.getSize(); ++i) {
             System.out.printf("%d ", list.getElement(i));

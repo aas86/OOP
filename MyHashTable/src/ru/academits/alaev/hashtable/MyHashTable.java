@@ -5,25 +5,42 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class MyHashTable<T> implements Collection<T> {
-    private int size;
-    private ArrayList<T>[] hashTable;
+    private ArrayList<T>[] hashTable;       // поле - массив ArrayList'ов
+    private int elementsCount;              // общее количество элементов
 
-    public MyHashTable(){
-
+    public MyHashTable() {
+        this.hashTable = new ArrayList[10];
     }
+
     public MyHashTable(int size) {
-        this.size = size;
-        this.hashTable = new ArrayList[size];
+       this.hashTable = new ArrayList[size];
     }
 
     @Override
     public int size() {
-        return this.size;
+        int count = 0;
+        for (ArrayList<T> list : hashTable) {
+            if (list.isEmpty()) {
+                continue;
+            }
+            count += list.size();
+        }
+        return count;
+        // Или лучше так сделать?
+        //  return elementsCount;
     }
 
+    // Проверяем именно наличие элементов в списках, а не наличие списков.
     @Override
     public boolean isEmpty() {
-        return false;
+        for (ArrayList<T> list : hashTable) {
+            if (list != null) {
+                return false;
+            }
+        }
+        return true;
+        // Или лучше так сделать?
+        //     return elementsCount == 0;
     }
 
     @Override
@@ -53,9 +70,11 @@ public class MyHashTable<T> implements Collection<T> {
         if (hashTable[i] == null) {
             hashTable[i] = new ArrayList<T>();
             hashTable[i].add(t);
+            this.elementsCount++;
             changesCount++;
         } else {
             this.hashTable[i].add(t);
+            this.elementsCount++;
             changesCount++;
         }
         return changesCount != 0;
