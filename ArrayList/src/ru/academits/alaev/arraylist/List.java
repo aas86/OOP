@@ -44,8 +44,10 @@ public class List {
         System.out.println(newList);
 
         ArrayList<Integer> list2 = new ArrayList<>(Arrays.asList(1, null, 3, 4, 1, 5));
-        ArrayList<Integer> list3 = new ArrayList<>(Arrays.asList(1, 5));
+        ArrayList<Integer> list3 = new ArrayList<>();
         list2.add(null);
+        Integer o =  4;
+        System.out.println(list3.contains(o));
         System.out.println(list2);
         list2.remove((Integer) 1);
         System.out.println(list2);
