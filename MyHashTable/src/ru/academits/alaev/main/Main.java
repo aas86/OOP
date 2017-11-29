@@ -3,6 +3,7 @@ package ru.academits.alaev.main;
 import ru.academits.alaev.hashtable.MyHashTable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class Main {
@@ -32,22 +33,25 @@ public class Main {
         Integer o2 = 5;
         table.add(o2);
         System.out.println("Количество элементов в Хэш-таблице: " + table.size());
-        for (Iterator<Integer> i = table.iterator(); i.hasNext();){
+        for (Iterator<Integer> i = table.iterator(); i.hasNext(); ) {
             System.out.print(i.next() + " ");
         }
         System.out.println();
         System.out.println("Количество элементов в Хэш-таблице: " + table.size());
         System.out.println(table.contains(o2));
         System.out.println(table.remove(5));
-        for (Iterator<Integer> i = table.iterator(); i.hasNext();){
+        for (Iterator<Integer> i = table.iterator(); i.hasNext(); ) {
             System.out.print(i.next() + " ");
         }
         System.out.println();
         System.out.println(table.size());
         System.out.println(table.contains(o2));
-        table.add(1); table.add(1); table.add(1);
-        table.add(7); table.add(7);
-        for (Iterator<Integer> i = table.iterator(); i.hasNext();){
+        table.add(1);
+        table.add(1);
+        table.add(1);
+        table.add(7);
+        table.add(7);
+        for (Iterator<Integer> i = table.iterator(); i.hasNext(); ) {
             System.out.print(i.next() + " ");
         }
         System.out.println();
@@ -55,7 +59,7 @@ public class Main {
         ArrayList<Integer> list = new ArrayList<>();
         list.add(2);
         list.add(2);
-        list.add(1); list.add(1); list.add(1);
+        list.add(1);
 
 
         System.out.println(table.containsAll(list));
@@ -67,7 +71,10 @@ public class Main {
         System.out.println();
         System.out.println("Проверка метода addAll() ");
         ArrayList<Integer> list1 = new ArrayList<>();
-        list1.add(5); list1.add(6);list1.add(1); list1.add(1);
+        list1.add(5);
+        list1.add(6);
+        list1.add(1);
+        list1.add(1);
         table.addAll(list1);
         for (Integer iterator : table) {
             System.out.print(iterator + " ");
@@ -78,19 +85,29 @@ public class Main {
         System.out.println();
         System.out.println("Проверка метода removeAll() ");
         ArrayList<Integer> list2 = new ArrayList<>();
-        list2.add(8); list2.add(8); list2.add(1);
-        table.removeAll(list2);
-        table.add(0); table.add(0);
+        list2.add(8);
+        list2.add(8);
+        list2.add(1);
+        System.out.println(table.removeAll(list2));
+        table.add(0);
+        table.add(0);
         for (Integer iterator : table) {
             System.out.print(iterator + " ");
         }
         System.out.println();
         System.out.println("Количество элементов в Хэш-таблице: " + table.size());
 
+        Object[] array = table.toArray();
+        for (Object e : array) {
+            System.out.print(e + " ");
+        }
+
         System.out.println("Проверка метода retainAll");
         ArrayList<Integer> list3 = new ArrayList<>();
-        list3.add(1); list3.add(5);
+        list3.add(1);
+        list3.add(5);
         System.out.println(table.retainAll(list3));
+        System.out.println("Количество элементов в Хэш-таблице: " + table.size());
         for (Integer iterator : table) {
             System.out.print(iterator + " ");
         }
@@ -104,9 +121,5 @@ public class Main {
         }
         System.out.println();
         System.out.println("Количество элементов в Хэш-таблице: " + table.size());
-
-
-
-
     }
 }
