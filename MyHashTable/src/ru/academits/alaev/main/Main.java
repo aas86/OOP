@@ -21,6 +21,7 @@ public class Main {
         }
 
         System.out.println("Добавляем элемент в хэш таблицу " + table.add(o1));
+        System.out.println("Добавляем элемент в хэш таблицу " + table.add(null));
         System.out.println("Проверяем хэш таблицу пустая ли?");
         if (table.isEmpty()) {
             System.out.println("Да! Хэш таблица пустая");
@@ -28,7 +29,7 @@ public class Main {
             System.out.println("Нет! В хэш таблице есть объекты");
         }
         System.out.println(table.add(o1));
-        System.out.println(table.size());
+        System.out.println("Количество элементов в Хэш-таблице: " + table.size());
         System.out.println(table.contains(8));
         Integer o2 = 5;
         table.add(o2);
@@ -39,12 +40,12 @@ public class Main {
         System.out.println();
         System.out.println("Количество элементов в Хэш-таблице: " + table.size());
         System.out.println(table.contains(o2));
-        System.out.println(table.remove(5));
+        System.out.println(table.remove(2));
         for (Iterator<Integer> i = table.iterator(); i.hasNext(); ) {
             System.out.print(i.next() + " ");
         }
         System.out.println();
-        System.out.println(table.size());
+        System.out.println("Количество элементов в Хэш-таблице: " + table.size());
         System.out.println(table.contains(o2));
         table.add(1);
         table.add(1);
@@ -57,7 +58,7 @@ public class Main {
         System.out.println();
         System.out.println("Количество элементов в Хэш-таблице: " + table.size());
         ArrayList<Integer> list = new ArrayList<>();
-        list.add(2);
+        list.add(10);
         list.add(2);
         list.add(1);
 
@@ -75,7 +76,7 @@ public class Main {
         list1.add(6);
         list1.add(1);
         list1.add(1);
-        table.addAll(list1);
+        System.out.println(table.addAll(list1));
         for (Integer iterator : table) {
             System.out.print(iterator + " ");
         }
@@ -89,8 +90,8 @@ public class Main {
         list2.add(8);
         list2.add(1);
         System.out.println(table.removeAll(list2));
-        table.add(0);
-        table.add(0);
+     //   table.add(0);
+     //   table.add(0);
         for (Integer iterator : table) {
             System.out.print(iterator + " ");
         }

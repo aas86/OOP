@@ -15,4 +15,5 @@ public class ShapesAreaComparator implements Comparator<Shape> {
             return -1;
         }
     }
+
 }

@@ -2,9 +2,7 @@ package ru.academits.alaev.main;
 
 import ru.academits.alaev.arraylistcourse.MyArrayList;
 
-import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.Objects;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
