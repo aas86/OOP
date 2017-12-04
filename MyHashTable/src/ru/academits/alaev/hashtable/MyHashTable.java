@@ -70,7 +70,7 @@ public class MyHashTable<T> implements Collection<T> {
 
     @Override
     public boolean contains(Object o) {
-        int i = (o == null) ? 0 : Math.abs(o.hashCode() % hashTable.length);
+        int i = getIndex(o);
         return hashTable[i] != null && hashTable[i].contains(o);
     }
 
@@ -106,7 +106,7 @@ public class MyHashTable<T> implements Collection<T> {
 
     @Override
     public boolean add(T t) {
-        int i = (t == null) ? 0 : Math.abs(t.hashCode() % hashTable.length);
+        int i = getIndex(t);
         if (hashTable[i] == null) {
             hashTable[i] = new ArrayList<>();
         }
@@ -118,7 +118,7 @@ public class MyHashTable<T> implements Collection<T> {
 
     @Override
     public boolean remove(Object o) {
-        int i = (o == null) ? 0 : Math.abs(o.hashCode() % hashTable.length);
+        int i = getIndex(o);
         if (hashTable[i] == null || hashTable[i].size() < 1) {
             return false;
         } else {
@@ -202,5 +202,9 @@ public class MyHashTable<T> implements Collection<T> {
             }
         }
         elementsCount = 0;
+    }
+
+    private int getIndex(Object o) {
+        return (o == null) ? 0 : Math.abs(o.hashCode() % hashTable.length);
     }
 }

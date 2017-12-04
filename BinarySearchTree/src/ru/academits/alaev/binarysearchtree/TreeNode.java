@@ -1,6 +1,6 @@
 package ru.academits.alaev.binarysearchtree;
 
-public class TreeNode<T> {
+public class TreeNode<T extends Number> {
     private TreeNode<T> left;
     private TreeNode<T> right;
     private T data;
@@ -42,4 +42,5 @@ public class TreeNode<T> {
     public void setRight(TreeNode<T> right){
         this.right = right;
     }
+
 }

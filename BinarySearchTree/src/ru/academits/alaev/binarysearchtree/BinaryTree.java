@@ -1,13 +1,16 @@
 package ru.academits.alaev.binarysearchtree;
 
 
-public class BinaryTree<T> {
+public class BinaryTree<T extends Number> {
     private TreeNode<T> root;
     private int size;
 
-    public BinaryTree(){
+
+    public BinaryTree(NodesComparator<T> comparator){
         this.root = null;
         this.size = 0;
+
+
     }
     public BinaryTree(TreeNode<T> root) {
         this.root = root;
@@ -23,5 +26,9 @@ public class BinaryTree<T> {
 
     public int getSize() {
         return size;
+    }
+
+    public void add(TreeNode<T> node){
+
     }
 }
