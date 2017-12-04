@@ -2,9 +2,7 @@ package ru.academits.alaev.main;
 
 import ru.academits.alaev.hashtable.MyHashTable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -58,9 +56,9 @@ public class Main {
         System.out.println();
         System.out.println("Количество элементов в Хэш-таблице: " + table.size());
         ArrayList<Integer> list = new ArrayList<>();
-        list.add(10);
-        list.add(2);
-        list.add(1);
+        list.add(3);
+        list.add(6);
+        list.add(null);
 
 
         System.out.println(table.containsAll(list));
@@ -90,8 +88,8 @@ public class Main {
         list2.add(8);
         list2.add(1);
         System.out.println(table.removeAll(list2));
-     //   table.add(0);
-     //   table.add(0);
+        //   table.add(0);
+        //   table.add(0);
         for (Integer iterator : table) {
             System.out.print(iterator + " ");
         }
@@ -115,6 +113,12 @@ public class Main {
         System.out.println();
         System.out.println("Количество элементов в Хэш-таблице: " + table.size());
 
+        Integer[] a = new Integer[1];
+        table.toArray(a);
+        for (Integer e : a) {
+            System.out.println(e);
+        }
+
         System.out.println("Проверка метода clear");
         table.clear();
         for (Integer iterator : table) {
@@ -122,5 +126,7 @@ public class Main {
         }
         System.out.println();
         System.out.println("Количество элементов в Хэш-таблице: " + table.size());
+
+
     }
 }
