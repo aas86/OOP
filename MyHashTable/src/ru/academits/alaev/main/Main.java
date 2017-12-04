@@ -101,6 +101,7 @@ public class Main {
             System.out.print(e + " ");
         }
 
+        System.out.println();
         System.out.println("Проверка метода retainAll");
         ArrayList<Integer> list3 = new ArrayList<>();
         list3.add(1);
@@ -126,7 +127,5 @@ public class Main {
         }
         System.out.println();
         System.out.println("Количество элементов в Хэш-таблице: " + table.size());
-
-
     }
 }

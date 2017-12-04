@@ -33,7 +33,7 @@ public class MyHashTable<T> implements Collection<T> {
 
         @Override
         public T next() {
-            if (currentIndex + 1 > hashTable.length) {
+            if (currentIndex + 1 > elementsCount) {
                 throw new NoSuchElementException();
             }
             if (initialModCount != modCount) {
@@ -93,8 +93,10 @@ public class MyHashTable<T> implements Collection<T> {
     @Override
     public <T1> T1[] toArray(T1[] a) {
         if (a.length < elementsCount) {
+            //noinspection unchecked
             return (T1[]) Arrays.copyOf(this.toArray(), elementsCount, a.getClass());
         }
+        //noinspection SuspiciousSystemArraycopy
         System.arraycopy(this.toArray(), 0, a, 0, elementsCount);
         if (a.length > elementsCount) {
             a[elementsCount] = null;
@@ -193,20 +195,12 @@ public class MyHashTable<T> implements Collection<T> {
 
     @Override
     public void clear() {
-        while (getList() != null) {
-            getList().clear();
-            modCount++;
+        for (ArrayList<T> list : hashTable) {
+            if (list != null && list.size() > 0) {
+                list.clear();
+                modCount++;
+            }
         }
         elementsCount = 0;
     }
-
-    private ArrayList<T> getList() {
-        for (ArrayList<T> list : hashTable) {
-            if (list != null && list.size() > 0) {
-                return list;
-            }
-        }
-        return null;
-    }
-
 }
