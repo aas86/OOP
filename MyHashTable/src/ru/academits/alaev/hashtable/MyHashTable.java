@@ -121,23 +121,17 @@ public class MyHashTable<T> implements Collection<T> {
         int i = getIndex(o);
         if (hashTable[i] == null || hashTable[i].size() < 1) {
             return false;
-        } else {
-          /*  if (hashTable[i].contains(o)) {
-                hashTable[i].remove(o);
-                this.elementsCount--;
-            }*/
-            for (Iterator<T> iterator = hashTable[i].iterator(); iterator.hasNext(); ) {
-                T element = iterator.next();
-                if (Objects.equals(element, o)) {
-                    iterator.remove();
-                    this.elementsCount--;
-                    modCount++;
-                    return true;
-                }
-            }
-            return false;
         }
+        //noinspection SuspiciousMethodCalls
+        if (hashTable[i].contains(o)) {
+            hashTable[i].remove(o);
+            this.elementsCount--;
+            modCount++;
+            return true;
+        }
+        return false;
     }
+
 
     @Override
     public boolean containsAll(Collection<?> c) {
@@ -165,7 +159,7 @@ public class MyHashTable<T> implements Collection<T> {
     public boolean removeAll(Collection<?> c) {
         int changeCount = 0;
         for (Object e : c) {
-            int i = (e == null) ? 0 : Math.abs(e.hashCode() % hashTable.length);
+            int i = getIndex(e);
             if (hashTable[i] != null && hashTable[i].size() >= 1) {
                 while (remove(e)) {
                     changeCount++;
