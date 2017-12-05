@@ -33,14 +33,15 @@ public class BinaryTree<T extends Number> {
     }
 
     public void add(TreeNode<T> node) {
-        if (root == null) {
+        //noinspection unchecked
+        Comparable<T> x = (Comparable<T>) node.getData();
+        if (root == null){
             root = node;
-        } else if (comparator.compare(node.getData(), root.getData()) == -1) {
+        } else if (x.compareTo(this.root.getData()) < 0){
             root.setLeft(node);
-        } else if (comparator.compare(node.getData(), root.getData()) == 1){
+        } else if (x.compareTo(this.root.getData()) > 0){
             root.setRight(node);
         }
     }
-
 }
 
