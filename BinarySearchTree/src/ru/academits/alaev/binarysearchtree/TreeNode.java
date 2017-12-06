@@ -1,6 +1,6 @@
 package ru.academits.alaev.binarysearchtree;
 
-public class TreeNode<T extends Number> {
+public class TreeNode<T> {
     private TreeNode<T> left;
     private TreeNode<T> right;
     private T data;
