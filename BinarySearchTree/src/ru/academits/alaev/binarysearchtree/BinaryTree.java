@@ -2,7 +2,7 @@ package ru.academits.alaev.binarysearchtree;
 
 
 import java.util.Comparator;
-import java.util.LinkedList;
+
 
 public class BinaryTree<T> {
     private TreeNode<T> root;
@@ -36,6 +36,7 @@ public class BinaryTree<T> {
     public boolean add(TreeNode<T> node) {
         if (root == null) {
             root = node;
+            size++;
             return true;
         }
         //Текущим узлом считаем корень
@@ -50,6 +51,7 @@ public class BinaryTree<T> {
                     currentNode = currentNode.getLeft();
                 } else {
                     currentNode.setLeft(node);
+                    size++;
                     condition = false;
                 }
             } else {
@@ -57,6 +59,7 @@ public class BinaryTree<T> {
                     currentNode = currentNode.getRight();
                 } else {
                     currentNode.setRight(node);
+                    size++;
                     condition = false;
                 }
             }

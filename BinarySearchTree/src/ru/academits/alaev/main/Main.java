@@ -20,5 +20,6 @@ public class Main {
         binaryTree.add(d);
         binaryTree.add(e);
         binaryTree.add(f);
+        System.out.println(binaryTree.getSize());
     }
 }
