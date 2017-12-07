@@ -3,8 +3,6 @@ package ru.academits.alaev.main;
 import ru.academits.alaev.binarysearchtree.BinaryTree;
 import ru.academits.alaev.binarysearchtree.TreeNode;
 
-import java.util.Comparator;
-
 public class Main {
     public static void main(String[] args) {
         BinaryTree<Integer> binaryTree = new BinaryTree<>();
@@ -14,12 +12,29 @@ public class Main {
         TreeNode<Integer> d = new TreeNode<>(6);
         TreeNode<Integer> e = new TreeNode<>(2);
         TreeNode<Integer> f = new TreeNode<>(15);
-        binaryTree.add(a);
-        binaryTree.add(b);
-        binaryTree.add(c);
-        binaryTree.add(d);
-        binaryTree.add(e);
-        binaryTree.add(f);
-        System.out.println(binaryTree.getSize());
+        TreeNode<Integer> g = new TreeNode<>(9);
+        TreeNode<Integer> h = new TreeNode<>(11);
+        TreeNode<Integer> i = new TreeNode<>(4);
+        binaryTree.addNode(a);
+        binaryTree.addNode(b);
+        binaryTree.addNode(c);
+        binaryTree.addNode(d);
+        binaryTree.addNode(e);
+        binaryTree.addNode(f);
+        binaryTree.addNode(g);
+        binaryTree.addNode(h);
+        binaryTree.addNode(i);
+        System.out.println("Размер дерева" + binaryTree.getSize());
+        TreeNode<Integer> x = new TreeNode<>(10);
+        System.out.println("Поиск элемента " + x.getData() + " в дереве");
+        TreeNode<Integer> result = binaryTree.findNode(x);
+        if (result != null) {
+            System.out.println("Элемент x есть в дереве!");
+        } else {
+            System.out.println("Нет такого элемента в дереве!");
+        }
+        binaryTree.removeNode(i);
+        binaryTree.removeNode(f);
+
     }
 }
