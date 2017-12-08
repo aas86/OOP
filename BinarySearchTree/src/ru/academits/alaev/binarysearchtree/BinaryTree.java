@@ -33,7 +33,8 @@ public class BinaryTree<T> {
         return size;
     }
 
-    public boolean addNode(TreeNode<T> node) {
+    public boolean add(T data) {
+        TreeNode<T> node = new TreeNode<T>(data);
         if (root == null) {
             root = node;
             size++;
@@ -41,65 +42,62 @@ public class BinaryTree<T> {
         }
         //Текущим узлом считаем корень
         TreeNode<T> currentNode = root;
-
-        //noinspection unchecked
-        Comparable<T> nodeData = (Comparable<T>) node.getData();
-        boolean condition = true;
-        while (condition) {
-            if (nodeData.compareTo(currentNode.getData()) < 0) {
-                if (currentNode.getLeft() != null) {
-                    currentNode = currentNode.getLeft();
+        if (comparator != null) {
+            return true;
+        } else {
+            //noinspection unchecked
+            Comparable<T> nodeData = (Comparable<T>) node.getData();
+            while (true) {
+                if (nodeData.compareTo(currentNode.getData()) < 0) {
+                    if (currentNode.getLeft() != null) {
+                        currentNode = currentNode.getLeft();
+                    } else {
+                        currentNode.setLeft(node);
+                        size++;
+                        return true;
+                    }
                 } else {
-                    currentNode.setLeft(node);
-                    size++;
-                    condition = false;
-                }
-            } else {
-                if (currentNode.getRight() != null) {
-                    currentNode = currentNode.getRight();
-                } else {
-                    currentNode.setRight(node);
-                    size++;
-                    condition = false;
+                    if (currentNode.getRight() != null) {
+                        currentNode = currentNode.getRight();
+                    } else {
+                        currentNode.setRight(node);
+                        size++;
+                        return true;
+                    }
                 }
             }
         }
-        return true;
     }
 
     // Т.к. ищем узел, то и возвращаю узел
-    public TreeNode<T> findNode(TreeNode<T> node) {
-        //noinspection unchecked
-        Comparable<T> nodeData = (Comparable<T>) node.getData();
+    public TreeNode<T> find(T data) {
+        TreeNode<T> node = new TreeNode<T>(data);
+        //Текущим узлом считаем корень
         TreeNode<T> currentNode = root;
-        TreeNode<T> result = null;
-        boolean condition = true;
-        while (condition) {
-            if (nodeData.compareTo(currentNode.getData()) == 0) {
-                result = currentNode;
-                //return result;
-                break;
-            }
-            if (nodeData.compareTo(currentNode.getData()) < 0) {
-                if (currentNode.getLeft() != null) {
-                    currentNode = currentNode.getLeft();
+        if (comparator != null) {
+            return null;
+        } else {
+            //noinspection unchecked
+            Comparable<T> nodeData = (Comparable<T>) node.getData();
+            while (true) {
+                if (nodeData.compareTo(currentNode.getData()) == 0) {
+                    return currentNode;
+                } else if ((nodeData.compareTo(currentNode.getData()) < 0)) {
+                    if (currentNode.getLeft() != null) {
+                        currentNode = currentNode.getLeft();
+                    } else {
+                        return null;
+                    }
                 } else {
-                    //return null;
-                    result = null;
-                    condition = false;
-                }
-            } else {
-                if (currentNode.getRight() != null) {
-                    currentNode = currentNode.getRight();
-                } else {
-                    result = null;
-                    condition = false;
+                    if (currentNode.getRight() != null) {
+                        currentNode = currentNode.getRight();
+                    } else {
+                        return null;
+                    }
                 }
             }
         }
-        return result;
     }
-
     public boolean removeNode(TreeNode<T> node) {
         //noinspection unchecked
         Comparable<T> nodeData = (Comparable<T>) node.getData();
@@ -174,9 +172,7 @@ public class BinaryTree<T> {
         boolean condition = true;
         while (condition) {
             TreeNode<T> nextNode = minNode.getLeft();
-
             if (nextNode != null) {
-
                 minNode = nextNode;
             } else {
                 minNode.setLeft(null);
