@@ -42,78 +42,75 @@ public class BinaryTree<T> {
         }
         //Текущим узлом считаем корень
         TreeNode<T> currentNode = root;
-        if (comparator != null) {
-            return true;
-        } else {
-            //noinspection unchecked
-            Comparable<T> nodeData = (Comparable<T>) node.getData();
-            while (true) {
-                if (nodeData.compareTo(currentNode.getData()) < 0) {
-                    if (currentNode.getLeft() != null) {
-                        currentNode = currentNode.getLeft();
-                    } else {
-                        currentNode.setLeft(node);
-                        size++;
-                        return true;
-                    }
+        while (true) {
+            if (myCompare(node.getData(), currentNode.getData()) < 0) {
+                if (currentNode.getLeft() != null) {
+                    currentNode = currentNode.getLeft();
                 } else {
-                    if (currentNode.getRight() != null) {
-                        currentNode = currentNode.getRight();
-                    } else {
-                        currentNode.setRight(node);
-                        size++;
-                        return true;
-                    }
+                    currentNode.setLeft(node);
+                    size++;
+                    return true;
+                }
+            } else {
+                if (currentNode.getRight() != null) {
+                    currentNode = currentNode.getRight();
+                } else {
+                    currentNode.setRight(node);
+                    size++;
+                    return true;
                 }
             }
         }
     }
 
-    // Т.к. ищем узел, то и возвращаю узел
+    // Т.к. ищем узел, то и возвращаю тоже узел по-моему логично
     public TreeNode<T> find(T data) {
         TreeNode<T> node = new TreeNode<T>(data);
         //Текущим узлом считаем корень
         TreeNode<T> currentNode = root;
-        if (comparator != null) {
+        //Проверка, что дерево пустое
+        if (this.size == 0) {
             return null;
-        } else {
-            //noinspection unchecked
-            Comparable<T> nodeData = (Comparable<T>) node.getData();
-            while (true) {
-                if (nodeData.compareTo(currentNode.getData()) == 0) {
+        }
+        while (true) {
+            if (myCompare(node.getData(), currentNode.getData()) <= 0) {
+                if (currentNode.getData() == data) {
                     return currentNode;
-                } else if ((nodeData.compareTo(currentNode.getData()) < 0)) {
-                    if (currentNode.getLeft() != null) {
-                        currentNode = currentNode.getLeft();
-                    } else {
-                        return null;
-                    }
+                }
+                if (currentNode.getLeft() != null) {
+                    currentNode = currentNode.getLeft();
                 } else {
-                    if (currentNode.getRight() != null) {
-                        currentNode = currentNode.getRight();
-                    } else {
-                        return null;
-                    }
+                    return null;
+                }
+            } else {
+                if (currentNode.getRight() != null) {
+                    currentNode = currentNode.getRight();
+                } else {
+                    return null;
                 }
             }
         }
     }
-    public boolean removeNode(TreeNode<T> node) {
-        //noinspection unchecked
-        Comparable<T> nodeData = (Comparable<T>) node.getData();
+
+    public boolean removeNode(T data) {
+        TreeNode<T> node = new TreeNode<T>(data);
         TreeNode<T> currentNode = root;
-        boolean condition = true;
-        while (condition) {
-            if (nodeData.compareTo(currentNode.getData()) < 0) {
+        //удаление корня TODO
+        //    if (currentNode.getData() == data) {
+        //        return true;
+        //    }
+        while (true) {
+            if (myCompare(node.getData(), currentNode.getData()) < 0) {
                 TreeNode<T> nextNode = currentNode.getLeft();
                 if (nextNode != null) {
                     if (nextNode.getData() != node.getData()) {
                         currentNode = nextNode;
                     } else {
+                        //Нашли удаляемый он слева от текущего
                         if (nextNode.getLeft() == null && nextNode.getRight() == null) { //удаление листа
                             currentNode.setLeft(null);
                             size--;
-                            condition = false;
+                            return true;
                         } else if (nextNode.getLeft() != null && nextNode.getRight() != null) {//удаление узла с двумя детьми
                             TreeNode<T> minNode = findMin(nextNode.getRight());
                             minNode.setLeft(nextNode.getLeft());
@@ -124,7 +121,7 @@ public class BinaryTree<T> {
                         } else if (nextNode.getLeft() != null) { // удаление узла с одним родителем слева
                             currentNode.setLeft(nextNode.getLeft());
                             size--;
-                            condition = false;
+                            return false;
                         } else if (nextNode.getRight() != null) {// удаление узла с одним родителем справа
                             currentNode.setLeft(nextNode.getRight());
                         }
@@ -138,10 +135,11 @@ public class BinaryTree<T> {
                     if (nextNode.getData() != node.getData()) {
                         currentNode = nextNode;
                     } else {
+                        //Нашли удаляемый он справа от текущего
                         if (nextNode.getRight() == null && nextNode.getLeft() == null) {
                             currentNode.setRight(null);
                             size--;
-                            condition = false;
+                            return true;
                         } else if (nextNode.getLeft() != null && nextNode.getRight() != null) {
                             TreeNode<T> minNode = findMin(nextNode.getRight());
                             minNode.setLeft(nextNode.getLeft());
@@ -149,15 +147,15 @@ public class BinaryTree<T> {
                             currentNode.setRight(minNode);
                             nextNode.getRight().setLeft(null);
                             size--;
-                            condition = false;
+                            return true;
                         } else if (nextNode.getRight() != null) {
                             currentNode.setRight(nextNode.getRight());
                             size--;
-                            condition = false;
+                            return true;
                         } else if (nextNode.getLeft() != null) {
                             currentNode.setRight(nextNode.getLeft());
                             size--;
-                            condition = false;
+                            return true;
                         }
                     }
                 } else {
@@ -165,8 +163,78 @@ public class BinaryTree<T> {
                 }
             }
         }
-        return false;
     }
+
+    /*  public boolean removeNode(TreeNode<T> node) {
+          //noinspection unchecked
+          Comparable<T> nodeData = (Comparable<T>) node.getData();
+          TreeNode<T> currentNode = root;
+          boolean condition = true;
+          while (condition) {
+              if (nodeData.compareTo(currentNode.getData()) < 0) {
+                  TreeNode<T> nextNode = currentNode.getLeft();
+                  if (nextNode != null) {
+                      if (nextNode.getData() != node.getData()) {
+                          currentNode = nextNode;
+                      } else {
+                          if (nextNode.getLeft() == null && nextNode.getRight() == null) { //удаление листа
+                              currentNode.setLeft(null);
+                              size--;
+                              condition = false;
+                          } else if (nextNode.getLeft() != null && nextNode.getRight() != null) {//удаление узла с двумя детьми
+                              TreeNode<T> minNode = findMin(nextNode.getRight());
+                              minNode.setLeft(nextNode.getLeft());
+                              minNode.setRight(nextNode.getRight());
+                              currentNode.setLeft(minNode);
+                              nextNode.getRight().setLeft(null);
+
+                          } else if (nextNode.getLeft() != null) { // удаление узла с одним родителем слева
+                              currentNode.setLeft(nextNode.getLeft());
+                              size--;
+                              condition = false;
+                          } else if (nextNode.getRight() != null) {// удаление узла с одним родителем справа
+                              currentNode.setLeft(nextNode.getRight());
+                          }
+                      }
+                  } else {
+                      return false;
+                  }
+              } else {
+                  TreeNode<T> nextNode = currentNode.getRight();
+                  if (nextNode != null) {
+                      if (nextNode.getData() != node.getData()) {
+                          currentNode = nextNode;
+                      } else {
+                          if (nextNode.getRight() == null && nextNode.getLeft() == null) {
+                              currentNode.setRight(null);
+                              size--;
+                              condition = false;
+                          } else if (nextNode.getLeft() != null && nextNode.getRight() != null) {
+                              TreeNode<T> minNode = findMin(nextNode.getRight());
+                              minNode.setLeft(nextNode.getLeft());
+                              minNode.setRight(nextNode.getRight());
+                              currentNode.setRight(minNode);
+                              nextNode.getRight().setLeft(null);
+                              size--;
+                              condition = false;
+                          } else if (nextNode.getRight() != null) {
+                              currentNode.setRight(nextNode.getRight());
+                              size--;
+                              condition = false;
+                          } else if (nextNode.getLeft() != null) {
+                              currentNode.setRight(nextNode.getLeft());
+                              size--;
+                              condition = false;
+                          }
+                      }
+                  } else {
+                      return false;
+                  }
+              }
+          }
+          return false;
+      }*/
+
 
     private TreeNode<T> findMin(TreeNode<T> minNode) {
         boolean condition = true;
@@ -180,6 +248,16 @@ public class BinaryTree<T> {
             }
         }
         return minNode;
+    }
+
+    private int myCompare(T o1, T o2) {
+        if (this.comparator != null) {
+            return this.comparator.compare(o1, o2);
+        } else {
+            //noinspection unchecked
+            Comparable<T> nodeData = (Comparable<T>) o1;
+            return nodeData.compareTo(o2);
+        }
     }
 }
 

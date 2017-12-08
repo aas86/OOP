@@ -7,19 +7,15 @@ import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) {
-        BinaryTree<Double> binaryTree0 = new BinaryTree<>(new Comparator<Double>() {
-            @Override
-            public int compare(Double o1, Double o2) {
-                return 0;
-            }
-        });
-        binaryTree0.add(5.0);
-
         BinaryTree<Integer> binaryTree = new BinaryTree<>();
         binaryTree.add(8);
         binaryTree.add(3);
         binaryTree.add(10);
+        binaryTree.add(2);
         binaryTree.add(6);
+        binaryTree.add(10);
+        binaryTree.add(15);
+        binaryTree.add(11);
         /*TreeNode<Integer> a = new TreeNode<>(8);
         TreeNode<Integer> b = new TreeNode<>(3);
         TreeNode<Integer> c = new TreeNode<>(10);
@@ -41,14 +37,14 @@ public class Main {
         System.out.println("Размер дерева " + binaryTree.getSize());
 
         System.out.println("Поиск элемента в дереве");
-        TreeNode<Integer> result = binaryTree.find(6);
+        TreeNode<Integer> result = binaryTree.find(9);
         if (result != null) {
             System.out.println("Элемент x есть в дереве!");
         } else {
             System.out.println("Нет такого элемента в дереве!");
         }
-       /* binaryTree.removeNode(i);
-        binaryTree.removeNode(f);*/
+        binaryTree.removeNode(3);
+        /*binaryTree.removeNode(f);*/
 
     }
 }
