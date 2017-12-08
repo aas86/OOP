@@ -123,8 +123,7 @@ public class MyHashTable<T> implements Collection<T> {
             return false;
         }
         //noinspection SuspiciousMethodCalls
-        if (hashTable[i].contains(o)) {
-            hashTable[i].remove(o);
+        if (hashTable[i].remove(o)) {
             this.elementsCount--;
             modCount++;
             return true;
