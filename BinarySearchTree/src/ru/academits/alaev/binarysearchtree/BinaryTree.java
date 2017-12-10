@@ -34,7 +34,7 @@ public class BinaryTree<T> {
     }
 
     public boolean add(T data) {
-        TreeNode<T> node = new TreeNode<T>(data);
+        TreeNode<T> node = new TreeNode<>(data);
         if (root == null) {
             root = node;
             size++;
@@ -93,7 +93,14 @@ public class BinaryTree<T> {
     }
 
     public boolean removeNode(T data) {
-        TreeNode<T> node = new TreeNode<T>(data);
+        TreeNode<T> parent; // родитель удаляемого узла
+        TreeNode<T> current; // удаляемый узел
+
+        //TODO цикл, такой же как при поиске
+
+        //TODO логика удаления
+
+        TreeNode<T> node = new TreeNode<>(data);
         TreeNode<T> currentNode = root;
         //удаление корня TODO
         //    if (currentNode.getData() == data) {
