@@ -109,8 +109,6 @@ public class BinaryTree<T> {
                         current = current.getLeft();
                     } else {
                         return false;
-                        //   parent = null;
-                        //   current = null;
                     }
                 } else {
                     if (current.getRight() != null) {
@@ -166,11 +164,9 @@ public class BinaryTree<T> {
 
 
     private TreeNode<T> findMin(TreeNode<T> current) {
-        //  TreeNode<T> parent = null;
         while (true) {
             TreeNode<T> next = current.getLeft();
             if (next != null) {
-                //    parent = current;
                 current = next;
             } else {//Нашли минимальный
                 return current;

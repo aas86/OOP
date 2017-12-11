@@ -27,7 +27,7 @@ public class Main {
             System.out.println("Нет такого элемента в дереве!");
         }
     //    System.out.println(binaryTree.removeNode(null));
-        System.out.println(binaryTree.removeNode(10));
+        System.out.println(binaryTree.removeNode(3));
         System.out.println(binaryTree.removeNode(100));
         System.out.println(binaryTree.removeNode(10));
         System.out.println(binaryTree.removeNode(8));
