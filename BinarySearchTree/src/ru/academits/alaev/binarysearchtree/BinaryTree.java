@@ -139,7 +139,7 @@ public class BinaryTree<T> {
             min.setRight(current.getRight());
             size--;
             if (parent != null) {
-                if (myCompare(min.getData(), parent.getData()) < 0) {
+                if (myCompare(min.getData(), parent.getData()) <= 0) {
                     parent.setLeft(min);
                 } else {
                     parent.setRight(min);
