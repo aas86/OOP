@@ -2,6 +2,7 @@ package ru.academits.alaev.binarysearchtree;
 
 
 import java.util.Comparator;
+import java.util.LinkedList;
 
 
 public class BinaryTree<T> {
@@ -25,10 +26,6 @@ public class BinaryTree<T> {
         return root;
     }
 
-    public void setRoot(TreeNode<T> root) {
-        this.root = root;
-    }
-
     public int getSize() {
         return size;
     }
@@ -43,7 +40,7 @@ public class BinaryTree<T> {
         //Текущим узлом считаем корень
         TreeNode<T> currentNode = root;
         while (true) {
-            if (myCompare(node.getData(), currentNode.getData()) < 0) {
+            if (myCompare(node.getData(), currentNode.getData()) <= 0) {
                 if (currentNode.getLeft() != null) {
                     currentNode = currentNode.getLeft();
                 } else {
@@ -73,8 +70,9 @@ public class BinaryTree<T> {
             return null;
         }
         while (true) {
-            if (myCompare(node.getData(), currentNode.getData()) <= 0) {
-                if (currentNode.getData() == data) {
+            int comparisonResult = myCompare(node.getData(), currentNode.getData());
+            if (comparisonResult <= 0) {
+                if (comparisonResult == 0) {
                     return currentNode;
                 }
                 if (currentNode.getLeft() != null) {
@@ -99,8 +97,9 @@ public class BinaryTree<T> {
         // цикл, такой же как при поиске
         while (true) {
             if (current != null) {
-                if (myCompare(node.getData(), current.getData()) <= 0) {
-                    if (current.getData() == data) {
+                int comparisonResult = myCompare(node.getData(), current.getData());
+                if (comparisonResult <= 0) {
+                    if (comparisonResult == 0) {
                         break;
                     }
                     if (current.getLeft() != null) {
@@ -166,7 +165,7 @@ public class BinaryTree<T> {
 
 
     private TreeNode<T> findMin(TreeNode<T> current, TreeNode<T> parent) {
-        if (current.getLeft() == null) {       // Минимальный - это правый ребёнок удаляемого
+        if (current.getLeft() == null) {    // Минимальный - это правый ребёнок удаляемого (у него нет ребёнка слева)
             parent.setRight(current.getRight());
             return current;
         } else {
@@ -174,7 +173,7 @@ public class BinaryTree<T> {
                 if (current.getLeft() != null) {
                     parent = current;
                     current = current.getLeft();
-                } else {        //Нашли минимальный рассмотрим 2 случая
+                } else {        // Нашли минимальный рассмотрим 2 случая
                     if (current.getRight() == null) { // У минимального нет правого ребёнка
                         parent.setLeft(null);
                         return current;
@@ -187,7 +186,7 @@ public class BinaryTree<T> {
         }
     }
 
-    private int myCompare(T o1, T o2) {
+    private int myCompare(T o1, T o2) { //o1 - искомый; o2 - текущий
         if (this.comparator != null) {
             return this.comparator.compare(o1, o2);
         } else {
@@ -199,6 +198,38 @@ public class BinaryTree<T> {
                 //noinspection unchecked
                 Comparable<T> nodeData = (Comparable<T>) o1;
                 return nodeData.compareTo(o2);
+            }
+        }
+    }
+
+    // Обход вширину
+    public void widthSearch() {
+        LinkedList<TreeNode<T>> queue = new LinkedList<>();
+        queue.addFirst(this.getRoot());
+        while (queue.size() != 0) {
+            TreeNode<T> element = queue.remove();
+            System.out.print(element.getData() + " ");
+            if (element.getLeft() != null) {
+                queue.add(element.getLeft());
+            }
+            if (element.getRight() != null) {
+                queue.add(element.getRight());
+            }
+        }
+    }
+
+    // Обход вглубину
+    public void depthSearch() {
+        LinkedList<TreeNode<T>> stack = new LinkedList<>();
+        stack.add(this.getRoot());
+        while (stack.size() != 0) {
+            TreeNode<T> element = stack.removeFirst();
+            System.out.print(element.getData() + " ");
+            if (element.getRight() != null) {
+                stack.addFirst(element.getRight());
+            }
+            if (element.getLeft() != null) {
+                stack.addFirst(element.getLeft());
             }
         }
     }

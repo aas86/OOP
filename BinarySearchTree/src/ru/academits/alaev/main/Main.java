@@ -4,6 +4,8 @@ import ru.academits.alaev.binarysearchtree.BinaryTree;
 import ru.academits.alaev.binarysearchtree.TreeNode;
 
 
+
+
 public class Main {
     public static void main(String[] args) {
         BinaryTree<Integer> binaryTree = new BinaryTree<>();
@@ -23,8 +25,6 @@ public class Main {
         binaryTree.add(14);
         binaryTree.add(null);
         System.out.println("Размер дерева " + binaryTree.getSize());
-        Integer x = null;
-        Integer d = null;
         System.out.println("Поиск элемента в дереве");
         TreeNode<Integer> result = binaryTree.find(null);
         if (result != null) {
@@ -32,7 +32,7 @@ public class Main {
         } else {
             System.out.println("Нет такого элемента в дереве!");
         }
-        System.out.println(binaryTree.removeNode(null));
+    //    System.out.println(binaryTree.removeNode(null));
         TreeNode<Integer> result1 = binaryTree.find(null);
         if (result1 != null) {
             System.out.println("Элемент x есть в дереве!");
@@ -50,5 +50,10 @@ public class Main {
         System.out.println(binaryTree.removeNode(10));
         System.out.println(binaryTree.removeNode(10));
         System.out.println("Размер дерева " + binaryTree.getSize());
+     //   binaryTree.removeNode(null);
+        binaryTree.widthSearch();
+        System.out.println();
+        binaryTree.depthSearch();
     }
+
 }
