@@ -1,8 +1,10 @@
 package ru.academits.alaev.binarysearchtree;
 
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.function.Consumer;
 
 
 public class BinaryTree<T> {
@@ -71,10 +73,9 @@ public class BinaryTree<T> {
         }
         while (true) {
             int comparisonResult = myCompare(node.getData(), currentNode.getData());
-            if (comparisonResult <= 0) {
-                if (comparisonResult == 0) {
-                    return currentNode;
-                }
+            if (comparisonResult == 0) {
+                return currentNode;
+            } else if (comparisonResult < 0) {
                 if (currentNode.getLeft() != null) {
                     currentNode = currentNode.getLeft();
                 } else {
@@ -98,10 +99,9 @@ public class BinaryTree<T> {
         while (true) {
             if (current != null) {
                 int comparisonResult = myCompare(node.getData(), current.getData());
-                if (comparisonResult <= 0) {
-                    if (comparisonResult == 0) {
-                        break;
-                    }
+                if (comparisonResult == 0) {
+                    break;
+                } else if (comparisonResult < 0) {
                     if (current.getLeft() != null) {
                         parent = current;
                         current = current.getLeft();
@@ -203,12 +203,15 @@ public class BinaryTree<T> {
     }
 
     // Обход вширину
-    public void widthSearch() {
+    public void widthSearch(Consumer<T> someWork) {
+        if (root == null) {
+            return;
+        }
         LinkedList<TreeNode<T>> queue = new LinkedList<>();
-        queue.addFirst(this.getRoot());
+        queue.add(this.getRoot());
         while (queue.size() != 0) {
             TreeNode<T> element = queue.remove();
-            System.out.print(element.getData() + " ");
+            someWork.accept(element.getData());
             if (element.getLeft() != null) {
                 queue.add(element.getLeft());
             }
@@ -218,18 +221,27 @@ public class BinaryTree<T> {
         }
     }
 
-    // Обход вглубину
-    public void depthSearch() {
-        LinkedList<TreeNode<T>> stack = new LinkedList<>();
+    // Обход в глубину с проделыванием какой либо работы над узлом. Какую работу делать, будет определяться в main'е
+    // Т.е. в main'е при вызове этого метода, в качестве аргумента передастся объект анонимного класса (а можно
+    // лямбда функцию передать), от которого вызовется его метод из main'а, который я переопределил, как мне нужно
+
+    // В качестве аргумента принимает объект, реализующий интерфейс Consumer<T>. У этого интерфейса лишь один метод,
+    // который я переопределил в main'е так, чтобы он печатал.
+    public void depthSearch(Consumer<T> someWork) {
+        if (root == null) {
+            return;
+        }
+        ArrayList<TreeNode<T>> stack = new ArrayList<>();
         stack.add(this.getRoot());
         while (stack.size() != 0) {
-            TreeNode<T> element = stack.removeFirst();
-            System.out.print(element.getData() + " ");
+            TreeNode<T> element = stack.remove(stack.size() - 1);
+            someWork.accept(element.getData()); //Здесь вызывается та работа, которую нужно делать, т.е. по сути
+                                                //вставляется кусок кода из переопределения метода accept.
             if (element.getRight() != null) {
-                stack.addFirst(element.getRight());
+                stack.add(element.getRight());
             }
             if (element.getLeft() != null) {
-                stack.addFirst(element.getLeft());
+                stack.add(element.getLeft());
             }
         }
     }
