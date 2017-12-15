@@ -130,6 +130,9 @@ public class BinaryTree<T> {
                     parent.setRight(null);
                     size--;
                 }
+            } else {
+                root = null;
+                size--;
             }
             return true;
         } else if (current.getLeft() != null && current.getRight() != null) { //удаление узла с двумя детьми
@@ -236,13 +239,28 @@ public class BinaryTree<T> {
         while (stack.size() != 0) {
             TreeNode<T> element = stack.remove(stack.size() - 1);
             someWork.accept(element.getData()); //Здесь вызывается та работа, которую нужно делать, т.е. по сути
-                                                //вставляется кусок кода из переопределения метода accept.
+            //вставляется кусок кода из переопределения метода accept.
             if (element.getRight() != null) {
                 stack.add(element.getRight());
             }
             if (element.getLeft() != null) {
                 stack.add(element.getLeft());
             }
+        }
+    }
+
+    public void recursiveDepthSearch(Consumer<T> someWork) {
+        TreeNode<T> e = root;
+        visit(e, someWork);
+    }
+
+    private void visit(TreeNode<T> node, Consumer<T> someWork) {
+        someWork.accept(node.getData());
+        if (node.getLeft() != null) {
+            visit(node.getLeft(), someWork);
+        }
+        if (node.getRight() != null) {
+            visit(node.getRight(), someWork);
         }
     }
 }

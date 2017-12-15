@@ -10,6 +10,7 @@ public class Main {
         BinaryTree<Integer> binaryTree = new BinaryTree<>();
         System.out.println(binaryTree.removeNode(3));
         binaryTree.add(8);
+    //    binaryTree.removeNode(8);
         binaryTree.add(3);
         binaryTree.add(2);
         binaryTree.add(6);
@@ -22,7 +23,7 @@ public class Main {
         binaryTree.add(12);
         binaryTree.add(17);
         binaryTree.add(14);
-        binaryTree.add(null);
+     //   binaryTree.add(null);
         System.out.println("Размер дерева " + binaryTree.getSize());
         System.out.println("Поиск элемента в дереве");
         TreeNode<Integer> result = binaryTree.find(null);
@@ -54,14 +55,19 @@ public class Main {
         // Consumer<T>. Если бы для его создания нужны были бы параметры (для конструктора), то они бы передавались так
         // x(parameter). А вообще получается, что я в метод передаю функцию. Могу переопределить как хочу эту
         // функцию и тогда метод будет выполнять другую работу.
+        System.out.println("Обход дерева в ширину");
         binaryTree.widthSearch(x -> System.out.print(x + " "));
         System.out.println();
-      // Здесь то же самое, что и выше, но только сделано через анонимный класс. По alt + Enter переделывается в лямбду
+       // Здесь то же самое, что и выше, но только сделано через анонимный класс. По alt + Enter переделывается в лямбду
+        System.out.println("Обход дерева в глубину без рекурсии");
         binaryTree.depthSearch(new Consumer<Integer>() {
             @Override
             public void accept(Integer x) {
                 System.out.print(x + " ");
             }
         });
+        System.out.println();
+        System.out.println("Обход дерева в глубину с рекурсией");
+        binaryTree.recursiveDepthSearch(x -> System.out.print(x + " "));
     }
 }
