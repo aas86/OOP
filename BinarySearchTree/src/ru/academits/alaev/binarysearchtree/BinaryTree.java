@@ -155,15 +155,22 @@ public class BinaryTree<T> {
                 parent.setRight(current.getLeft());
                 size--;
                 return true;
+            } else {
+                root = current.getLeft();
+                size--;
+                return true;
             }
         } else {    //Удаление узла с одним правым ребёнком
             if (parent != null) {
                 parent.setRight(current.getRight());
                 size--;
                 return true;
+            } else {
+                root = current.getRight();
+                size--;
+                return true;
             }
         }
-        return false;
     }
 
 

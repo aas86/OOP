@@ -8,10 +8,11 @@ import java.util.function.Consumer;
 public class Main {
     public static void main(String[] args) {
         BinaryTree<Integer> binaryTree = new BinaryTree<>();
-        System.out.println(binaryTree.removeNode(3));
+       // System.out.println(binaryTree.removeNode(3));
         binaryTree.add(8);
-    //    binaryTree.removeNode(8);
         binaryTree.add(3);
+        binaryTree.add(10);
+        //System.out.println(binaryTree.removeNode(100));
         binaryTree.add(2);
         binaryTree.add(6);
         binaryTree.add(10);

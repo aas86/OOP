@@ -59,6 +59,5 @@ public class List {
         for (Integer e : array) {
             System.out.println(e);
         }
-
     }
 }
