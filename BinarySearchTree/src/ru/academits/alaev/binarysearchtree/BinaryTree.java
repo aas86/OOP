@@ -151,7 +151,11 @@ public class BinaryTree<T> {
             }
             return true;
         } else if (current.getLeft() != null && current.getRight() == null) { //Удаление узла с одним левым ребёнком
-            if (parent != null) {
+            if (parent != null && current == parent.getRight()) {
+                parent.setRight(current.getLeft());
+                size--;
+                return true;
+            } else if (parent != null && current == parent.getLeft()) {
                 parent.setLeft(current.getLeft());
                 size--;
                 return true;
@@ -161,8 +165,12 @@ public class BinaryTree<T> {
                 return true;
             }
         } else {    //Удаление узла с одним правым ребёнком
-            if (parent != null) {
+            if (parent != null && current == parent.getRight()) {
                 parent.setRight(current.getRight());
+                size--;
+                return true;
+            } else if (parent != null && current == parent.getLeft()) {
+                parent.setLeft(current.getRight());
                 size--;
                 return true;
             } else {
