@@ -149,7 +149,7 @@ public class BinaryTree<T> {
             return true;
         } else if (current.getLeft() != null && current.getRight() == null) { //Удаление узла с одним левым ребёнком
             if (parent != null) {
-                parent.setRight(current.getLeft());
+                parent.setLeft(current.getLeft());
                 size--;
                 return true;
             }
