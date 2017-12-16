@@ -1,7 +1,10 @@
 package ru.academits.alaev.binarysearchtree;
 
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.function.Consumer;
 
 
 public class BinaryTree<T> {
@@ -25,10 +28,6 @@ public class BinaryTree<T> {
         return root;
     }
 
-    public void setRoot(TreeNode<T> root) {
-        this.root = root;
-    }
-
     public int getSize() {
         return size;
     }
@@ -43,7 +42,7 @@ public class BinaryTree<T> {
         //Текущим узлом считаем корень
         TreeNode<T> currentNode = root;
         while (true) {
-            if (myCompare(node.getData(), currentNode.getData()) < 0) {
+            if (myCompare(node.getData(), currentNode.getData()) <= 0) {
                 if (currentNode.getLeft() != null) {
                     currentNode = currentNode.getLeft();
                 } else {
@@ -63,9 +62,9 @@ public class BinaryTree<T> {
         }
     }
 
-    // Т.к. ищем узел, то и возвращаю тоже узел по-моему логично
+    // Т.к. ищем узел, то и возвращаю тоже узел
     public TreeNode<T> find(T data) {
-        TreeNode<T> node = new TreeNode<T>(data);
+        TreeNode<T> node = new TreeNode<>(data);
         //Текущим узлом считаем корень
         TreeNode<T> currentNode = root;
         //Проверка, что дерево пустое
@@ -73,10 +72,10 @@ public class BinaryTree<T> {
             return null;
         }
         while (true) {
-            if (myCompare(node.getData(), currentNode.getData()) <= 0) {
-                if (currentNode.getData() == data) {
-                    return currentNode;
-                }
+            int comparisonResult = myCompare(node.getData(), currentNode.getData());
+            if (comparisonResult == 0) {
+                return currentNode;
+            } else if (comparisonResult < 0) {
                 if (currentNode.getLeft() != null) {
                     currentNode = currentNode.getLeft();
                 } else {
@@ -96,14 +95,13 @@ public class BinaryTree<T> {
         TreeNode<T> parent = null; // родитель удаляемого узла
         TreeNode<T> current = root; //
         TreeNode<T> node = new TreeNode<>(data); //удаляемый узел
-        //TODO цикл, такой же как при поиске
+        // цикл, такой же как при поиске
         while (true) {
             if (current != null) {
-                if (myCompare(node.getData(), current.getData()) <= 0) {
-                    if (current.getData() == data) {
-                        //parent = null;
-                        break;
-                    }
+                int comparisonResult = myCompare(node.getData(), current.getData());
+                if (comparisonResult == 0) {
+                    break;
+                } else if (comparisonResult < 0) {
                     if (current.getLeft() != null) {
                         parent = current;
                         current = current.getLeft();
@@ -122,7 +120,7 @@ public class BinaryTree<T> {
                 return false;
             }
         }
-        //TODO логика удаления узла
+        // логика удаления узла
         if (current.getLeft() == null && current.getRight() == null) {  //удаление листа
             if (parent != null) {
                 if (parent.getLeft() == current) {
@@ -134,18 +132,21 @@ public class BinaryTree<T> {
                 }
             }
             return true;
-        } else if (current.getLeft() != null && current.getRight() != null) { // Удаление узла с 2мя детьми
-            if (current.getRight().getLeft() == null) { //Если левый узел правого поддерева отсутствует
-                current.setData(current.getRight().getData());
-                current.setRight(current.getRight().getRight());
-                size--;
-                return true;
-            } else {                                    //Если левый узел правого поддерева есть
-                TreeNode<T> minNode = findMin(current.getRight());
-                removeNode(minNode.getData());
-                current.setData(minNode.getData());
-                return true;
+        } else if (current.getLeft() != null && current.getRight() != null) { //удаление узла с двумя детьми
+            TreeNode<T> min = findMin(current.getRight(), current);
+            min.setLeft(current.getLeft());
+            min.setRight(current.getRight());
+            size--;
+            if (parent != null) {
+                if (myCompare(min.getData(), parent.getData()) <= 0) {
+                    parent.setLeft(min);
+                } else {
+                    parent.setRight(min);
+                }
+            } else { // Удаление корня
+                root = min;
             }
+            return true;
         } else if (current.getLeft() != null && current.getRight() == null) { //Удаление узла с одним левым ребёнком
             if (parent != null) {
                 parent.setRight(current.getLeft());
@@ -163,47 +164,85 @@ public class BinaryTree<T> {
     }
 
 
-    private TreeNode<T> findMin(TreeNode<T> current) {
-        while (true) {
-            TreeNode<T> next = current.getLeft();
-            if (next != null) {
-                current = next;
-            } else {//Нашли минимальный
-                return current;
+    private TreeNode<T> findMin(TreeNode<T> current, TreeNode<T> parent) {
+        if (current.getLeft() == null) {    // Минимальный - это правый ребёнок удаляемого (у него нет ребёнка слева)
+            parent.setRight(current.getRight());
+            return current;
+        } else {
+            while (true) {
+                if (current.getLeft() != null) {
+                    parent = current;
+                    current = current.getLeft();
+                } else {        // Нашли минимальный рассмотрим 2 случая
+                    if (current.getRight() == null) { // У минимального нет правого ребёнка
+                        parent.setLeft(null);
+                        return current;
+                    } else {    // У минимального есть правый ребенок
+                        parent.setLeft(current.getRight());
+                        return current;
+                    }
+                }
             }
         }
     }
 
-    private int myCompare(T o1, T o2) {
+    private int myCompare(T o1, T o2) { //o1 - искомый; o2 - текущий
         if (this.comparator != null) {
             return this.comparator.compare(o1, o2);
         } else {
-            if (o1 == null) {
-                throw new NullPointerException("Не может в дереве быть элемент null!");
+            if (o1 == null && o2 == null) {
+                return 0;
+            } else if (o1 == null) {
+                return -1;
+            } else {
+                //noinspection unchecked
+                Comparable<T> nodeData = (Comparable<T>) o1;
+                return nodeData.compareTo(o2);
             }
-            //noinspection unchecked
-            Comparable<T> nodeData = (Comparable<T>) o1;
-            return nodeData.compareTo(o2);
+        }
+    }
+
+    // Обход вширину
+    public void widthSearch(Consumer<T> someWork) {
+        if (root == null) {
+            return;
+        }
+        LinkedList<TreeNode<T>> queue = new LinkedList<>();
+        queue.add(this.getRoot());
+        while (queue.size() != 0) {
+            TreeNode<T> element = queue.remove();
+            someWork.accept(element.getData());
+            if (element.getLeft() != null) {
+                queue.add(element.getLeft());
+            }
+            if (element.getRight() != null) {
+                queue.add(element.getRight());
+            }
+        }
+    }
+
+    // Обход в глубину с проделыванием какой либо работы над узлом. Какую работу делать, будет определяться в main'е
+    // Т.е. в main'е при вызове этого метода, в качестве аргумента передастся объект анонимного класса (а можно
+    // лямбда функцию передать), от которого вызовется его метод из main'а, который я переопределил, как мне нужно
+
+    // В качестве аргумента принимает объект, реализующий интерфейс Consumer<T>. У этого интерфейса лишь один метод,
+    // который я переопределил в main'е так, чтобы он печатал.
+    public void depthSearch(Consumer<T> someWork) {
+        if (root == null) {
+            return;
+        }
+        ArrayList<TreeNode<T>> stack = new ArrayList<>();
+        stack.add(this.getRoot());
+        while (stack.size() != 0) {
+            TreeNode<T> element = stack.remove(stack.size() - 1);
+            someWork.accept(element.getData()); //Здесь вызывается та работа, которую нужно делать, т.е. по сути
+                                                //вставляется кусок кода из переопределения метода accept.
+            if (element.getRight() != null) {
+                stack.add(element.getRight());
+            }
+            if (element.getLeft() != null) {
+                stack.add(element.getLeft());
+            }
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
