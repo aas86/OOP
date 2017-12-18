@@ -5,18 +5,21 @@ public class TreeNode<T> {
     private TreeNode<T> right;
     private T data;
 
-    public TreeNode (T data){
+    public TreeNode(T data) {
         this.data = data;
     }
-    public TreeNode(T data, TreeNode<T> left){
+
+    public TreeNode(T data, TreeNode<T> left) {
         this.data = data;
         this.left = left;
     }
-    public TreeNode(TreeNode<T> right, T data){
+
+    public TreeNode(TreeNode<T> right, T data) {
         this.data = data;
         this.right = right;
     }
-    public TreeNode(T data, TreeNode<T> left, TreeNode<T> right){
+
+    public TreeNode(T data, TreeNode<T> left, TreeNode<T> right) {
         this.data = data;
         this.left = left;
         this.right = right;
@@ -30,16 +33,19 @@ public class TreeNode<T> {
         this.data = data;
     }
 
-    public TreeNode<T> getLeft(){
+    public TreeNode<T> getLeft() {
         return this.left;
     }
-    public void setLeft(TreeNode<T> left){
+
+    public void setLeft(TreeNode<T> left) {
         this.left = left;
     }
-    public TreeNode<T> getRight(){
+
+    public TreeNode<T> getRight() {
         return this.right;
     }
-    public void setRight(TreeNode<T> right){
+
+    public void setRight(TreeNode<T> right) {
         this.right = right;
     }
 

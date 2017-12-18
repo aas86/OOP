@@ -55,9 +55,9 @@ public class List {
         System.out.println();
         System.out.println(list2);
         Integer[] array = new Integer[4];
-        list2.toArray(array);
+      /*  list2.toArray(array);
         for (Integer e : array) {
             System.out.println(e);
-        }
+        }*/
     }
 }
