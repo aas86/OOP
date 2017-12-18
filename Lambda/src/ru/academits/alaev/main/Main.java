@@ -18,7 +18,7 @@ public class Main {
         list.add(new Person("Evgeniy", 37));
         list.add(new Person("Irina", 28));
         list.add(new Person("Sergey", 25));
-        list.add(new Person("Anna", 20));
+        list.add(new Person("Elena", 20));
         list.add(new Person("Anna", 40));
         list.add(new Person("Artem", 50));
 
@@ -44,8 +44,8 @@ public class Main {
                 .collect(Collectors.toList());
         System.out.println(names2);
 
-        list.stream().
-                collect(Collectors.groupingBy(x -> x.getName(), Collectors.averagingInt(x -> x.getAge())));
+        System.out.println(list.stream().
+                collect(Collectors.groupingBy(x -> x.getName(), Collectors.averagingInt(x -> x.getAge()))));
 
 
     }
