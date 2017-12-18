@@ -3,6 +3,7 @@ package ru.academits.alaev.main;
 import ru.academits.alaev.binarysearchtree.BinaryTree;
 import ru.academits.alaev.binarysearchtree.TreeNode;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 public class Main {
