@@ -44,8 +44,8 @@ public class Main {
                 .collect(Collectors.toList());
         System.out.println(names2);
 
-        System.out.println(list.stream().
-                collect(Collectors.groupingBy(x -> x.getName(), Collectors.averagingInt(x -> x.getAge()))));
+        list.stream().
+                collect(Collectors.groupingBy(x -> x.getName(), Collectors.averagingInt(x -> x.getAge())));
 
 
     }
