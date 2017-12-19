@@ -12,40 +12,46 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
         ArrayList<Person> list = new ArrayList<>();
-        list.add(new Person("Ivan", 20));
-        list.add(new Person("Petr", 30));
-        list.add(new Person("Egor", 35));
+        list.add(new Person("Ivan", 15));
+        list.add(new Person("Petr", 10));
+        list.add(new Person("Egor", 11));
         list.add(new Person("Evgeniy", 37));
         list.add(new Person("Irina", 28));
         list.add(new Person("Sergey", 25));
-        list.add(new Person("Elena", 20));
+        list.add(new Person("Sergey", 20));
         list.add(new Person("Anna", 40));
         list.add(new Person("Artem", 50));
 
+        //А) получить список уникальных имен
         List<String> names = list.stream()
                 .map(x -> x.getName())
                 .distinct()
                 .collect(Collectors.toList());
         System.out.println(names);
 
-        String names1 = names.stream().collect(Collectors.joining(", "));
-        System.out.println("Имена: " + names1);
+        //Б) вывести список уникальных имен в формате: Имена: Иван, Сергей, Петр.
+        String names1 = names.stream().collect(Collectors.joining(", ", "Имя: ", "."));
+        System.out.println(names1);
 
-        OptionalDouble g = list.stream().filter(x -> x.getAge() > 25)
+        //В)получить список людей младше 18, посчитать для них средний возраст
+        OptionalDouble g = list.stream().filter(x -> x.getAge() < 18)
                 .mapToInt(x -> x.getAge())
                 .average();
-        System.out.println("Средний возраст всех людей, старше 25 лет: " + g.getAsDouble());
+        System.out.println("Средний возраст всех людей, младше 18 лет: " + g.getAsDouble());
 
+        //Г) при помощи группировки получить Map, в котором ключи – имена, а значения – средний возраст
+        System.out.println(list.stream().
+                collect(Collectors.groupingBy(x -> x.getName(), Collectors.averagingInt(x -> x.getAge()))));
+
+       //Д) получить людей, возраст которых от 20 до 45, вывести в консоль их имена в порядке убывания возраста
         //Сначала отфильтровываю по возрасту, затем сортирую при помощи компаратора
-        Stream<Person> stream = list.stream().filter(x -> x.getAge() > 25 && x.getAge() < 40)
+        Stream<Person> stream = list.stream().filter(x -> x.getAge() >= 25 && x.getAge() <= 40)
                 .sorted((p1, p2) -> p2.getAge() - p1.getAge()); // получаю отфильтрованный и отсортированный Stream
         //Чтобы его напечатать преобразовываю его в список строк
         List<String> names2 = stream.map(x -> x.getName())
                 .collect(Collectors.toList());
         System.out.println(names2);
 
-        System.out.println(list.stream().
-                collect(Collectors.groupingBy(x -> x.getName(), Collectors.averagingInt(x -> x.getAge()))));
 
 
     }
