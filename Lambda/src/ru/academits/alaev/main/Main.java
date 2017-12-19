@@ -45,7 +45,7 @@ public class Main {
 
        //Д) получить людей, возраст которых от 20 до 45, вывести в консоль их имена в порядке убывания возраста
         //Сначала отфильтровываю по возрасту, затем сортирую при помощи компаратора
-        Stream<Person> stream = list.stream().filter(x -> x.getAge() >= 25 && x.getAge() <= 40)
+        Stream<Person> stream = list.stream().filter(x -> x.getAge() >= 20 && x.getAge() <= 45)
                 .sorted((p1, p2) -> p2.getAge() - p1.getAge()); // получаю отфильтрованный и отсортированный Stream
         //Чтобы его напечатать преобразовываю его в список строк
         List<String> names2 = stream.map(x -> x.getName())
