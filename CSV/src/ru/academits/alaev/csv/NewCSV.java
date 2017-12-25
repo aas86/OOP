@@ -9,7 +9,7 @@ public class NewCSV {
     public static void main(String[] args) throws FileNotFoundException {
         if (args.length < 2) {
             System.out.println("Введено некорректное число аргументов");
-            System.out.println("Укажите в аргументах входной и выходной файлы");
+            System.out.println("Укажите в аргументах сначало входной, а потом выходной файлы");
             return;
         }
         try (PrintWriter writer = new PrintWriter(args[1]);
@@ -41,19 +41,7 @@ public class NewCSV {
                                 i = i + 2;
                             } else if (string.charAt(i) != '"') {
                                 while (string.charAt(i) != '"') {
-                                    switch (string.charAt(i)) {
-                                        case '<':
-                                            writer.print("&lt;");
-                                            break;
-                                        case '>':
-                                            writer.print("&gt;");
-                                            break;
-                                        case '&':
-                                            writer.print("&amp;");
-                                            break;
-                                        default:
-                                            writer.print(string.charAt(i));
-                                    }
+                                    print(string.charAt(i), writer);
                                     i++;
                                     if (i == string.length()) {
                                         writer.print("<br/>");
@@ -72,35 +60,38 @@ public class NewCSV {
                         }
                     } else {
                         while (string.charAt(i) != ',') {
-                            switch (string.charAt(i)) {
-                                case '<':
-                                    writer.print("&lt;");
-                                    break;
-                                case '>':
-                                    writer.print("&gt;");
-                                    break;
-                                case '&':
-                                    writer.print("&amp;");
-                                    break;
-                                default:
-                                    writer.print(string.charAt(i));
-                            }
+                            print(string.charAt(i), writer);
                             if (i == string.length() - 1) {
                                 writer.print("</td></tr>");
                                 break;
-                            } else if (string.charAt(i + 1) == ',' && i != string.length()) {
+                            } else if (string.charAt(i + 1) == ',' && i != string.length() - 1) {
                                 break;
                             }
                             i++;
                         }
                     }
                 }
-                System.out.println();
             }
             writer.println("</table>");
             writer.println("</body>");
             writer.println("</html>");
+        }
+    }
 
+    private static void print(char character, PrintWriter writer) {
+        switch (character) {
+            case '<':
+                writer.print("&lt;");
+                break;
+            case '>':
+                writer.print("&gt;");
+                break;
+            case '&':
+                writer.print("&amp;");
+                break;
+            default:
+                writer.print(character);
         }
     }
 }
+
