@@ -9,7 +9,7 @@ public class NewCSV {
     public static void main(String[] args) throws FileNotFoundException {
         if (args.length < 2) {
             System.out.println("Введено некорректное число аргументов");
-            System.out.println("Укажите в аргументах сначало входной, а потом выходной файлы");
+            System.out.println("Укажите в аргументах сначала входной, а потом выходной файлы");
             return;
         }
         try (PrintWriter writer = new PrintWriter(args[1]);

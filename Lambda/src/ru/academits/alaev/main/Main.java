@@ -2,10 +2,9 @@ package ru.academits.alaev.main;
 
 import ru.academits.alaev.person.Person;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.OptionalDouble;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,7 +42,7 @@ public class Main {
         System.out.println(list.stream().
                 collect(Collectors.groupingBy(x -> x.getName(), Collectors.averagingInt(x -> x.getAge()))));
 
-       //Д) получить людей, возраст которых от 20 до 45, вывести в консоль их имена в порядке убывания возраста
+        //Д) получить людей, возраст которых от 20 до 45, вывести в консоль их имена в порядке убывания возраста
         //Сначала отфильтровываю по возрасту, затем сортирую при помощи компаратора
         Stream<Person> stream = list.stream().filter(x -> x.getAge() >= 20 && x.getAge() <= 45)
                 .sorted((p1, p2) -> p2.getAge() - p1.getAge()); // получаю отфильтрованный и отсортированный Stream
@@ -51,8 +50,5 @@ public class Main {
         List<String> names2 = stream.map(x -> x.getName())
                 .collect(Collectors.toList());
         System.out.println(names2);
-
-
-
     }
 }
