@@ -6,5 +6,5 @@ package common;
  */
 public interface ViewListener {
     // событие, которое означает, что view хочет преобразовать температуру
-    void needConvertTemperature(double celsius);
+    void needConvertTemperature(double celsius, Object name);
 }

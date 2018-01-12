@@ -5,9 +5,9 @@ package common;
  */
 public interface TemperatureConverter {
     /**
-     * Преобразует температуру в градусах Цельсия в некоторую другую шкалу
-     * @param celsius температура в градусах Цельсия
+     * Преобразует температуру в градусах в некоторую другую шкалу
+     * @param t температура в градусах чего-то
      * @return температура в другой шкале
      */
-    double convert(double celsius);
+    double convert(double t, Object name);
 }

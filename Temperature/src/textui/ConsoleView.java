@@ -11,12 +11,13 @@ import java.util.Scanner;
  * Просит ввести температуру и переводит ее в нужную шкалу
  * Программа завершается, если ввести exit
  */
+
 public class ConsoleView implements View {
     private final ArrayList<ViewListener> listeners = new ArrayList<>();
     private final Scanner scanner = new Scanner(System.in);
 
     private final static String EXIT_COMMAND = "exit";
-
+    private Object item;
     @Override
     public void startApplication() {
         while (true) {
@@ -33,7 +34,7 @@ public class ConsoleView implements View {
                 // Когда прочитали температуру, оповещаем всех подписчиков (в том числе контроллер), что
                 // мы хотим сконвертировать температуру
                 for (ViewListener listener : listeners) {
-                    listener.needConvertTemperature(temperature);
+                    listener.needConvertTemperature(temperature, item);
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid temperature: it must be number");
