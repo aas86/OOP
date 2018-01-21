@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static java.awt.GridBagConstraints.NORTHWEST;
 
@@ -29,13 +30,20 @@ public class FrameView implements View {
     private final JTextField tfTemperature = new JTextField();
     private final JButton okButton = new JButton("OK");
     private final JLabel resultLabel = new JLabel();
-    private final JComboBox<String> chooseBoxFrom = new JComboBox<>();
-    private final JComboBox<String> chooseBoxTo = new JComboBox<>();
+    private final JComboBox<Convertible> chooseBoxFrom = new JComboBox<>();
+    private final JComboBox<Convertible> chooseBoxTo = new JComboBox<>();
     private final static int HORIZONTAL_INSET = 10;
     private final static int VERTICAL_INSET = 5;
     private Convertible itemFrom;
     private Convertible itemTo;
 
+    public FrameView(Convertible[] scales){
+        for (Convertible e : scales) {
+            chooseBoxFrom.addItem(e);
+            chooseBoxTo.addItem(e);
+        }
+
+    }
     /**
      * Инициализация фрейма
      */
@@ -111,11 +119,11 @@ public class FrameView implements View {
 
         frame.setContentPane(contentPanel);
 
-        String[] items = {"Choose Scale", "Celsius", "Fahrenheit", "Kelvin"};
+       /* String[] items = {"Choose Scale", "Celsius", "Fahrenheit", "Kelvin"};
         for (String e : items) {
             chooseBoxFrom.addItem(e);
             chooseBoxTo.addItem(e);
-        }
+        }*/
     }
 
     /**
@@ -125,7 +133,10 @@ public class FrameView implements View {
         chooseBoxFrom.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String scale = (String) chooseBoxFrom.getSelectedItem();
+
+              //  String scaleName = (String) chooseBoxFrom.getSelectedItem();
+                itemFrom = (Convertible) chooseBoxFrom.getSelectedItem();
+           /*    String scale = (String) chooseBoxFrom.getSelectedItem();
                 if (scale.equals("Fahrenheit")) {
                     itemFrom = new Fahrenheit();
                 } else if (scale.equals("Kelvin")) {
@@ -134,13 +145,14 @@ public class FrameView implements View {
                     itemFrom = new Celsius();
                 } else{
                     itemFrom = null;
-                }
+                }*/
             }
         });
         chooseBoxTo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String scale = (String) chooseBoxTo.getSelectedItem();
+                itemTo = (Convertible) chooseBoxTo.getSelectedItem();
+                /*    String scale = (String) chooseBoxTo.getSelectedItem();
                 if (scale.equals("Fahrenheit")) {
                     itemTo = new Fahrenheit();
                 } else if (scale.equals("Kelvin")) {
@@ -149,7 +161,7 @@ public class FrameView implements View {
                     itemTo = new Celsius();
                 } else{
                     itemTo = null;
-                }
+                }*/
             }
         });
         okButton.addActionListener(new ActionListener() {
