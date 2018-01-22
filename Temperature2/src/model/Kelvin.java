@@ -3,7 +3,8 @@ package model;
 import common.Convertible;
 
 public class Kelvin implements Convertible {
-    private  final String name = "Kelvin";
+    private final String name = "Kelvin";
+
     @Override
     public double thisToCelsius(double receivedTemperature) {
         return receivedTemperature - 273.15;
@@ -16,7 +17,11 @@ public class Kelvin implements Convertible {
 
     @Override
     public String getName() {
-        return name ;
+        return name;
+    }
+
+    public String toString() {
+        return name;
     }
 
 }
