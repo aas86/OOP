@@ -4,8 +4,6 @@ import common.Convertible;
 
 public class Fahrenheit implements Convertible {
 
-    private final String name = "Fahrenheit";
-
     @Override
     public double thisToCelsius(double receivedTemperature) {
         return 5 * (receivedTemperature - 32) / 9;
@@ -16,12 +14,8 @@ public class Fahrenheit implements Convertible {
         return receivedTemperature * 9.0 / 5.0 + 32.0;
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
 
     public String toString() {
-        return name;
+        return "Fahrenheit";
     }
 }

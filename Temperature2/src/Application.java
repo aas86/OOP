@@ -8,6 +8,7 @@ import model.Converter;
 import model.Fahrenheit;
 import model.Kelvin;
 
+
 /**
  * Класс Приложение - Application. Ответственен только за создание модели, представления и контроллера, и запуска представления view
  */
@@ -17,6 +18,10 @@ public class Application {
         // Интерфейс модели View наследуется от интерфейса AutoCloseable, который позволяет использовать этот синтаксис
        // String[] items = {"Choose Scale", "Celsius", "Fahrenheit"};
         Convertible[] scales = {new Celsius(), new Fahrenheit(), new Kelvin()};
+     /*   HashMap<String, Convertible> scales = new HashMap<>();
+        scales.put("Celsius", new Celsius());
+        scales.put("Fahrenheit", new Fahrenheit());
+        scales.put("Kelvin", new Kelvin());*/
         try (View view = new FrameView(scales)) {
             // В роли модели выступает интерфейс TemperatureConverter
             // В правой части можно использовать и другую модель (в пакете model есть еще другой пример модели)
