@@ -4,18 +4,15 @@ package gui;
 import common.Convertible;
 import common.View;
 import common.ViewListener;
-import model.Celsius;
-import model.Fahrenheit;
-import model.Kelvin;
+
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Objects;
 
-import static java.awt.GridBagConstraints.NORTHWEST;
+import static java.awt.GridBagConstraints.CENTER;
 
 /**
  * View с GUI
@@ -32,18 +29,26 @@ public class FrameView implements View {
     private final JLabel resultLabel = new JLabel();
     private final JComboBox<Convertible> chooseBoxFrom = new JComboBox<>();
     private final JComboBox<Convertible> chooseBoxTo = new JComboBox<>();
+    //   private final JComboBox<String> chooseBoxFrom = new JComboBox<>();
+    //   private final JComboBox<String> chooseBoxTo = new JComboBox<>();
     private final static int HORIZONTAL_INSET = 10;
     private final static int VERTICAL_INSET = 5;
-    private Convertible itemFrom;
-    private Convertible itemTo;
 
-    public FrameView(Convertible[] scales){
+
+    public FrameView(Convertible[] scales) {
         for (Convertible e : scales) {
             chooseBoxFrom.addItem(e);
             chooseBoxTo.addItem(e);
         }
 
     }
+  /*  public FrameView(HashMap<String, Convertible> scales) {
+        for (Map.Entry e : scales.entrySet()) {
+            System.out.println(e);
+            chooseBoxFrom.addItem(e);
+        }
+ }*/
+
     /**
      * Инициализация фрейма
      */
@@ -62,14 +67,14 @@ public class FrameView implements View {
     private void initContent() {
         JPanel contentPanel = new JPanel(new GridBagLayout());
 
-        Insets insets = new Insets(0, HORIZONTAL_INSET, 0, HORIZONTAL_INSET);
+       // Insets insets = new Insets(0, HORIZONTAL_INSET, 0, HORIZONTAL_INSET);
 
         GridBagConstraints c1 = new GridBagConstraints();
         c1.gridx = 0;
         c1.gridy = 0;
         c1.gridwidth = 2;
-        //   c1.gridheight = 1;
-        //    c1.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
+        c1.gridheight = 1;
+        c1.anchor = GridBagConstraints.CENTER;
         c1.insets = new Insets(VERTICAL_INSET, HORIZONTAL_INSET, 0, HORIZONTAL_INSET);
         contentPanel.add(new JLabel("Enter temperature"), c1);
 
@@ -78,92 +83,60 @@ public class FrameView implements View {
         c2.gridy = 1;
         c2.gridwidth = 2;
         c2.gridheight = 1;
-        c2.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
+        c2.anchor = GridBagConstraints.CENTER;
         c2.fill = GridBagConstraints.BOTH;
         c2.weightx = 1.0;
         c2.insets = new Insets(VERTICAL_INSET, HORIZONTAL_INSET, VERTICAL_INSET, HORIZONTAL_INSET);
         contentPanel.add(tfTemperature, c2);
 
         GridBagConstraints c3 = new GridBagConstraints();
-        // c3.gridx = 0;
-        c3.gridy = 7;
+        c3.gridx = 1;
+        c3.gridy = 5;
         c3.gridwidth = 10;
         c3.gridheight = 1;
         c3.weighty = 1.0;
         c3.weightx = 1.0;
-
-        c3.anchor = NORTHWEST;
-        c3.insets = insets;
-
+        c3.anchor = CENTER;
+        c3.insets =  new Insets(VERTICAL_INSET, HORIZONTAL_INSET, VERTICAL_INSET, HORIZONTAL_INSET);
         contentPanel.add(resultLabel, c3);
 
         GridBagConstraints c4 = new GridBagConstraints();
-        c4.gridx = 2;
+        c4.gridx = 0;
         c4.gridy = 5;
         c4.gridwidth = 1;
         c4.gridheight = 1;
         c4.weighty = 1.0;
         c4.anchor = GridBagConstraints.CENTER;
-        c4.insets = insets;
+        c4.insets = new Insets(VERTICAL_INSET, HORIZONTAL_INSET, VERTICAL_INSET, HORIZONTAL_INSET);
         contentPanel.add(okButton, c4);
 
         GridBagConstraints c5 = new GridBagConstraints();
         c5.gridy = 3;
         c5.gridx = 0;
+        c5.gridwidth = 2;
+        c5.gridheight = 1;
+        c5.anchor = GridBagConstraints.WEST;
+        c5.insets = new Insets(VERTICAL_INSET, HORIZONTAL_INSET, VERTICAL_INSET, HORIZONTAL_INSET);
         contentPanel.add(chooseBoxFrom, c5);
 
         GridBagConstraints c6 = new GridBagConstraints();
         c6.gridy = 3;
         c6.gridx = 1;
+        c6.gridwidth = 2;
+        c6.gridheight = 1;
+        c6.anchor = GridBagConstraints.EAST;
+        c6.insets = new Insets(VERTICAL_INSET, HORIZONTAL_INSET, VERTICAL_INSET, HORIZONTAL_INSET);
         contentPanel.add(chooseBoxTo, c6);
 
         frame.setContentPane(contentPanel);
 
-       /* String[] items = {"Choose Scale", "Celsius", "Fahrenheit", "Kelvin"};
-        for (String e : items) {
-            chooseBoxFrom.addItem(e);
-            chooseBoxTo.addItem(e);
-        }*/
     }
 
     /**
      * Инициализация обработчиков событий
      */
     private void initEvents() {
-        chooseBoxFrom.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-              //  String scaleName = (String) chooseBoxFrom.getSelectedItem();
-                itemFrom = (Convertible) chooseBoxFrom.getSelectedItem();
-           /*    String scale = (String) chooseBoxFrom.getSelectedItem();
-                if (scale.equals("Fahrenheit")) {
-                    itemFrom = new Fahrenheit();
-                } else if (scale.equals("Kelvin")) {
-                    itemFrom = new Kelvin();
-                } else if (scale.equals("Celsius")){
-                    itemFrom = new Celsius();
-                } else{
-                    itemFrom = null;
-                }*/
-            }
-        });
-        chooseBoxTo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                itemTo = (Convertible) chooseBoxTo.getSelectedItem();
-                /*    String scale = (String) chooseBoxTo.getSelectedItem();
-                if (scale.equals("Fahrenheit")) {
-                    itemTo = new Fahrenheit();
-                } else if (scale.equals("Kelvin")) {
-                    itemTo = new Kelvin();
-                } else if (scale.equals("Celsius")){
-                    itemTo = new Celsius();
-                } else{
-                    itemTo = null;
-                }*/
-            }
-        });
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -173,14 +146,11 @@ public class FrameView implements View {
                     // Когда прочитали температуру, оповещаем всех подписчиков (в том числе контроллер), что
                     // мы хотим сконвертировать температуру
                     for (ViewListener listener : listeners) {
-                        listener.needConvertTemperature(temperature, itemFrom, itemTo);
+                        listener.needConvertTemperature(temperature, (Convertible) chooseBoxFrom.getSelectedItem(), (Convertible) chooseBoxTo.getSelectedItem());
                     }
                 } catch (NumberFormatException ex) {
                     resultLabel.setForeground(Color.RED);
                     resultLabel.setText("Temperature must be number");
-                } catch (NullPointerException ex) {
-                    resultLabel.setForeground(Color.RED);
-                    resultLabel.setText("Choose scale to convert");
                 }
             }
         });
