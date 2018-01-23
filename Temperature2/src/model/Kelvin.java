@@ -13,4 +13,8 @@ public class Kelvin implements Convertible {
     public double celsiusToThis(double receivedTemperature) {
         return receivedTemperature + 273.15;
     }
+    @Override
+    public String getName() {
+        return "Kelvin";
+    }
 }

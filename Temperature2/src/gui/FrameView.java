@@ -1,18 +1,15 @@
 package gui;
 
-
 import common.Convertible;
 import common.View;
 import common.ViewListener;
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+
 
 import static java.awt.GridBagConstraints.CENTER;
 
@@ -33,19 +30,17 @@ public class FrameView implements View {
     private final JComboBox<String> chooseBoxTo = new JComboBox<>();
     private final static int HORIZONTAL_INSET = 10;
     private final static int VERTICAL_INSET = 5;
+    private HashMap<String, Convertible> scales = new HashMap<>();
 
-
-    public FrameView(HashMap<String, Convertible> scales) {
-        for (Map.Entry<String, Convertible> entry : scales.entrySet()) {
-            chooseBoxFrom.addItem(entry.getKey());
+    public FrameView(Convertible[] scales) {
+        for (Convertible e : scales) {
+            this.scales.put(e.getName(), e);
         }
-
-        for (String key : scales.keySet()) {
+        for (String key : this.scales.keySet()) {
             chooseBoxTo.addItem(key);
+            chooseBoxFrom.addItem(key);
         }
-
     }
-
     /**
      * Инициализация фрейма
      */
@@ -130,8 +125,7 @@ public class FrameView implements View {
     /**
      * Инициализация обработчиков событий
      */
-    private void initEvents(HashMap<String, Convertible> scales) {
-
+    private void initEvents() {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -141,8 +135,8 @@ public class FrameView implements View {
                     // мы хотим сконвертировать температуру
                     for (ViewListener listener : listeners) {
                         //noinspection SuspiciousMethodCalls
-                        listener.needConvertTemperature(temperature, scales.get(chooseBoxFrom.getSelectedItem()) ,
-                                scales.get(chooseBoxTo.getSelectedItem()));
+                        listener.needConvertTemperature(temperature, scales.get(chooseBoxFrom.getSelectedItem()),
+                                scales.get(chooseBoxTo.getSelectedItem())); // по ключу получаю value
                     }
                 } catch (NumberFormatException ex) {
                     resultLabel.setForeground(Color.RED);
@@ -156,14 +150,14 @@ public class FrameView implements View {
      * Запуск View
      */
     @Override
-    public void startApplication(HashMap<String, Convertible> scales) {
+    public void startApplication() {
         // Работа с GUI идет из потока диспетчера событий
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 initContent();
                 initFrame();
-                initEvents(scales);
+                initEvents();
             }
         });
     }
@@ -197,15 +191,5 @@ public class FrameView implements View {
     @Override
     public void removeViewListener(ViewListener listener) {
         listeners.remove(listener);
-    }
-
-    /**
-     * Очистка ресурсов View
-     * <p>
-     * // * @throws Exception
-     */
-    @Override
-    public void close() throws Exception {
-        frame.setVisible(false);
     }
 }

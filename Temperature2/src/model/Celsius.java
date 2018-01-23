@@ -15,4 +15,8 @@ public class Celsius implements Convertible {
         return receivedTemperature;
     }
 
+    @Override
+    public String getName() {
+        return "Celsius";
+    }
 }

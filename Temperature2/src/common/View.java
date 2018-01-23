@@ -7,11 +7,11 @@ import java.util.HashMap;
  * Содержит методы для управления слушателями ViewListener.
  * Также содержит методы, которые будут вызываться контроллером, например onTemperatureConverted
  */
-public interface View extends AutoCloseable {
+public interface View /*extends AutoCloseable*/ {
     /**
      * Запуск View
      */
-    void startApplication(HashMap<String, Convertible> scales);
+    void startApplication();
 
     /**
      * Метод вызывается, когда контроллер переведет температуру
