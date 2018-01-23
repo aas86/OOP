@@ -1,5 +1,7 @@
 package common;
 
+import java.util.HashMap;
+
 /**
  * Интерфейс представления View
  * Содержит методы для управления слушателями ViewListener.
@@ -9,7 +11,7 @@ public interface View extends AutoCloseable {
     /**
      * Запуск View
      */
-    void startApplication();
+    void startApplication(HashMap<String, Convertible> scales);
 
     /**
      * Метод вызывается, когда контроллер переведет температуру

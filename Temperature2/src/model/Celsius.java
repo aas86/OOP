@@ -15,8 +15,4 @@ public class Celsius implements Convertible {
         return receivedTemperature;
     }
 
-
-    public String toString(){
-        return "Celsius";
-    }
 }

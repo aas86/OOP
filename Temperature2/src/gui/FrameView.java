@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.awt.GridBagConstraints.CENTER;
 
@@ -27,27 +29,22 @@ public class FrameView implements View {
     private final JTextField tfTemperature = new JTextField();
     private final JButton okButton = new JButton("OK");
     private final JLabel resultLabel = new JLabel();
-    private final JComboBox<Convertible> chooseBoxFrom = new JComboBox<>();
-    private final JComboBox<Convertible> chooseBoxTo = new JComboBox<>();
-    //   private final JComboBox<String> chooseBoxFrom = new JComboBox<>();
-    //   private final JComboBox<String> chooseBoxTo = new JComboBox<>();
+    private final JComboBox<String> chooseBoxFrom = new JComboBox<>();
+    private final JComboBox<String> chooseBoxTo = new JComboBox<>();
     private final static int HORIZONTAL_INSET = 10;
     private final static int VERTICAL_INSET = 5;
 
 
-    public FrameView(Convertible[] scales) {
-        for (Convertible e : scales) {
-            chooseBoxFrom.addItem(e);
-            chooseBoxTo.addItem(e);
+    public FrameView(HashMap<String, Convertible> scales) {
+        for (Map.Entry<String, Convertible> entry : scales.entrySet()) {
+            chooseBoxFrom.addItem(entry.getKey());
+        }
+
+        for (String key : scales.keySet()) {
+            chooseBoxTo.addItem(key);
         }
 
     }
-  /*  public FrameView(HashMap<String, Convertible> scales) {
-        for (Map.Entry e : scales.entrySet()) {
-            System.out.println(e);
-            chooseBoxFrom.addItem(e);
-        }
- }*/
 
     /**
      * Инициализация фрейма
@@ -66,8 +63,6 @@ public class FrameView implements View {
      */
     private void initContent() {
         JPanel contentPanel = new JPanel(new GridBagLayout());
-
-       // Insets insets = new Insets(0, HORIZONTAL_INSET, 0, HORIZONTAL_INSET);
 
         GridBagConstraints c1 = new GridBagConstraints();
         c1.gridx = 0;
@@ -97,7 +92,7 @@ public class FrameView implements View {
         c3.weighty = 1.0;
         c3.weightx = 1.0;
         c3.anchor = CENTER;
-        c3.insets =  new Insets(VERTICAL_INSET, HORIZONTAL_INSET, VERTICAL_INSET, HORIZONTAL_INSET);
+        c3.insets = new Insets(VERTICAL_INSET, HORIZONTAL_INSET, VERTICAL_INSET, HORIZONTAL_INSET);
         contentPanel.add(resultLabel, c3);
 
         GridBagConstraints c4 = new GridBagConstraints();
@@ -135,18 +130,19 @@ public class FrameView implements View {
     /**
      * Инициализация обработчиков событий
      */
-    private void initEvents() {
+    private void initEvents(HashMap<String, Convertible> scales) {
 
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     double temperature = Double.parseDouble(tfTemperature.getText());
-
                     // Когда прочитали температуру, оповещаем всех подписчиков (в том числе контроллер), что
                     // мы хотим сконвертировать температуру
                     for (ViewListener listener : listeners) {
-                        listener.needConvertTemperature(temperature, (Convertible) chooseBoxFrom.getSelectedItem(), (Convertible) chooseBoxTo.getSelectedItem());
+                        //noinspection SuspiciousMethodCalls
+                        listener.needConvertTemperature(temperature, scales.get(chooseBoxFrom.getSelectedItem()) ,
+                                scales.get(chooseBoxTo.getSelectedItem()));
                     }
                 } catch (NumberFormatException ex) {
                     resultLabel.setForeground(Color.RED);
@@ -160,14 +156,14 @@ public class FrameView implements View {
      * Запуск View
      */
     @Override
-    public void startApplication() {
+    public void startApplication(HashMap<String, Convertible> scales) {
         // Работа с GUI идет из потока диспетчера событий
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 initContent();
                 initFrame();
-                initEvents();
+                initEvents(scales);
             }
         });
     }
@@ -205,8 +201,8 @@ public class FrameView implements View {
 
     /**
      * Очистка ресурсов View
-     *
-     * @throws Exception
+     * <p>
+     * // * @throws Exception
      */
     @Override
     public void close() throws Exception {

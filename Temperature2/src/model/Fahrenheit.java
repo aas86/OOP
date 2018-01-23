@@ -14,8 +14,4 @@ public class Fahrenheit implements Convertible {
         return receivedTemperature * 9.0 / 5.0 + 32.0;
     }
 
-
-    public String toString() {
-        return "Fahrenheit";
-    }
 }
