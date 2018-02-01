@@ -8,13 +8,14 @@
       <module fileurl="file://$PROJECT_DIR$/CSV/CSV.iml" filepath="$PROJECT_DIR$/CSV/CSV.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/ConsumerProducer/ConsumerProducer.iml" filepath="$PROJECT_DIR$/ConsumerProducer/ConsumerProducer.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/Lambda/Lambda.iml" filepath="$PROJECT_DIR$/Lambda/Lambda.iml" group="All" />
+      <module fileurl="file://$PROJECT_DIR$/MVCExample/MVCExample.iml" filepath="$PROJECT_DIR$/MVCExample/MVCExample.iml" group="All" />
+      <module fileurl="file://$PROJECT_DIR$/MineSweeper/MineSweeper.iml" filepath="$PROJECT_DIR$/MineSweeper/MineSweeper.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/MyArrayList/MyArrayList.iml" filepath="$PROJECT_DIR$/MyArrayList/MyArrayList.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/MyHashTable/MyHashTable.iml" filepath="$PROJECT_DIR$/MyHashTable/MyHashTable.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/Range/Range.iml" filepath="$PROJECT_DIR$/Range/Range.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/Shapes/Shapes.iml" filepath="$PROJECT_DIR$/Shapes/Shapes.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/SinglyLinkedList/SinglyLinkedList.iml" filepath="$PROJECT_DIR$/SinglyLinkedList/SinglyLinkedList.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/Temperature2/Temperature2.iml" filepath="$PROJECT_DIR$/Temperature2/Temperature2.iml" group="All" />
-      <module fileurl="file://$PROJECT_DIR$/TemperatureConverter/TemperatureConverter.iml" filepath="$PROJECT_DIR$/TemperatureConverter/TemperatureConverter.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/Vectors/Vectors.iml" filepath="$PROJECT_DIR$/Vectors/Vectors.iml" group="All" />
     </modules>
   </component>

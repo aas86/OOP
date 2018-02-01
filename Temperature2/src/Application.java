@@ -8,11 +8,6 @@ import model.Converter;
 import model.Fahrenheit;
 import model.Kelvin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-
-
 /**
  * Класс Приложение - Application. Ответственен только за создание модели, представления и контроллера, и запуска представления view
  */
