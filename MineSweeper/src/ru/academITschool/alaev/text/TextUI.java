@@ -2,19 +2,22 @@ package ru.academITschool.alaev.text;
 
 
 import ru.academITschool.alaev.interfaces.View;
-import ru.academITschool.alaev.interfaces.ViewListeners;
+import ru.academITschool.alaev.interfaces.ViewListener;
+import ru.academITschool.alaev.model.Cell;
+import ru.academITschool.alaev.model.PlayingField;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class TextUI implements View {
-    private final ArrayList<ViewListeners> listeners = new ArrayList();
+    private final ArrayList<ViewListener> listeners = new ArrayList();
     private final Scanner commandScan = new Scanner(System.in);
     private final Scanner moveScan = new Scanner(System.in);
     private final static String EXIT_COMMAND = "exit";
     private final static String START_COMMAND = "start";
     private final static String CHANGE_FIELD = "change field";
+    private int rows;
+    private int columns;
 
 
     @Override
@@ -34,13 +37,14 @@ public class TextUI implements View {
                 } else if (text.toLowerCase().equals(START_COMMAND)) {
 
                     while (true) {
-                        System.out.println("Введите координаты");
+                        this.rows = this.columns = 9;
+                        System.out.println("Введите координаты от 1 до 9");
                         String textX = moveScan.nextLine();
                         String textY = moveScan.nextLine();
                         int x = Integer.parseInt(textX);
                         int y = Integer.parseInt(textY);
-                        for (ViewListeners listener : listeners) {
-                            listener.needMakeMove(x, y);
+                        for (ViewListener listener : listeners) {
+                            listener.needMakeMove(x, y, this.rows, this.columns);
                         }
                     }
                 } else {
@@ -54,17 +58,21 @@ public class TextUI implements View {
     }
 
     @Override
-    public void addViewListener(ViewListeners listener) {
+    public void addViewListener(ViewListener listener) {
         if (!listeners.contains(listener)) {
             listeners.add(listener);
         }
     }
 
     @Override
-    public void showMove(int[][] field) {
-        for (int i = 0; i < field.length; i++) {
-            System.out.println(Arrays.toString(field[i]));
-        }
+    public void showMove(PlayingField field) {
+       /* Cell[][] result = field.getField();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                System.out.println(result[i][j]);
+            }
+        }*/
+       field.print();
     }
 
 

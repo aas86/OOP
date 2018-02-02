@@ -11,7 +11,6 @@ import ru.academITschool.alaev.text.TextUI;
 public class Main {
     public static void main(String[] args) {
         TextUI consoleView = new TextUI();
-
         Minesweeper minesweeper = new Model();
         Controller controller = new Controller(consoleView, minesweeper);
         consoleView.addViewListener(controller);

@@ -1,6 +1,8 @@
 package ru.academITschool.alaev.interfaces;
 
 
+import ru.academITschool.alaev.model.PlayingField;
+
 public interface Minesweeper {
-    int[][] makeMove(int x, int y);
+   PlayingField makeMove(int x, int y, int rows, int columns);
 }

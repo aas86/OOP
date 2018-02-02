@@ -5,25 +5,31 @@ import ru.academITschool.alaev.interfaces.Minesweeper;
 
 public class Model implements Minesweeper {
     private boolean firstMove = true;
+    private PlayingField playingField;
 
 
-    private void fieldGenerator() {
-
+    private PlayingField fieldGenerator(int rows, int columns) {
+        return new PlayingField(rows, columns);
     }
 
-    private void bombsGenerator() {
-
+    private void bombsGenerator(PlayingField playingField, int rows, int columns) {
+        Cell[][] cells = playingField.getField();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+               cells[i][j] = new Cell(i,j,Math.random());
+            }
+        }
     }
 
     @Override
-    public int[][] makeMove(int x, int y) {
+    public PlayingField makeMove(int x, int y, int rows, int columns) {
         if (firstMove) {
-            fieldGenerator();
-            bombsGenerator();
+            this.playingField = fieldGenerator(rows, columns);
+            bombsGenerator(this.playingField, rows, columns);
             firstMove = false;
-            return new int[][]{{0,0,0},{0,0,0}};
+            return playingField;
         } else {
-            return new int[][]{{1,1,1},{1,1,1}};
+            return playingField;
         }
     }
 }
