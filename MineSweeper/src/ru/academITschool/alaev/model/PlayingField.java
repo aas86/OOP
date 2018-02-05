@@ -20,10 +20,10 @@ public class PlayingField {
         for (int i = 0; i < rows; i++) {
             System.out.println();
             for (int j = 0; j < columns; j++) {
-                if (0 < result[i][j].getValue() && result[i][j].getValue() < 0.1) {
-                    System.out.printf("%f ", result[i][j].getValue());
+                if (0 < result[i][j].getValue() && result[i][j].getValue() <= 9) {
+                    System.out.printf("%d   ", result[i][j].getValue());
                 } else{
-                    System.out.printf("X        ");
+                    System.out.printf("X   ");
                 }
             }
         }

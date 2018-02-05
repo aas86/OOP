@@ -7,10 +7,10 @@ public class Cell {
     private int mineCounter;
     private int rowPosition;
     private int columnPosition;
-    private double value;
+    private int value;
 
 
-    public Cell(int rowPosition, int columnPosition, double value) {
+    public Cell(int rowPosition, int columnPosition, int value) {
         this.rowPosition = rowPosition;
         this.columnPosition = columnPosition;
         this.value = value;
@@ -18,11 +18,11 @@ public class Cell {
     }
 
 
-    public void setValue(double value) {
+    public void setValue(int value) {
         this.value = value;
     }
 
-    public double getValue() {
+    public int getValue() {
         return value;
     }
 }
