@@ -15,7 +15,7 @@ public class Controller implements ViewListener {
     }
 
     @Override
-    public void needMakeMove(int x, int y, int rows, int columns) {
-       view.showMove(minesweeper.makeMove(x, y, rows, columns));
+    public void needMakeMove(int x, int y, int rows, int columns, int mines) {
+       view.showMove(minesweeper.makeMove(x, y, rows, columns, mines));
     }
 }

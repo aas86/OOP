@@ -37,13 +37,14 @@ public class TextUI implements View {
                     while (true) {
                         int columns;
                         int rows = columns = 9;
+                        int mines = 10;
                         System.out.println("Введите координаты от 1 до 9");
                         String textX = moveScan.nextLine();
                         String textY = moveScan.nextLine();
                         int x = Integer.parseInt(textX);
                         int y = Integer.parseInt(textY);
                         for (ViewListener listener : listeners) {
-                            listener.needMakeMove(x, y, rows, columns);
+                            listener.needMakeMove(x, y, rows, columns, mines);
                         }
                     }
                 } else {
@@ -65,12 +66,6 @@ public class TextUI implements View {
 
     @Override
     public void showMove(PlayingField field) {
-       /* Cell[][] result = field.getField();
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                System.out.println(result[i][j]);
-            }
-        }*/
        field.print();
     }
 
