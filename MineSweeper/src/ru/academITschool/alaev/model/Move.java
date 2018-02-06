@@ -2,8 +2,6 @@ package ru.academITschool.alaev.model;
 
 import ru.academITschool.alaev.interfaces.Minesweeper;
 
-import java.util.Random;
-
 public class Move implements Minesweeper {
     private boolean firstMove = true;
     private PlayingField playingField;
@@ -13,10 +11,15 @@ public class Move implements Minesweeper {
     }
 
     @Override
-    public PlayingField makeMove(int x, int y, int rows, int columns, int mines) { // x и y координаты хода
+    public PlayingField makeMove(int x, int y, int rows, int columns, int mines) {
+        // x и y координаты хода
+        // rows, columns и mines нужны для первого хода, т.к
+        // после первого хода создаётся игровое поле с минами
         if (firstMove) {
             this.playingField = generateField(rows, columns);
             this.playingField.generateBombs(x, y, mines, rows, columns);
+            /*TODO к этому моменту создано поле и расставлены бомбы
+              TODO теперь здесь нужно расставить цифры во всех клетках, где isMined == false*/
             firstMove = false;
             return playingField;
         } else {

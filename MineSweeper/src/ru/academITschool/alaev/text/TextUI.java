@@ -1,6 +1,5 @@
 package ru.academITschool.alaev.text;
 
-
 import ru.academITschool.alaev.interfaces.View;
 import ru.academITschool.alaev.interfaces.ViewListener;
 import ru.academITschool.alaev.model.Cell;
@@ -27,7 +26,6 @@ public class TextUI implements View {
 
         while (true) {
             try {
-
                 String text = commandScan.nextLine();
                 if (text.toLowerCase().equals(EXIT_COMMAND)) {
                     break;
@@ -39,14 +37,14 @@ public class TextUI implements View {
                         int columns;
                         int rows = columns = 9;
                         int mines = 10;
-                        System.out.println("Введите координаты от 1 до 9");
-                        String textX = moveScan.nextLine();
-                        String textY = moveScan.nextLine();
-                        int x = Integer.parseInt(textX);
-                        int y = Integer.parseInt(textY);
-                        for (ViewListener listener : listeners) {
-                            listener.needMakeMove(x, y, rows, columns, mines);
-                        }
+                        System.out.println("Введите координаты от 0 до 8");
+                            String textX = moveScan.nextLine();
+                            String textY = moveScan.nextLine();
+                            int x = Integer.parseInt(textX);
+                            int y = Integer.parseInt(textY);
+                            for (ViewListener listener : listeners) {
+                                listener.needMakeMove(x, y, rows, columns, mines);
+                            }
                     }
                 } else {
                     throw new NotCommandException("Нет такой команды");

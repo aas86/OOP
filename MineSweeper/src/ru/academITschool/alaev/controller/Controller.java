@@ -1,6 +1,5 @@
 package ru.academITschool.alaev.controller;
 
-
 import ru.academITschool.alaev.interfaces.Minesweeper;
 import ru.academITschool.alaev.interfaces.View;
 import ru.academITschool.alaev.interfaces.ViewListener;
