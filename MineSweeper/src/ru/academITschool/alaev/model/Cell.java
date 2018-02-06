@@ -7,12 +7,12 @@ public class Cell {
     private int mineCounter;
     private int rowPosition;
     private int columnPosition;
-  //  private int value;
+    //  private int value;
 
-    public Cell(int rowPosition, int columnPosition, boolean isMined) {
+    public Cell(int rowPosition, int columnPosition) {
         this.rowPosition = rowPosition;
         this.columnPosition = columnPosition;
-        this.isMined = isMined;
+
     }
 
     public void setRowPosition(int x) {
@@ -21,11 +21,6 @@ public class Cell {
 
     public void setColumnPosition(int y) {
         this.columnPosition = y;
-    }
-
-    public Cell(int rowPosition, int columnPosition/*, int value*/) {
-        this.rowPosition = rowPosition;
-        this.columnPosition = columnPosition;
     }
 
 
@@ -49,12 +44,10 @@ public class Cell {
         if (o == this) {
             return true;
         }
-        if (o == null || o.getClass() != this.getClass()) {
+        if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
         Cell cell = (Cell) o;
-        return this.rowPosition == cell.rowPosition && this.columnPosition == cell.columnPosition
-                && this.isMined == cell.isMined && this.isOpen == cell.isOpen && this.isMarked == cell.isMarked
-                && this.mineCounter == cell.mineCounter;
+        return this.rowPosition == cell.rowPosition && this.columnPosition == cell.columnPosition;
     }
 }

@@ -3,6 +3,7 @@ package ru.academITschool.alaev.text;
 
 import ru.academITschool.alaev.interfaces.View;
 import ru.academITschool.alaev.interfaces.ViewListener;
+import ru.academITschool.alaev.model.Cell;
 import ru.academITschool.alaev.model.PlayingField;
 
 import java.util.ArrayList;
@@ -66,8 +67,17 @@ public class TextUI implements View {
 
     @Override
     public void showMove(PlayingField field) {
-       field.print();
+        Cell[][] result = field.getField();
+        for (int i = 0; i < field.getRows(); i++) {
+            System.out.println();
+            for (int j = 0; j < field.getColumns(); j++) {
+                if (!result[i][j].isMined()) {
+                    System.out.printf("%s   ", ".");
+                } else if (result[i][j].isMined()) {
+                    System.out.printf("X   ");
+                }
+            }
+        }
+        System.out.println();
     }
-
-
 }
