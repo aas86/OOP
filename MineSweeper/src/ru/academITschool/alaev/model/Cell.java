@@ -50,4 +50,12 @@ public class Cell {
         Cell cell = (Cell) o;
         return this.rowPosition == cell.rowPosition && this.columnPosition == cell.columnPosition;
     }
+
+    public int getMineCounter() {
+        return mineCounter;
+    }
+
+    public void setMineCounter(int mineCounter) {
+        this.mineCounter += mineCounter;
+    }
 }

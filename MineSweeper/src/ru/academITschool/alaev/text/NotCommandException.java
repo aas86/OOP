@@ -1,8 +1,8 @@
 package ru.academITschool.alaev.text;
 
 
-public class NotCommandException extends Exception {
-    public NotCommandException(String message){
+class NotCommandException extends Exception {
+    NotCommandException(String message){
         super(message);
     }
 }

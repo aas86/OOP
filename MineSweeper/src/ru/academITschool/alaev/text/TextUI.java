@@ -25,18 +25,28 @@ public class TextUI implements View {
         System.out.println("Для начала введите start");
 
         while (true) {
-            try {
+           // try {
                 String text = commandScan.nextLine();
+            int columns = 9;
+            int rows = 9;
+            int mines = 10;
                 if (text.toLowerCase().equals(EXIT_COMMAND)) {
                     break;
                 } else if (text.toLowerCase().equals(CHANGE_FIELD)) {
-                    //TODO другие размеры игрового поля
-                } else if (text.toLowerCase().equals(START_COMMAND)) {
+                    System.out.println("Введите количество строк");
+                    String inputRows = moveScan.nextLine();
+                    rows = Integer.parseInt(inputRows);
+                    System.out.println("Введите количество столбцов");
+                    String inputColumns = moveScan.nextLine();
+                    columns = Integer.parseInt(inputColumns);
 
+                } /*else if (text.toLowerCase().equals(START_COMMAND)) {
+
+                   // rows = columns = 9;
+                  //  mines = 10;
+                }*/
                     while (true) {
-                        int columns;
-                        int rows = columns = 9;
-                        int mines = 10;
+
                         System.out.println("Введите координаты от 0 до 8");
                             String textX = moveScan.nextLine();
                             String textY = moveScan.nextLine();
@@ -46,15 +56,15 @@ public class TextUI implements View {
                                 listener.needMakeMove(x, y, rows, columns, mines);
                             }
                     }
-                } else {
-                    throw new NotCommandException("Нет такой команды");
+              //  } else {
+                  //  throw new NotCommandException("Нет такой команды");
                 }
-            } catch (NotCommandException exception) {
+            /*} catch (NotCommandException exception) {
                 System.out.println("Нет такой команды! Введите ещё раз!");
-            }
+            }*/
         }
 
-    }
+
 
     @Override
     public void addViewListener(ViewListener listener) {
@@ -70,7 +80,7 @@ public class TextUI implements View {
             System.out.println();
             for (int j = 0; j < field.getColumns(); j++) {
                 if (!result[i][j].isMined()) {
-                    System.out.printf("%s   ", ".");
+                    System.out.printf("%s   ", result[i][j].getMineCounter());
                 } else if (result[i][j].isMined()) {
                     System.out.printf("X   ");
                 }

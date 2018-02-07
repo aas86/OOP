@@ -18,8 +18,10 @@ public class Move implements Minesweeper {
         if (firstMove) {
             this.playingField = generateField(rows, columns);
             this.playingField.generateBombs(x, y, mines, rows, columns);
+           // this.playingField.generate_Bombs_Debug();
             /*TODO к этому моменту создано поле и расставлены бомбы
               TODO теперь здесь нужно расставить цифры во всех клетках, где isMined == false*/
+            this.playingField.countBombs(rows, columns);
             firstMove = false;
             return playingField;
         } else {

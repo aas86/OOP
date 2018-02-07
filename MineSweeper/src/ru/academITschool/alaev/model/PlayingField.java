@@ -34,6 +34,47 @@ public class PlayingField {
         }
     }
 
+    public void generate_Bombs_Debug() {
+        Cell firstMoveCell = field[0][0];
+        field[0][0].setMined(true);
+        field[0][1].setMined(true);
+        field[0][2].setMined(true);
+    }
+
+    public void countBombs(int rows, int columns) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (field[i][j].isMined()) {
+                    while (field[i][j].isMined()) {
+                        if (j != columns - 1) {
+                            j++;
+                        } else {
+                            j = 0;
+                            i++;
+                        }
+                    }
+                }
+                for (int n = i - 1; n <= i + 1; n++) {
+                    if (n < 0 ){
+                        n++;
+                    }else if (n == rows){
+                        break;
+                    }
+                    for (int m = j - 1; m <= j + 1; m++) {
+                        if (m < 0){
+                            m++;
+                        } else if (m == columns){
+                           break;
+                        }
+                        if (field[n][m].isMined()) {
+                            field[i][j].setMineCounter(1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public Cell[][] getField() {
         return field;
     }
