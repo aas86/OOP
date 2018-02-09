@@ -7,7 +7,7 @@ public class Cell {
     private int mineCounter;
     private int rowPosition;
     private int columnPosition;
-    //  private int value;
+
 
     public Cell(int rowPosition, int columnPosition) {
         this.rowPosition = rowPosition;
@@ -18,19 +18,17 @@ public class Cell {
     public void setRowPosition(int x) {
         this.rowPosition = x;
     }
+    public int getRowPosition(){
+        return this.rowPosition;
+    }
+
 
     public void setColumnPosition(int y) {
         this.columnPosition = y;
     }
-
-
-  /*  public void setValue(int value) {
-        this.value = value;
+    public int getColumnPosition(){
+        return this.columnPosition;
     }
-
-    public int getValue() {
-        return value;
-    }*/
 
     public boolean isMined() {
         return isMined;
@@ -57,5 +55,13 @@ public class Cell {
 
     public void setMineCounter(int mineCounter) {
         this.mineCounter += mineCounter;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
     }
 }

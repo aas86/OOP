@@ -1,6 +1,7 @@
 package ru.academITschool.alaev.model;
 
 
+import java.util.LinkedList;
 import java.util.Random;
 
 public class PlayingField {
@@ -32,6 +33,9 @@ public class PlayingField {
                 minesCount--;
             }
         }
+        //  field[x][y].setOpen(true);
+
+
     }
 
     public void generate_Bombs_Debug() {
@@ -55,16 +59,16 @@ public class PlayingField {
                     }
                 }
                 for (int n = i - 1; n <= i + 1; n++) {
-                    if (n < 0 ){
+                    if (n < 0) {
                         n++;
-                    }else if (n == rows){
+                    } else if (n == rows) {
                         break;
                     }
                     for (int m = j - 1; m <= j + 1; m++) {
-                        if (m < 0){
+                        if (m < 0) {
                             m++;
-                        } else if (m == columns){
-                           break;
+                        } else if (m == columns) {
+                            break;
                         }
                         if (field[n][m].isMined()) {
                             field[i][j].setMineCounter(1);
@@ -73,6 +77,62 @@ public class PlayingField {
                 }
             }
         }
+    }
+
+    public void move(int x, int y) {
+        if (field[x][y].getMineCounter() != 0) {
+            field[x][y].setOpen(true);
+        } else {
+            LinkedList<Cell> queue = new LinkedList<>();
+            queue.add(field[x][y]);
+            while (queue.size() != 0) {
+                Cell cell = queue.removeFirst();
+                cell.setOpen(true);
+                for (int i = cell.getRowPosition() - 1; i <= cell.getRowPosition() + 1; i++) {
+                    if (i < 0) {
+                        i++;
+                    } else if (i == rows) {
+                        break;
+                    }
+                    for (int j = cell.getColumnPosition() - 1; j <= cell.getColumnPosition() + 1; j++) {
+                        if (j < 0) {
+                            j++;
+                        } else if (j == columns) {
+                            break;
+                        }
+                        if (field[i][j].getMineCounter() == 0 && !field[i][j].isMined()
+                                && !field[i][j].isOpen()) {
+                            queue.add(field[i][j]);
+                        }
+                    }
+                }
+            }
+           /* while (queue.size() != 0) {
+                for (int i = x; i < rows; i++) {
+                    for (int j = y; j < columns; j++) {
+                        for (int n = i - 1; n <= i + 1; n++) {
+                            if (n < 0) {
+                                n++;
+                            } else if (n == rows) {
+                                break;
+                            }
+                            for (int m = j - 1; m <= j + 1; m++) {
+                                if (m < 0) {
+                                    m++;
+                                } else if (m == columns) {
+                                    break;
+                                }
+                                if (field[n][m].getMineCounter() == 0 && !field[n][m].isMined()
+                                        && !queue.contains(field[n][m])) {
+                                    queue.add(field[n][m]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }*/
+        }
+
     }
 
     public Cell[][] getField() {
