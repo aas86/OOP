@@ -18,13 +18,12 @@ public class Move implements Minesweeper {
         if (firstMove) {
             this.playingField = generateField(rows, columns);
             this.playingField.generateBombs(x, y, mines, rows, columns);
-           // this.playingField.generate_Bombs_Debug();
+          //  this.playingField.generate_Bombs_Debug();
             this.playingField.countBombs(rows, columns);
             this.playingField.move(x, y);
             firstMove = false;
             return playingField;
         } else {
-            //TODO теперь ход не первый
             playingField.move(x, y);
             return playingField;
         }

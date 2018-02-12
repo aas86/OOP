@@ -8,6 +8,13 @@ public class PlayingField {
     private Cell[][] field;
     private int rows;
     private int columns;
+    private boolean gameOver;
+
+    public int getOpenedCount() {
+        return openedCount;
+    }
+
+    private int openedCount = 0;
 
     public PlayingField(int rows, int columns) {
         this.rows = rows;
@@ -23,11 +30,11 @@ public class PlayingField {
     public void generateBombs(int x, int y, int mines, int rows, int columns) {
         Random generator = new Random();
         int minesCount = mines;
+        Cell firstMoveCell = field[x][y];
         while (minesCount != 0) {
             int xBomb = generator.nextInt(rows);
             int yBomb = generator.nextInt(columns);
             Cell cell = field[xBomb][yBomb];
-            Cell firstMoveCell = field[x][y];
             if (!cell.isMined() && cell != firstMoveCell) {
                 cell.setMined(true);
                 minesCount--;
@@ -40,16 +47,17 @@ public class PlayingField {
 
     public void generate_Bombs_Debug() {
         Cell firstMoveCell = field[0][0];
-        field[0][0].setMined(true);
+      /*  field[0][0].setMined(true);
         field[0][1].setMined(true);
-        field[0][2].setMined(true);
+        field[0][2].setMined(true);*/
+        field[1][1].setMined(true);
     }
 
     public void countBombs(int rows, int columns) {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 if (field[i][j].isMined()) {
-                    while (field[i][j].isMined()) {
+                    while (field[i][j].isMined() && i != rows - 1 && j != columns - 1) {
                         if (j != columns - 1) {
                             j++;
                         } else {
@@ -82,57 +90,43 @@ public class PlayingField {
     public void move(int x, int y) {
         if (field[x][y].getMineCounter() != 0) {
             field[x][y].setOpen(true);
+            openedCount += 1;
+
+        } else if (field[x][y].isMined()) { // Если заминировано, то тогда открываем все ячейки
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    field[i][j].setOpen(true);
+                }
+            }
+            gameOver = true;
         } else {
             LinkedList<Cell> queue = new LinkedList<>();
             queue.add(field[x][y]);
             while (queue.size() != 0) {
                 Cell cell = queue.removeFirst();
                 cell.setOpen(true);
-                for (int i = cell.getRowPosition() - 1; i <= cell.getRowPosition() + 1; i++) {
-                    if (i < 0) {
-                        i++;
-                    } else if (i == rows) {
-                        break;
-                    }
-                    for (int j = cell.getColumnPosition() - 1; j <= cell.getColumnPosition() + 1; j++) {
-                        if (j < 0) {
-                            j++;
-                        } else if (j == columns) {
+                openedCount += 1;
+                if (cell.getMineCounter() == 0) {
+                    for (int i = cell.getRowPosition() - 1; i <= cell.getRowPosition() + 1; i++) {
+                        if (i < 0) {
+                            i++;
+                        } else if (i == rows) {
                             break;
                         }
-                        if (field[i][j].getMineCounter() == 0 && !field[i][j].isMined()
-                                && !field[i][j].isOpen()) {
-                            queue.add(field[i][j]);
+                        for (int j = cell.getColumnPosition() - 1; j <= cell.getColumnPosition() + 1; j++) {
+                            if (j < 0) {
+                                j++;
+                            } else if (j == columns) {
+                                break;
+                            }
+                            if (!field[i][j].isMined() && !field[i][j].isOpen() && !queue.contains(field[i][j])) {
+                                queue.add(field[i][j]);
+                            }
                         }
                     }
                 }
             }
-           /* while (queue.size() != 0) {
-                for (int i = x; i < rows; i++) {
-                    for (int j = y; j < columns; j++) {
-                        for (int n = i - 1; n <= i + 1; n++) {
-                            if (n < 0) {
-                                n++;
-                            } else if (n == rows) {
-                                break;
-                            }
-                            for (int m = j - 1; m <= j + 1; m++) {
-                                if (m < 0) {
-                                    m++;
-                                } else if (m == columns) {
-                                    break;
-                                }
-                                if (field[n][m].getMineCounter() == 0 && !field[n][m].isMined()
-                                        && !queue.contains(field[n][m])) {
-                                    queue.add(field[n][m]);
-                                }
-                            }
-                        }
-                    }
-                }
-            }*/
         }
-
     }
 
     public Cell[][] getField() {
@@ -145,5 +139,9 @@ public class PlayingField {
 
     public int getColumns() {
         return this.columns;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
     }
 }

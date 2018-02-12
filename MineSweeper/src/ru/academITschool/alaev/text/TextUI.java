@@ -16,7 +16,10 @@ public class TextUI implements View {
     private final static String EXIT_COMMAND = "exit";
     private final static String START_COMMAND = "start";
     private final static String CHANGE_FIELD = "change field";
-
+    private boolean gameOver = false;
+    private int rows = 9;
+    private int columns = 9;
+    private int mines = 10;
 
     @Override
     public void startApplication() {
@@ -24,12 +27,11 @@ public class TextUI implements View {
         System.out.println("Для выхода введите exit");
         System.out.println("Для начала введите start");
 
-        while (true) {
-            // try {
+        while (!gameOver) {
             String text = commandScan.nextLine();
-            int columns = 9;
-            int rows = 9;
-            int mines = 10;
+            // int columns = 9;
+            //   int rows = 9;
+           // int mines = 10;
             if (text.toLowerCase().equals(EXIT_COMMAND)) {
                 break;
             } else if (text.toLowerCase().equals(CHANGE_FIELD)) {
@@ -39,13 +41,8 @@ public class TextUI implements View {
                 System.out.println("Введите количество столбцов");
                 String inputColumns = moveScan.nextLine();
                 columns = Integer.parseInt(inputColumns);
-
-            } /*else if (text.toLowerCase().equals(START_COMMAND)) {
-
-                   // rows = columns = 9;
-                  //  mines = 10;
-                }*/
-            while (true) {
+            }
+            while (!gameOver) {
                 System.out.println("Введите координаты от 0 до 8 или exit");
                 String textX = moveScan.nextLine();
                 if (textX.equals(EXIT_COMMAND)) {
@@ -57,16 +54,13 @@ public class TextUI implements View {
                 }
                 int x = Integer.parseInt(textX);
                 int y = Integer.parseInt(textY);
+
                 for (ViewListener listener : listeners) {
                     listener.needMakeMove(x, y, rows, columns, mines);
+
                 }
             }
-            //  } else {
-            //  throw new NotCommandException("Нет такой команды");
         }
-            /*} catch (NotCommandException exception) {
-                System.out.println("Нет такой команды! Введите ещё раз!");
-            }*/
     }
 
 
@@ -79,29 +73,39 @@ public class TextUI implements View {
 
     @Override
     public void showMove(PlayingField field) {
-        Cell[][] result = field.getField();
-        for (int i = 0; i < field.getRows(); i++) {
-            System.out.println();
-            for (int j = 0; j < field.getColumns(); j++) {
-                if (!result[i][j].isMined()) {
-                    System.out.printf("%s   ", result[i][j].getMineCounter());
-                } else if (result[i][j].isMined()) {
-                    System.out.printf("X   ");
+        if (field.isGameOver()) {
+            Cell[][] result = field.getField();
+            for (int i = 0; i < field.getRows(); i++) {
+                System.out.println();
+                for (int j = 0; j < field.getColumns(); j++) {
+                    if (!result[i][j].isMined()) {
+                        System.out.printf("%s   ", result[i][j].getMineCounter());
+                    } else if (result[i][j].isMined()) {
+                        System.out.printf("X   ");
+                    }
                 }
             }
-        }
-        System.out.println();
-        Cell[][] result1 = field.getField();
-        for (int i = 0; i < field.getRows(); i++) {
             System.out.println();
-            for (int j = 0; j < field.getColumns(); j++) {
-                if (result1[i][j].isOpen()) {
-                    System.out.printf("%d ", result1[i][j].getMineCounter());
-                } else {
-                    System.out.printf("%s ", "C");
+            System.out.println("GAME OVER!");
+            gameOver = true;
+        } else {
+            System.out.println();
+            Cell[][] result1 = field.getField();
+            for (int i = 0; i < field.getRows(); i++) {
+                System.out.println();
+                for (int j = 0; j < field.getColumns(); j++) {
+                    if (result1[i][j].isOpen()) {
+                        System.out.printf("%d ", result1[i][j].getMineCounter());
+                    } else {
+                        System.out.printf("%s ", "C");
+                    }
                 }
             }
+            System.out.println();
+            if (field.getOpenedCount() == rows * columns - mines) {
+                System.out.println("YOU WIN!");
+                gameOver = true;
+            }
         }
-        System.out.println();
     }
 }
