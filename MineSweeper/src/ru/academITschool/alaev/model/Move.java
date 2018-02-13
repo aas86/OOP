@@ -6,8 +6,8 @@ public class Move implements Minesweeper {
     private boolean firstMove = true;
     private PlayingField playingField;
 
-    private PlayingField generateField(int rows, int columns) {
-        return new PlayingField(rows, columns);
+    private PlayingField generateField(int rows, int columns, int mines) {
+        return new PlayingField(rows, columns, mines);
     }
 
     @Override
@@ -16,9 +16,10 @@ public class Move implements Minesweeper {
         // rows, columns и mines нужны для первого хода, т.к
         // после первого хода создаётся игровое поле с минами
         if (firstMove) {
-            this.playingField = generateField(rows, columns);
+            this.playingField = generateField(rows, columns, mines);
             this.playingField.generateBombs(x, y, mines, rows, columns);
-          //  this.playingField.generate_Bombs_Debug();
+
+           // this.playingField.generate_Bombs_Debug();
             this.playingField.countBombs(rows, columns);
             this.playingField.move(x, y);
             firstMove = false;

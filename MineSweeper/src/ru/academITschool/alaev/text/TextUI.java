@@ -19,7 +19,6 @@ public class TextUI implements View {
     private boolean gameOver = false;
     private int rows = 9;
     private int columns = 9;
-    private int mines = 10;
 
     @Override
     public void startApplication() {
@@ -31,7 +30,7 @@ public class TextUI implements View {
             String text = commandScan.nextLine();
             // int columns = 9;
             //   int rows = 9;
-           // int mines = 10;
+            // int mines = 10;
             if (text.toLowerCase().equals(EXIT_COMMAND)) {
                 break;
             } else if (text.toLowerCase().equals(CHANGE_FIELD)) {
@@ -43,7 +42,7 @@ public class TextUI implements View {
                 columns = Integer.parseInt(inputColumns);
             }
             while (!gameOver) {
-                System.out.println("Введите координаты от 0 до 8 или exit");
+                System.out.println("Введите координаты от 1 до 9 или exit");
                 String textX = moveScan.nextLine();
                 if (textX.equals(EXIT_COMMAND)) {
                     return;
@@ -52,10 +51,11 @@ public class TextUI implements View {
                 if (textY.equals(EXIT_COMMAND)) {
                     return;
                 }
-                int x = Integer.parseInt(textX);
-                int y = Integer.parseInt(textY);
+                int x = Integer.parseInt(textX) - 1;
+                int y = Integer.parseInt(textY) - 1;
 
                 for (ViewListener listener : listeners) {
+                    int mines = 10;
                     listener.needMakeMove(x, y, rows, columns, mines);
 
                 }
@@ -73,39 +73,76 @@ public class TextUI implements View {
 
     @Override
     public void showMove(PlayingField field) {
-        if (field.isGameOver()) {
-            Cell[][] result = field.getField();
-            for (int i = 0; i < field.getRows(); i++) {
+       /* if (field.isGameOver()) {*/
+      /*  Cell[][] resultOpened = field.getField();
+        for (int i = 0; i < field.getRows(); i++) {
+            System.out.println();
+            if (i == 0) {
+                System.out.print("    ");
+                for (int m = 1; m <= field.getRows(); m++) {    // цикл для рисования "шапки из цифр"
+                    System.out.printf("%d  ", m);
+                }
+
                 System.out.println();
-                for (int j = 0; j < field.getColumns(); j++) {
-                    if (!result[i][j].isMined()) {
-                        System.out.printf("%s   ", result[i][j].getMineCounter());
-                    } else if (result[i][j].isMined()) {
-                        System.out.printf("X   ");
-                    }
+                System.out.print("    ");
+                for (int k = 1; k <= field.getRows(); k++) {    //цикл для рисования "шапки из ---"
+                    System.out.printf("%s  ", "-");
+                }
+                System.out.println();
+            }
+            System.out.printf("%d  |", i + 1);
+            for (int j = 0; j < field.getColumns(); j++) {
+                //  resultOpened[i][j].setOpen(true);
+                if (!resultOpened[i][j].isMined()) {
+                    System.out.printf("%d  ", resultOpened[i][j].getMineCounter());
+                } else {
+                    System.out.printf("%s  ", resultOpened[i][j].getBombLabel());
                 }
             }
-            System.out.println();
+        }*/
+        System.out.println();
+
+        // } //else {
+      //  System.out.println();
+        if (field.isVictory()) {
+            System.out.println("YOU WIN!");
+            gameOver = true;
+        } else if (field.isGameOver()) {
             System.out.println("GAME OVER!");
             gameOver = true;
-        } else {
+        }
+        Cell[][] result = field.getField();
+        for (int i = 0; i < field.getRows(); i++) {
             System.out.println();
-            Cell[][] result1 = field.getField();
-            for (int i = 0; i < field.getRows(); i++) {
+            if (i == 0) {
+                System.out.print("    ");
+                for (int m = 1; m <= field.getRows(); m++) {    // цикл для рисования "шапки из цифр"
+                    System.out.printf("%d  ", m);
+                }
+
                 System.out.println();
-                for (int j = 0; j < field.getColumns(); j++) {
-                    if (result1[i][j].isOpen()) {
-                        System.out.printf("%d ", result1[i][j].getMineCounter());
-                    } else {
-                        System.out.printf("%s ", "C");
-                    }
+                System.out.print("    ");
+                for (int k = 1; k <= field.getRows(); k++) {    //цикл для рисования "шапки из ---"
+                    System.out.printf("%s  ", "-");
+                }
+                System.out.println();
+            }
+            System.out.printf("%d  |", i + 1);
+            for (int j = 0; j < field.getColumns(); j++) {
+                if (result[i][j].isOpen() && !result[i][j].isMined()) {
+                    System.out.printf("%d  ", result[i][j].getMineCounter());
+                } else if (result[i][j].isOpen() && result[i][j].isMined()) {
+                    System.out.printf("%s  ", result[i][j].getBombLabel());
+                } else {
+                    System.out.printf("%s  ", "C");
                 }
             }
-            System.out.println();
-            if (field.getOpenedCount() == rows * columns - mines) {
+        }
+        System.out.println();
+         /*   if (field.getOpenedCount() == rows * columns - mines) {
                 System.out.println("YOU WIN!");
                 gameOver = true;
-            }
-        }
+            }*/
+        //  }
     }
 }

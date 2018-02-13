@@ -8,17 +8,25 @@ public class PlayingField {
     private Cell[][] field;
     private int rows;
     private int columns;
+    private int mines;
     private boolean gameOver;
+
+    public boolean isVictory() {
+        return victory;
+    }
+
+    private boolean victory;
+    private int openedCount = 0;
 
     public int getOpenedCount() {
         return openedCount;
     }
 
-    private int openedCount = 0;
 
-    public PlayingField(int rows, int columns) {
+    public PlayingField(int rows, int columns, int mines) {
         this.rows = rows;
         this.columns = columns;
+        this.mines = mines;
         this.field = new Cell[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -37,6 +45,7 @@ public class PlayingField {
             Cell cell = field[xBomb][yBomb];
             if (!cell.isMined() && cell != firstMoveCell) {
                 cell.setMined(true);
+                cell.setBombLabel("B");
                 minesCount--;
             }
         }
@@ -46,11 +55,17 @@ public class PlayingField {
     }
 
     public void generate_Bombs_Debug() {
-        Cell firstMoveCell = field[0][0];
-      /*  field[0][0].setMined(true);
+     //   Cell firstMoveCell = field[0][0];
+        field[0][0].setMined(false);
         field[0][1].setMined(true);
-        field[0][2].setMined(true);*/
-        field[1][1].setMined(true);
+        field[0][2].setMined(false);
+        field[1][0].setMined(false);
+        field[1][1].setMined(false);
+        field[1][2].setMined(true);
+        field[2][0].setMined(false);
+        field[2][1].setMined(false);
+        field[2][2].setMined(false);
+        field[1][2].setBombLabel("B");
     }
 
     public void countBombs(int rows, int columns) {
@@ -79,6 +94,9 @@ public class PlayingField {
                             break;
                         }
                         if (field[n][m].isMined()) {
+                         /*   if (field[n][m].equals(field[i][j])){
+                                continue;
+                            }*/
                             field[i][j].setMineCounter(1);
                         }
                     }
@@ -87,25 +105,39 @@ public class PlayingField {
         }
     }
 
+    private void openField(Cell[][] field) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                field[i][j].setOpen(true);
+            }
+        }
+    }
+
     public void move(int x, int y) {
-        if (field[x][y].getMineCounter() != 0) {
+        if (field[x][y].getMineCounter() != 0 && !field[x][y].isMined()) { //Если попали на цифру
             field[x][y].setOpen(true);
             openedCount += 1;
+            if (openedCount == rows * columns - mines) {
+                openField(field);
+                victory = true;
+            }
+
 
         } else if (field[x][y].isMined()) { // Если заминировано, то тогда открываем все ячейки
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < columns; j++) {
-                    field[i][j].setOpen(true);
-                }
-            }
+            openField(field);
             gameOver = true;
-        } else {
+        } else {                           // Если попали на 0
             LinkedList<Cell> queue = new LinkedList<>();
             queue.add(field[x][y]);
             while (queue.size() != 0) {
                 Cell cell = queue.removeFirst();
                 cell.setOpen(true);
                 openedCount += 1;
+                if (openedCount == rows * columns - mines) {
+                    openField(field);
+                    victory = true;
+                    return;
+                }
                 if (cell.getMineCounter() == 0) {
                     for (int i = cell.getRowPosition() - 1; i <= cell.getRowPosition() + 1; i++) {
                         if (i < 0) {

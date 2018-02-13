@@ -5,8 +5,18 @@ public class Cell {
     private boolean isMarked = false;
     private boolean isMined;
     private int mineCounter;
+    private String bombLabel;
     private int rowPosition;
     private int columnPosition;
+
+    public void setBombLabel(String bombLabel) {
+        this.bombLabel = bombLabel;
+    }
+    public String getBombLabel(){
+        return bombLabel;
+    }
+
+
 
 
     public Cell(int rowPosition, int columnPosition) {
