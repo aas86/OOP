@@ -12,13 +12,14 @@ public class TextUI implements View {
     @SuppressWarnings("unchecked")
     private final ArrayList<ViewListener> listeners = new ArrayList();
     private final Scanner scanner = new Scanner(System.in);
-    //private final Scanner scanner1 = new Scanner(System.in);
     private final static String EXIT_COMMAND = "exit";
-    private final static String START_COMMAND = "start";
+    //private final static String START_COMMAND = "start";
     private final static String CHANGE_FIELD = "change field";
     private boolean gameOver = false;
     private int rows = 9;
     private int columns = 9;
+    private int x;
+    private int y;
 
     @Override
     public void startApplication() {
@@ -28,9 +29,6 @@ public class TextUI implements View {
 
         while (!gameOver) {
             String text = scanner.nextLine();
-            // int columns = 9;
-            //   int rows = 9;
-            // int mines = 10;
             if (text.toLowerCase().equals(EXIT_COMMAND)) {
                 break;
             } else if (text.toLowerCase().equals(CHANGE_FIELD)) {
@@ -42,22 +40,36 @@ public class TextUI implements View {
                 columns = Integer.parseInt(inputColumns);
             }
             while (!gameOver) {
-                System.out.println("Введите координаты от 1 до 9 или exit");
-                String textX = scanner.nextLine();
-                if (textX.equals(EXIT_COMMAND)) {
-                    return;
-                }
-                String textY = scanner.nextLine();
-                if (textY.equals(EXIT_COMMAND)) {
-                    return;
-                }
-                int x = Integer.parseInt(textX) - 1;
-                int y = Integer.parseInt(textY) - 1;
+                boolean correctData = false;
 
+                while (!correctData) {
+                    System.out.println("Введите координаты строки и стодбца от 1 до 9 или exit");
+                    String textX = scanner.nextLine();
+
+                    if (textX.equals(EXIT_COMMAND)) {
+                        return;
+                    } else if (textX.equals("")) {
+                        System.out.println("Неверно введены координаты");
+                        continue;
+                    }
+                    x = Integer.parseInt(textX) - 1;
+                    String textY = scanner.nextLine();
+                    if (textY.equals(EXIT_COMMAND)) {
+                        return;
+                    } else if (textY.equals("")) {
+                        System.out.println("Неверно введены координаты");
+                        continue;
+                    }
+                    y = Integer.parseInt(textY) - 1;
+                    if (isCorrect()) {
+                        correctData = true;
+                    } else {
+                        System.out.println("Неверно введены координаты");
+                    }
+                }
                 for (ViewListener listener : listeners) {
                     int mines = 10;
                     listener.needMakeMove(x, y, rows, columns, mines);
-
                 }
             }
         }
@@ -108,5 +120,8 @@ public class TextUI implements View {
             }
         }
         System.out.println();
+    }
+    private boolean isCorrect() {
+        return (x >= 0 && x < rows) && (y >= 0 && y < columns);
     }
 }

@@ -12,7 +12,8 @@ public class Cell {
     public void setBombLabel(String bombLabel) {
         this.bombLabel = bombLabel;
     }
-    public String getBombLabel(){
+
+    public String getBombLabel() {
         return bombLabel;
     }
 
@@ -26,7 +27,7 @@ public class Cell {
         this.rowPosition = x;
     }
 
-    public int getRowPosition(){
+    public int getRowPosition() {
         return this.rowPosition;
     }
 
@@ -35,7 +36,7 @@ public class Cell {
         this.columnPosition = y;
     }
 
-    public int getColumnPosition(){
+    public int getColumnPosition() {
         return this.columnPosition;
     }
 
