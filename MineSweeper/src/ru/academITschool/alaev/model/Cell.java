@@ -16,9 +16,6 @@ public class Cell {
         return bombLabel;
     }
 
-
-
-
     public Cell(int rowPosition, int columnPosition) {
         this.rowPosition = rowPosition;
         this.columnPosition = columnPosition;
@@ -28,6 +25,7 @@ public class Cell {
     public void setRowPosition(int x) {
         this.rowPosition = x;
     }
+
     public int getRowPosition(){
         return this.rowPosition;
     }
@@ -36,6 +34,7 @@ public class Cell {
     public void setColumnPosition(int y) {
         this.columnPosition = y;
     }
+
     public int getColumnPosition(){
         return this.columnPosition;
     }

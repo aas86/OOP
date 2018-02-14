@@ -1,6 +1,5 @@
 package ru.academITschool.alaev.model;
 
-
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -35,10 +34,12 @@ public class PlayingField {
         }
     }
 
-    public void generateBombs(int x, int y, int mines, int rows, int columns) {
+    void generateBombs(int x, int y, int mines, int rows, int columns ) {
         Random generator = new Random();
         int minesCount = mines;
+
         Cell firstMoveCell = field[x][y];
+
         while (minesCount != 0) {
             int xBomb = generator.nextInt(rows);
             int yBomb = generator.nextInt(columns);
@@ -49,13 +50,9 @@ public class PlayingField {
                 minesCount--;
             }
         }
-        //  field[x][y].setOpen(true);
-
-
     }
 
     public void generate_Bombs_Debug() {
-     //   Cell firstMoveCell = field[0][0];
         field[0][0].setMined(false);
         field[0][1].setMined(true);
         field[0][2].setMined(false);
@@ -94,9 +91,6 @@ public class PlayingField {
                             break;
                         }
                         if (field[n][m].isMined()) {
-                         /*   if (field[n][m].equals(field[i][j])){
-                                continue;
-                            }*/
                             field[i][j].setMineCounter(1);
                         }
                     }
