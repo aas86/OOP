@@ -3,6 +3,8 @@ package ru.academITschool.alaev.model;
 public class Cell {
     private boolean isOpen = false;
     private boolean isMarked = false;
+    private boolean isFlagged = false;
+    private boolean isQuestioned = false;
     private boolean isMined;
     private int mineCounter;
     private String bombLabel;
@@ -63,8 +65,8 @@ public class Cell {
         return mineCounter;
     }
 
-    public void setMineCounter(int mineCounter) {
-        this.mineCounter += mineCounter;
+    public void setMineCounter() {
+        this.mineCounter += 1;
     }
 
     public boolean isOpen() {
@@ -73,5 +75,29 @@ public class Cell {
 
     public void setOpen(boolean open) {
         isOpen = open;
+    }
+
+    public boolean isMarked() {
+        return isMarked;
+    }
+
+    public void setMarked(boolean marked) {
+        isMarked = marked;
+    }
+
+    public boolean isFlagged() {
+        return isFlagged;
+    }
+
+    public void setFlagged(boolean flagged) {
+        isFlagged = flagged;
+    }
+
+    public boolean isQuestioned() {
+        return isQuestioned;
+    }
+
+    public void setQuestioned(boolean questioned) {
+        isQuestioned = questioned;
     }
 }

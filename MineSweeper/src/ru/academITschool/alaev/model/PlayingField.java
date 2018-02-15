@@ -34,7 +34,7 @@ public class PlayingField {
         }
     }
 
-    void generateBombs(int x, int y, int mines, int rows, int columns ) {
+    void generateBombs(int x, int y, int mines, int rows, int columns) {
         Random generator = new Random();
         int minesCount = mines;
 
@@ -53,16 +53,16 @@ public class PlayingField {
     }
 
     public void generate_Bombs_Debug() {
-        field[0][0].setMined(false);
-        field[0][1].setMined(true);
+        field[0][0].setMined(true);
+        field[0][1].setMined(false);
         field[0][2].setMined(false);
         field[1][0].setMined(false);
         field[1][1].setMined(false);
-        field[1][2].setMined(true);
+        field[1][2].setMined(false);
         field[2][0].setMined(false);
         field[2][1].setMined(false);
         field[2][2].setMined(false);
-        field[1][2].setBombLabel("B");
+        field[0][0].setBombLabel("B");
     }
 
     public void countBombs(int rows, int columns) {
@@ -91,7 +91,7 @@ public class PlayingField {
                             break;
                         }
                         if (field[n][m].isMined()) {
-                            field[i][j].setMineCounter(1);
+                            field[i][j].setMineCounter();
                         }
                     }
                 }
@@ -107,16 +107,36 @@ public class PlayingField {
         }
     }
 
-    public void move(int x, int y) {
-        if (field[x][y].getMineCounter() != 0 && !field[x][y].isMined()) { //Если попали на цифру
+    public void move(int x, int y, boolean flag, boolean questioned) {
+        // Если была введена команда flag.
+        //
+        if (flag /*&& !field[x][y].isOpen()*/) {
+            if (field[x][y].isFlagged()) {
+                field[x][y].setFlagged(false);
+                return;
+            }/*else if (flag && field[x][y].isOpen() ){
+                return;
+            }*/ else {
+                field[x][y].setFlagged(true);
+                return;
+            }
+        }
+        if (questioned) {  // Если была введена команда question
+            if (field[x][y].isQuestioned()) {
+                field[x][y].setQuestioned(false);
+            } else {
+                field[x][y].setQuestioned(true);
+            }
+        }
+        if (field[x][y].isFlagged()) {
+            gameOver = false;
+        } else if (field[x][y].getMineCounter() != 0 && !field[x][y].isMined()) { //Если попали на цифру
             field[x][y].setOpen(true);
             openedCount += 1;
             if (openedCount == rows * columns - mines) {
                 openField(field);
                 victory = true;
             }
-
-
         } else if (field[x][y].isMined()) { // Если заминировано, то тогда открываем все ячейки
             openField(field);
             gameOver = true;
