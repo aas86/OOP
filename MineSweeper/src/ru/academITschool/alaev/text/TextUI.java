@@ -13,15 +13,12 @@ public class TextUI implements View {
     private final ArrayList<ViewListener> listeners = new ArrayList();
     private final Scanner scanner = new Scanner(System.in);
     private final static String EXIT_COMMAND = "exit";
-    //private final static String START_COMMAND = "start";
     private final static String CHANGE_FIELD = "change field";
     private boolean gameOver = false;
-    private int rows = 3;
-    private int columns = 3;
+    private int rows = 9;
+    private int columns = 9;
     private int x;
     private int y;
-    //  private boolean flag;
-
 
     private void coordinateInput() {
         boolean correctData = false;
@@ -83,9 +80,11 @@ public class TextUI implements View {
             while (!gameOver) {
                 boolean flag = false;
                 boolean questioned = false;
+                boolean wheelClick = false;
                 boolean correctCommand = false;
+
                 while (!correctCommand) {
-                    System.out.println("Введите команду open, flag, question или exit");
+                    System.out.println("Введите команду open, flag, question, wheel click или exit");
                     String textCommand = scanner.nextLine();
                     if (textCommand.equals(EXIT_COMMAND)) {
                         return;
@@ -100,6 +99,10 @@ public class TextUI implements View {
                         coordinateInput();
                         correctCommand = true;
                     } else if (textCommand.equals("open")) {
+                        coordinateInput();
+                        correctCommand = true;
+                    } else if (textCommand.equals("wheel click")) {
+                        wheelClick = true;
                         coordinateInput();
                         correctCommand = true;
                     } else {
@@ -142,8 +145,8 @@ public class TextUI implements View {
 
                 }*/
                 for (ViewListener listener : listeners) {
-                    int mines = 1;
-                    listener.needMakeMove(x, y, rows, columns, mines, flag, questioned);
+                    int mines = 10;
+                    listener.needMakeMove(x, y, rows, columns, mines, flag, questioned, wheelClick);
                 }
             }
         }
@@ -190,9 +193,9 @@ public class TextUI implements View {
                     System.out.printf("%s  ", cells[i][j].getBombLabel());
                 } else if (cells[i][j].isFlagged()) {
                     System.out.printf("%s  ", "F");
-                } /*else if (cells[i][j]){
-
-                }*/else {
+                } else if (cells[i][j].isQuestioned()) {
+                    System.out.printf("%s  ", "?");
+                } else {
                     System.out.printf("%s  ", "C");
                 }
             }

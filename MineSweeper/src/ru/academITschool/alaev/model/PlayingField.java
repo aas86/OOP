@@ -107,16 +107,13 @@ public class PlayingField {
         }
     }
 
-    public void move(int x, int y, boolean flag, boolean questioned) {
+    public void move(int x, int y, boolean flag, boolean questioned, boolean wheelClick) {
         // Если была введена команда flag.
-        //
         if (flag /*&& !field[x][y].isOpen()*/) {
             if (field[x][y].isFlagged()) {
                 field[x][y].setFlagged(false);
                 return;
-            }/*else if (flag && field[x][y].isOpen() ){
-                return;
-            }*/ else {
+            } else {
                 field[x][y].setFlagged(true);
                 return;
             }
@@ -124,8 +121,67 @@ public class PlayingField {
         if (questioned) {  // Если была введена команда question
             if (field[x][y].isQuestioned()) {
                 field[x][y].setQuestioned(false);
+                return;
             } else {
                 field[x][y].setQuestioned(true);
+                return;
+            }
+        }
+        if (wheelClick) {
+            int flagCount = 0;
+            if (field[x][y].isOpen() && field[x][y].getMineCounter() != 0) { // если клетка открыта и не 0
+                // то нужно посчитать кол-во флажков в соседях
+                for (int i = x - 1; i <= x + 1; i++) {
+                    if (i < 0) {
+                        i++;
+                    } else if (i == rows) {
+                        break;
+                    }
+                    for (int j = y - 1; j <= y + 1; j++) {
+                        if (j < 0) {
+                            j++;
+                        } else if (j == columns) {
+                            break;
+                        }
+                        if (field[i][j].isFlagged()) {
+                            flagCount++;
+                        }
+                    }
+                }
+                if (flagCount == field[x][y].getMineCounter()) { // если кол-во флажков в соседях равно цифре в поле,
+                    // то открываем всех соседей если они закрыты.
+                    for (int i = x - 1; i <= x + 1; i++) {
+                        if (i < 0) {
+                            i++;
+                        } else if (i == rows) {
+                            break;
+                        }
+                        for (int j = y - 1; j <= y + 1; j++) {
+                            if (j < 0) {
+                                j++;
+                            } else if (j == columns) {
+                                break;
+                            }
+                            if (!field[i][j].isOpen() && !field[i][j].isFlagged()) {
+                                field[i][j].setOpen(true);
+                                openedCount += 1;
+
+                                if (field[i][j].isMined()) {
+                                    openField(field);
+                                    gameOver = true;
+                                } else {
+                                    if (openedCount == rows * columns - mines) {
+                                        openField(field);
+                                        victory = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            } else {
+                return;
             }
         }
         if (field[x][y].isFlagged()) {
