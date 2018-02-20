@@ -107,9 +107,98 @@ public class PlayingField {
         }
     }
 
+    private void zeroCase(int x, int y) {
+        LinkedList<Cell> queue = new LinkedList<>();
+        queue.add(field[x][y]);
+        while (queue.size() != 0) {
+            Cell cell = queue.removeFirst();
+            cell.setOpen(true);
+            openedCount += 1;
+            if (openedCount == rows * columns - mines) {
+                openField(field);
+                victory = true;
+                return;
+            }
+            if (cell.getMineCounter() == 0) {
+                for (int i = cell.getRowPosition() - 1; i <= cell.getRowPosition() + 1; i++) {
+                    if (i < 0) {
+                        i++;
+                    } else if (i == rows) {
+                        break;
+                    }
+                    for (int j = cell.getColumnPosition() - 1; j <= cell.getColumnPosition() + 1; j++) {
+                        if (j < 0) {
+                            j++;
+                        } else if (j == columns) {
+                            break;
+                        }
+                        if (!field[i][j].isMined() && !field[i][j].isOpen() && !queue.contains(field[i][j])) {
+                            queue.add(field[i][j]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    private int flagsCount(int x, int y) {
+        int flagCount = 0;
+        for (int i = x - 1; i <= x + 1; i++) {
+            if (i < 0) {
+                i++;
+            } else if (i == rows) {
+                break;
+            }
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (j < 0) {
+                    j++;
+                } else if (j == columns) {
+                    break;
+                }
+                if (field[i][j].isFlagged()) {
+                    flagCount++;
+                }
+            }
+        }
+        return flagCount;
+    }
+
+    private void openFlagNeighbors(int x, int y) {
+        for (int i = x - 1; i <= x + 1; i++) {
+            if (i < 0) {
+                i++;
+            } else if (i == rows) {
+                break;
+            }
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (j < 0) {
+                    j++;
+                } else if (j == columns) {
+                    break;
+                }
+                if (!field[i][j].isOpen() && !field[i][j].isFlagged()) {
+                    field[i][j].setOpen(true);
+                    openedCount += 1;
+
+                    if (field[i][j].isMined()) {
+                        openField(field);
+                        gameOver = true;
+                    } else {
+                        if (openedCount == rows * columns - mines) {
+                            openField(field);
+                            victory = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
     public void move(int x, int y, boolean flag, boolean questioned, boolean wheelClick) {
         // Если была введена команда flag.
-        if (flag /*&& !field[x][y].isOpen()*/) {
+        if (flag) {
             if (field[x][y].isFlagged()) {
                 field[x][y].setFlagged(false);
                 return;
@@ -131,55 +220,11 @@ public class PlayingField {
             int flagCount = 0;
             if (field[x][y].isOpen() && field[x][y].getMineCounter() != 0) { // если клетка открыта и не 0
                 // то нужно посчитать кол-во флажков в соседях
-                for (int i = x - 1; i <= x + 1; i++) {
-                    if (i < 0) {
-                        i++;
-                    } else if (i == rows) {
-                        break;
-                    }
-                    for (int j = y - 1; j <= y + 1; j++) {
-                        if (j < 0) {
-                            j++;
-                        } else if (j == columns) {
-                            break;
-                        }
-                        if (field[i][j].isFlagged()) {
-                            flagCount++;
-                        }
-                    }
-                }
+                flagCount = flagsCount(x, y);
                 if (flagCount == field[x][y].getMineCounter()) { // если кол-во флажков в соседях равно цифре в поле,
                     // то открываем всех соседей если они закрыты.
-                    for (int i = x - 1; i <= x + 1; i++) {
-                        if (i < 0) {
-                            i++;
-                        } else if (i == rows) {
-                            break;
-                        }
-                        for (int j = y - 1; j <= y + 1; j++) {
-                            if (j < 0) {
-                                j++;
-                            } else if (j == columns) {
-                                break;
-                            }
-                            if (!field[i][j].isOpen() && !field[i][j].isFlagged()) {
-                                field[i][j].setOpen(true);
-                                openedCount += 1;
-
-                                if (field[i][j].isMined()) {
-                                    openField(field);
-                                    gameOver = true;
-                                } else {
-                                    if (openedCount == rows * columns - mines) {
-                                        openField(field);
-                                        victory = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    openFlagNeighbors(x, y);
                 }
-
             } else {
                 return;
             }
@@ -197,37 +242,7 @@ public class PlayingField {
             openField(field);
             gameOver = true;
         } else {                           // Если попали на 0
-            LinkedList<Cell> queue = new LinkedList<>();
-            queue.add(field[x][y]);
-            while (queue.size() != 0) {
-                Cell cell = queue.removeFirst();
-                cell.setOpen(true);
-                openedCount += 1;
-                if (openedCount == rows * columns - mines) {
-                    openField(field);
-                    victory = true;
-                    return;
-                }
-                if (cell.getMineCounter() == 0) {
-                    for (int i = cell.getRowPosition() - 1; i <= cell.getRowPosition() + 1; i++) {
-                        if (i < 0) {
-                            i++;
-                        } else if (i == rows) {
-                            break;
-                        }
-                        for (int j = cell.getColumnPosition() - 1; j <= cell.getColumnPosition() + 1; j++) {
-                            if (j < 0) {
-                                j++;
-                            } else if (j == columns) {
-                                break;
-                            }
-                            if (!field[i][j].isMined() && !field[i][j].isOpen() && !queue.contains(field[i][j])) {
-                                queue.add(field[i][j]);
-                            }
-                        }
-                    }
-                }
-            }
+            zeroCase(x, y);
         }
     }
 

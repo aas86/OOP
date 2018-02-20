@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TextUI implements View {
-    @SuppressWarnings("unchecked")
-    private final ArrayList<ViewListener> listeners = new ArrayList();
+
+    private final ArrayList<ViewListener> listeners = new ArrayList<>();
     private final Scanner scanner = new Scanner(System.in);
     private final static String EXIT_COMMAND = "exit";
     private final static String CHANGE_FIELD = "change field";
@@ -110,40 +110,6 @@ public class TextUI implements View {
                         correctCommand = false;
                     }
                 }
-
-            /*    boolean correctData = false;
-                while (!correctData) {
-                    System.out.println("Введите координаты строки и столбца от 1 до 9 или exit");
-                    String textX = scanner.nextLine();
-                    if (textX.equals(EXIT_COMMAND)) {
-
-                        return;
-                    } else if (textX.equals("")) {
-                        System.out.println("Неверно введены координаты");
-                        continue;
-                    }
-                    try {
-                        x = Integer.parseInt(textX) - 1;
-                        String textY = scanner.nextLine();
-                        if (textY.equals(EXIT_COMMAND)) {
-                            return;
-                        } else if (textY.equals("")) {
-                            System.out.println("Неверно введены координаты");
-                            continue;
-                        }
-                        y = Integer.parseInt(textY) - 1;
-                        if (isCorrectData()) {
-                            correctData = true;
-                        } else {
-                            System.out.println("Неверно введены координаты");
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Неверный формат ввода!");
-                        System.out.println("Сначала введите номер строки, потом нажмите Enter");
-                        System.out.println("Затем введите номер столбца и нажмите Enter");
-                    }
-
-                }*/
                 for (ViewListener listener : listeners) {
                     int mines = 10;
                     listener.needMakeMove(x, y, rows, columns, mines, flag, questioned, wheelClick);
