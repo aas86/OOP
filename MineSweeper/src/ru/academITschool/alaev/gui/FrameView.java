@@ -2,6 +2,7 @@ package ru.academITschool.alaev.gui;
 
 import ru.academITschool.alaev.interfaces.View;
 import ru.academITschool.alaev.interfaces.ViewListener;
+import ru.academITschool.alaev.model.Cell;
 import ru.academITschool.alaev.model.PlayingField;
 
 import javax.swing.*;
@@ -26,7 +27,7 @@ public class FrameView implements View {
             public void run() {
                 initFrame();
                 initFrameContent();
-                initEvents();
+               // initEvents();
             }
         });
     }
@@ -40,7 +41,8 @@ public class FrameView implements View {
 
     @Override
     public void showMove(PlayingField field) {
-
+        Cell[][] cell = field.getField();
+     
     }
 
     private void initFrame() {
@@ -51,23 +53,30 @@ public class FrameView implements View {
     }
 
     private void initFrameContent() {
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
+                final int x = i;
+                final int y = j;
+
                 JButton cell = new JButton();
                 cell.addMouseListener(new MouseAdapter() {
+
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         super.mouseClicked(e);
+                        for (ViewListener listener : listeners) {
+                            int mines = 10;
+                            listener.needMakeMove(x, y, rows, columns, mines, false, false, false);
+                        }
                     }
                 });
                 field.add(cell);
 
             }
         }
+
         frame.setContentPane(field);
     }
 
-    private void initEvents() {
-
-    }
 }
