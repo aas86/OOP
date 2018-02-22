@@ -6,10 +6,12 @@ import ru.academITschool.alaev.model.PlayingField;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class FrameView implements View {
+    private final ArrayList<ViewListener> listeners = new ArrayList<>();
     private final JFrame frame = new JFrame("Minesweeper");
     private final int rows = 9;
     private final int columns = 9;
@@ -31,7 +33,9 @@ public class FrameView implements View {
 
     @Override
     public void addViewListener(ViewListener listener) {
-
+        if (!listeners.contains(listener)) {
+            listeners.add(listener);
+        }
     }
 
     @Override
@@ -49,7 +53,15 @@ public class FrameView implements View {
     private void initFrameContent() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                field.add(new JButton());
+                JButton cell = new JButton();
+                cell.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+                    }
+                });
+                field.add(cell);
+
             }
         }
         frame.setContentPane(field);
@@ -57,31 +69,5 @@ public class FrameView implements View {
 
     private void initEvents() {
 
-        field.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                field.setBackground(new Color(77227722));
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                field.setName("pressed");
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
     }
 }
