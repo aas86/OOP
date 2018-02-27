@@ -84,7 +84,8 @@ public class FrameView implements View {
 
 
                 } else if (cell[i][j].isOpen() && cell[i][j].isMined()) {
-
+                    buttons[i][j].setText(cell[i][j].getBombLabel());
+                    buttons[i][j].setEnabled(false);
                 }
             }
         }
