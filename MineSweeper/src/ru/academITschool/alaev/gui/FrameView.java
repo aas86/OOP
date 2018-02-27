@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.ConstructorProperties;
 import java.util.ArrayList;
 
 public class FrameView implements View {
@@ -29,10 +30,33 @@ public class FrameView implements View {
             public void run() {
                 initFrame();
                 initFrameContent();
-                // initEvents();
+                initEvents();
+
             }
 
         });
+    }
+
+    private void initEvents() {
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                final int x = i;
+                final int y = j;
+                buttons[i][j].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+                        for (ViewListener listener : listeners) {
+                            int mines = 10;
+                            listener.needMakeMove(x, y, rows, columns, mines, false, false, false);
+                        }
+                    }
+
+
+                });
+            }
+        }
     }
 
 
@@ -46,17 +70,19 @@ public class FrameView implements View {
     @Override
     public void showMove(PlayingField field) {
         if (field.isGameOver()) {
-            frame.setBackground(Color.red);
             gameOver = true;
         }
+
+      // ImageIcon icon1 = new ImageIcon("Images/x.png");
         Cell[][] cell = field.getField();
         for (int i = 0; i < field.getRows(); i++) {
             for (int j = 0; j < field.getColumns(); j++) {
                 if (cell[i][j].isOpen() && !cell[i][j].isMined()) {
                     String num = cell[i][j].mineCounterToString();
                     buttons[i][j].setText(num);
+                    buttons[i][j].setEnabled(false);
 
-                    // Не понимаю, как добраться до кнопки с координатой i, j
+
                 } else if (cell[i][j].isOpen() && cell[i][j].isMined()) {
 
                 }
@@ -76,21 +102,8 @@ public class FrameView implements View {
         field.setLayout(new GridLayout(rows, columns));
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                final int x = i;
-                final int y = j;
                 JButton cell = new JButton();
                 buttons[i][j] = cell;
-                cell.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        super.mouseClicked(e);
-                        for (ViewListener listener : listeners) {
-                            int mines = 10;
-                            listener.needMakeMove(x, y, rows, columns, mines, false, false, false);
-                        }
-
-                    }
-                });
                 field.add(cell);
             }
         }
