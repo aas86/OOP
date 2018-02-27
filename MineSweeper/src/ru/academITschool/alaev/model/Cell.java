@@ -61,6 +61,10 @@ public class Cell {
         return this.rowPosition == cell.rowPosition && this.columnPosition == cell.columnPosition;
     }
 
+
+public String mineCounterToString(){
+        return String.valueOf(mineCounter);
+}
     public int getMineCounter() {
         return mineCounter;
     }
