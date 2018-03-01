@@ -11,4 +11,5 @@ public interface View {
     //Метод вызывается, когда контроллер получит от модели отрисованное поле после хода.
     void showMove(PlayingField field);
 
+
 }

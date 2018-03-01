@@ -63,7 +63,6 @@ public class TextUI implements View {
         System.out.print("Для начала нажмите Enter");
 
         while (!gameOver) {
-
             String text = scanner.nextLine();
             if (text.toLowerCase().equals(EXIT_COMMAND)) {
                 break;
