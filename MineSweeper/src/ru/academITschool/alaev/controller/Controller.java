@@ -14,13 +14,16 @@ public class Controller implements ViewListener {
         this.view = view;
         this.minesweeper = minesweeper;
     }
-    public Minesweeper getMinesweeper() {
-        return minesweeper;
-    }
+
     @Override
     public void needMakeMove(int x, int y, int rows, int columns, int mines,
                              boolean flag, boolean questioned, boolean openField) {
         view.showMove(minesweeper.makeMove(x, y, rows, columns, mines, flag, questioned, openField ));
+    }
+
+    @Override
+    public void needNewGame(boolean firstMove) {
+        minesweeper.makeNewGame(firstMove);
     }
 
 }

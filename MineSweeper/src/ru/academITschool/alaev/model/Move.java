@@ -6,6 +6,7 @@ public class Move implements Minesweeper {
     private boolean firstMove = true;
     private PlayingField playingField;
 
+
     private PlayingField generateField(int rows, int columns, int mines) {
         return new PlayingField(rows, columns, mines);
     }
@@ -29,5 +30,10 @@ public class Move implements Minesweeper {
             playingField.move(x, y, flag, questioned, wheelClick);
             return playingField;
         }
+    }
+
+    @Override
+    public void makeNewGame(boolean firstMove) {
+        this.firstMove = firstMove;
     }
 }
