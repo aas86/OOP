@@ -20,6 +20,7 @@ public class FrameView implements View {
     private final ImageIcon threeIcon = new ImageIcon("MineSweeper\\images\\threeImage.png");
     private final ImageIcon sadSmile = new ImageIcon("MineSweeper\\images\\SadSmile.png");
     private final ImageIcon gladSmile = new ImageIcon("MineSweeper\\images\\GladSmile.png");
+    private final ImageIcon flagIcon = new ImageIcon("MineSweeper\\images\\flag.png");
     private final int rows = 9;
     private final int columns = 9;
     private final JPanel field = new JPanel();
@@ -114,6 +115,11 @@ public class FrameView implements View {
                     buttons[i][j].setIcon(bombIcon);
                     buttons[i][j].setDisabledIcon(bombIcon);
                     buttons[i][j].setEnabled(false);
+                } else if (cell[i][j].isFlagged()) {
+                    buttons[i][j].setIcon(flagIcon);
+                } else {
+                    buttons[i][j].setEnabled(true);
+                    buttons[i][j].setIcon(null);
                 }
             }
         }
@@ -146,11 +152,25 @@ public class FrameView implements View {
                 buttons[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
+                        boolean isFlagged = false;
+                        boolean wheelClick = false;
+                        System.out.println(e.getClickCount());
                         super.mousePressed(e);
+                        System.out.println(e.getButton());
+                        System.out.println(MouseInfo.getNumberOfButtons());
+                        System.out.println(x);
+                        System.out.println(y);
+                        if (e.getButton() == 3) {
+                            //  System.out.println(e.getClickCount());
+                            isFlagged = true;
+                        } else if (e.getButton() == 2){
+                            wheelClick = true;
+                        }
                         for (ViewListener listener : listeners) {
                             int mines = 10;
-                            listener.needMakeMove(x, y, rows, columns, mines, false, false, false);
+                            listener.needMakeMove(x, y, rows, columns, mines, isFlagged, false, wheelClick);
                         }
+
                     }
                 });
             }
