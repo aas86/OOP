@@ -53,16 +53,16 @@ public class PlayingField {
     }
 
     public void generate_Bombs_Debug() {
-        field[0][0].setMined(true);
-        field[0][1].setMined(false);
-        field[0][2].setMined(false);
-        field[1][0].setMined(false);
-        field[1][1].setMined(false);
-        field[1][2].setMined(false);
-        field[2][0].setMined(false);
-        field[2][1].setMined(false);
-        field[2][2].setMined(false);
-        field[0][0].setBombLabel("B");
+        field[1][0].setMined(true); field[1][0].setMineCounter_Debug(0);
+        field[1][7].setMined(true); field[1][7].setMineCounter_Debug(0);
+        field[3][0].setMined(true); field[3][0].setMineCounter_Debug(0);
+        field[3][5].setMined(true); field[3][5].setMineCounter_Debug(0);
+        field[4][1].setMined(true); field[4][1].setMineCounter_Debug(0);
+        field[4][8].setMined(true); field[4][8].setMineCounter_Debug(0);
+        field[5][4].setMined(true); field[5][4].setMineCounter_Debug(0);
+        field[5][6].setMined(true); field[5][6].setMineCounter_Debug(0);
+        field[6][3].setMined(true); field[6][3].setMineCounter_Debug(0);
+        field[7][5].setMined(true); field[7][5].setMineCounter_Debug(0);
     }
 
     public void countBombs(int rows, int columns) {
@@ -178,12 +178,16 @@ public class PlayingField {
                     break;
                 }
                 if (!field[i][j].isOpen() && !field[i][j].isFlagged()) {
+                    if (field[i][j].getMineCounter() == 0 && !field[i][j].isMined()) {
+                        zeroCase(i, j);
+                    }
                     field[i][j].setOpen(true);
                     openedCount += 1;
 
                     if (field[i][j].isMined()) {
                         openField(field);
                         gameOver = true;
+                        break;
                     } else {
                         if (openedCount == rows * columns - mines) {
                             openField(field);
@@ -224,6 +228,7 @@ public class PlayingField {
                 if (flagCount == field[x][y].getMineCounter()) { // если кол-во флажков в соседях равно цифре в поле,
                     // то открываем всех соседей если они закрыты.
                     openFlagNeighbors(x, y);
+                    return;
                 }
             } else {
                 return;
@@ -231,7 +236,7 @@ public class PlayingField {
         }
         if (field[x][y].isFlagged()) {
             gameOver = false;
-        } else if (field[x][y].getMineCounter() != 0 && !field[x][y].isMined()) { //Если попали на цифру
+        } else if (field[x][y].getMineCounter() != 0 && !field[x][y].isMined() /*&& !field[x][y].isOpen()*/) { //Если попали на цифру
             field[x][y].setOpen(true);
             openedCount += 1;
             if (openedCount == rows * columns - mines) {

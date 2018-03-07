@@ -10,6 +10,7 @@ import ru.academITschool.alaev.text.TextUI;
 public class Main {
     public static void main(String[] args) {
       //  TextUI consoleView = new TextUI();
+
         View frameView = new FrameView();
         Minesweeper minesweeper = new Move();
         Controller controller = new Controller(frameView, minesweeper);

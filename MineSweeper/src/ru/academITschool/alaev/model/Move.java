@@ -2,6 +2,8 @@ package ru.academITschool.alaev.model;
 
 import ru.academITschool.alaev.interfaces.Minesweeper;
 
+import java.util.Timer;
+
 public class Move implements Minesweeper {
     private boolean firstMove = true;
     private PlayingField playingField;
@@ -21,7 +23,7 @@ public class Move implements Minesweeper {
             this.playingField = generateField(rows, columns, mines);
             this.playingField.generateBombs(x, y, mines, rows, columns);
 
-           // this.playingField.generate_Bombs_Debug();
+            //  this.playingField.generate_Bombs_Debug();
             this.playingField.countBombs(rows, columns);
             this.playingField.move(x, y, flag, questioned, wheelClick);
             firstMove = false;

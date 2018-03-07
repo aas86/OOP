@@ -18,6 +18,7 @@ public class FrameView implements View {
     private final ImageIcon oneIcon = new ImageIcon("MineSweeper\\images\\oneImage.png");
     private final ImageIcon twoIcon = new ImageIcon("MineSweeper\\images\\twoImage.png");
     private final ImageIcon threeIcon = new ImageIcon("MineSweeper\\images\\threeImage.png");
+    private final ImageIcon fourIcon = new ImageIcon("MineSweeper\\images\\fourImage.png");
     private final ImageIcon sadSmile = new ImageIcon("MineSweeper\\images\\SadSmile.png");
     private final ImageIcon gladSmile = new ImageIcon("MineSweeper\\images\\GladSmile.png");
     private final ImageIcon flagIcon = new ImageIcon("MineSweeper\\images\\flag.png");
@@ -26,6 +27,8 @@ public class FrameView implements View {
     private final JPanel field = new JPanel();
     private JButton[][] buttons = new JButton[rows][columns];
     private boolean gameOver = false;
+    private long finish;
+    private final long start = System.currentTimeMillis();
 
     @Override
     public void startApplication() {
@@ -49,22 +52,27 @@ public class FrameView implements View {
     @Override
     public void showMove(PlayingField field) {
         GameOverDialog gameOverDialog = new GameOverDialog();
-        if (field.isGameOver()) { // Отрисовка, если проиграли
+        if (field.isGameOver()) { // Отрисовка диалогового окна, если проиграли
             gameOver = true;
             gameOverDialog.setSmile(sadSmile);
             gameOverDialog.setTitle("You Loose!");
             gameOverDialog.setVisible();
-        } else if (field.isVictory()) { // Отрисовка, если выиграли
+        } else if (field.isVictory()) { // Отрисовка диалогового окна, если выиграли
             gameOver = true;
+            this.finish = System.currentTimeMillis();
+            System.out.println("-------------");
+            System.out.println(finish - start);
+            System.out.println("-------------");
             gameOverDialog.setSmile(gladSmile);
             gameOverDialog.setTitle("You Win!");
             gameOverDialog.setVisible();
         }
-        if (gameOver) {
+        if (gameOver) { // Обработка нажатия кнопок "New Game" и "Exit"
             gameOverDialog.getExitButton().addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     super.mousePressed(e);
+                    //Это момент нажатия кнопки "Exit"
                     mainFrame.dispose();
                     gameOverDialog.closeDialog();
                 }
@@ -73,7 +81,7 @@ public class FrameView implements View {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     super.mousePressed(e);
-                    //Это момент нажатия кнопки New Game
+                    //Это момент нажатия кнопки "New Game"
                     //Тут нужно:
                     //  /*1*/ раздизэйблить все кнопки и убрать иконки
                     for (int i = 0; i < field.getRows(); i++) {
@@ -107,6 +115,10 @@ public class FrameView implements View {
                     } else if (num.equals("3")) {
                         buttons[i][j].setIcon(threeIcon);
                         buttons[i][j].setDisabledIcon(threeIcon);
+                        buttons[i][j].setEnabled(false);
+                    } else if (num.equals("4")) {
+                        buttons[i][j].setIcon(fourIcon);
+                        buttons[i][j].setDisabledIcon(fourIcon);
                         buttons[i][j].setEnabled(false);
                     } else {
                         buttons[i][j].setEnabled(false);
@@ -150,6 +162,7 @@ public class FrameView implements View {
                 final int x = i;
                 final int y = j;
                 buttons[i][j].addMouseListener(new MouseAdapter() {
+
                     @Override
                     public void mousePressed(MouseEvent e) {
                         boolean isFlagged = false;
@@ -160,10 +173,10 @@ public class FrameView implements View {
                         System.out.println(MouseInfo.getNumberOfButtons());
                         System.out.println(x);
                         System.out.println(y);
-                        if (e.getButton() == 3) {
+                        if (e.getButton() == 3) { // Если нажали правой кнопкой мыши
                             //  System.out.println(e.getClickCount());
                             isFlagged = true;
-                        } else if (e.getButton() == 2){
+                        } else if (e.getButton() == 2) { // Если нажали колёсиком мыши
                             wheelClick = true;
                         }
                         for (ViewListener listener : listeners) {
