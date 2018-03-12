@@ -9,7 +9,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class FrameView implements View {
     private final ArrayList<ViewListener> listeners = new ArrayList<>();
@@ -27,8 +29,7 @@ public class FrameView implements View {
     private final JPanel field = new JPanel();
     private JButton[][] buttons = new JButton[rows][columns];
     private boolean gameOver = false;
-    private long finish;
-    private final long start = System.currentTimeMillis();
+    private long start;
 
     @Override
     public void startApplication() {
@@ -59,10 +60,11 @@ public class FrameView implements View {
             gameOverDialog.setVisible();
         } else if (field.isVictory()) { // Отрисовка диалогового окна, если выиграли
             gameOver = true;
-            this.finish = System.currentTimeMillis();
-            System.out.println("-------------");
-            System.out.println(finish - start);
-            System.out.println("-------------");
+
+            // System.out.println(timeElapsed / 1000000000.0);
+
+
+            recordTable();
             gameOverDialog.setSmile(gladSmile);
             gameOverDialog.setTitle("You Win!");
             gameOverDialog.setVisible();
@@ -95,6 +97,7 @@ public class FrameView implements View {
                         // FrameView говорит контроллеру, чтобы тот сказал модели, прийти в исходное состояние
                         listener.needNewGame(true);
                     }
+                    start = System.nanoTime();
                     gameOverDialog.closeDialog();
                 }
             });
@@ -137,6 +140,51 @@ public class FrameView implements View {
         }
     }
 
+    private void recordTable() {
+        long finish = System.nanoTime();
+        long timeElapsed = (finish - start);
+        long timeResult = Math.round(timeElapsed / 1000000000.0);
+        System.out.println(timeResult + " сек");
+        EnterNameDialog dialog = new EnterNameDialog();
+        try (Scanner scan = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"))) {
+            if (!scan.hasNextLine()) { // Если таблица рекордов пустая
+                dialog.getOkButton().addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        super.mousePressed(e);
+                        String name = dialog.getName().getText();
+                        try (PrintWriter writer = new PrintWriter("MineSweeper\\recordTable.txt")) {
+                            writer.print(name + "  ");
+                            writer.println(timeResult + " сек");
+                            dialog.closeDialog();
+                        } catch (FileNotFoundException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
+
+            } else{ // Если в таблице рекордов уже есть записи
+                dialog.getOkButton().addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        super.mousePressed(e);
+                        String name = dialog.getName().getText();
+                        try (PrintWriter writer = new PrintWriter("MineSweeper\\recordTable.txt")) {
+                            writer.println();
+                            writer.print(name + "  ");
+                            writer.println(timeResult + " сек");
+                            dialog.closeDialog();
+                        } catch (FileNotFoundException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void initFrame() {
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainFrame.setMinimumSize(new Dimension(500, 500));
@@ -157,22 +205,23 @@ public class FrameView implements View {
     }
 
     private void initEvents() {
+        start = System.nanoTime();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 final int x = i;
                 final int y = j;
                 buttons[i][j].addMouseListener(new MouseAdapter() {
-
                     @Override
                     public void mousePressed(MouseEvent e) {
                         boolean isFlagged = false;
                         boolean wheelClick = false;
-                        System.out.println(e.getClickCount());
+                        //   System.out.println(e.getClickCount());
                         super.mousePressed(e);
-                        System.out.println(e.getButton());
-                        System.out.println(MouseInfo.getNumberOfButtons());
-                        System.out.println(x);
-                        System.out.println(y);
+                        System.out.println("Время начала игры " + start);
+                        System.out.println("Нажата кнопка № " + e.getButton());
+                        //   System.out.println(MouseInfo.getNumberOfButtons());
+                        System.out.println("Координата x " + x);
+                        System.out.println("Координата y " + y);
                         if (e.getButton() == 3) { // Если нажали правой кнопкой мыши
                             //  System.out.println(e.getClickCount());
                             isFlagged = true;
