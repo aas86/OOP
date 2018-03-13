@@ -60,11 +60,13 @@ public class FrameView implements View {
             gameOverDialog.setVisible();
         } else if (field.isVictory()) { // Отрисовка диалогового окна, если выиграли
             gameOver = true;
+            try {
+                recordTable();
+            } catch (FileNotFoundException e) {
+                System.out.println("Нужно создать файл recordTable.txt в папке MineSweeper!");
 
-            // System.out.println(timeElapsed / 1000000000.0);
-
-
-            recordTable();
+                e.printStackTrace();
+            }
             gameOverDialog.setSmile(gladSmile);
             gameOverDialog.setTitle("You Win!");
             gameOverDialog.setVisible();
@@ -77,6 +79,7 @@ public class FrameView implements View {
                     //Это момент нажатия кнопки "Exit"
                     mainFrame.dispose();
                     gameOverDialog.closeDialog();
+
                 }
             });
             gameOverDialog.getNewGameButton().addMouseListener(new MouseAdapter() {
@@ -140,50 +143,20 @@ public class FrameView implements View {
         }
     }
 
-    private void recordTable() {
+    private void recordTable() throws FileNotFoundException {
         long finish = System.nanoTime();
-        long timeElapsed = (finish - start);
-        long timeResult = Math.round(timeElapsed / 1000000000.0);
+        // long timeElapsed = ();
+        long timeResult = Math.round((finish - start) / 1000000000.0);
         System.out.println(timeResult + " сек");
-        EnterNameDialog dialog = new EnterNameDialog();
-        try (Scanner scan = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"))) {
-            if (!scan.hasNextLine()) { // Если таблица рекордов пустая
-                dialog.getOkButton().addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        super.mousePressed(e);
-                        String name = dialog.getName().getText();
-                        try (PrintWriter writer = new PrintWriter("MineSweeper\\recordTable.txt")) {
-                            writer.print(name + "  ");
-                            writer.println(timeResult + " сек");
-                            dialog.closeDialog();
-                        } catch (FileNotFoundException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                });
-
-            } else{ // Если в таблице рекордов уже есть записи
-                dialog.getOkButton().addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        super.mousePressed(e);
-                        String name = dialog.getName().getText();
-                        try (PrintWriter writer = new PrintWriter("MineSweeper\\recordTable.txt")) {
-                            writer.println();
-                            writer.print(name + "  ");
-                            writer.println(timeResult + " сек");
-                            dialog.closeDialog();
-                        } catch (FileNotFoundException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                });
+        RecordTable dialog = new RecordTable(timeResult);
+        Scanner scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"));
+            if (!scanner.hasNextLine()) { // Если таблица рекордов пустая
+                dialog.createRecordTable();
+            } else { // Если в таблице рекордов уже есть записи
+                dialog.addRecord(timeResult, scanner);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
-    }
+
 
     private void initFrame() {
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -223,7 +196,6 @@ public class FrameView implements View {
                         System.out.println("Координата x " + x);
                         System.out.println("Координата y " + y);
                         if (e.getButton() == 3) { // Если нажали правой кнопкой мыши
-                            //  System.out.println(e.getClickCount());
                             isFlagged = true;
                         } else if (e.getButton() == 2) { // Если нажали колёсиком мыши
                             wheelClick = true;

@@ -5,11 +5,13 @@ import java.awt.*;
 
 public class EnterNameDialog {
     private final JTextField name = new JTextField();
+    private JLabel label1 = new JLabel();
     private final JLabel label = new JLabel("Введите своё имя");
     private JDialog enterNameDialog = new JDialog();
     private final JButton okButton = new JButton("OK");
-    EnterNameDialog(){
+    EnterNameDialog(long timeResult){
         initEnterNameDialog();
+        label1.setText("Ваше время " + timeResult + "сек");
         enterNameDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         enterNameDialog.setMinimumSize(new Dimension(250, 150));
         enterNameDialog.setLocationRelativeTo(null);
@@ -30,7 +32,7 @@ public class EnterNameDialog {
 
         GridBagConstraints c1 = new GridBagConstraints();
         c1.gridx = 0;
-        c1.gridy = 0;
+        c1.gridy = 2;
         c1.fill = GridBagConstraints.NONE;
         c1.anchor = GridBagConstraints.CENTER;
         c1.insets = new Insets(0, 0, 20, 0);
@@ -38,7 +40,7 @@ public class EnterNameDialog {
 
         GridBagConstraints c2 = new GridBagConstraints();
         c2.gridx = 0;
-        c2.gridy = 2;
+        c2.gridy = 4;
         c2.gridwidth = 1;
         c2.gridheight = 1;
         c2.anchor = GridBagConstraints.CENTER;
@@ -47,12 +49,18 @@ public class EnterNameDialog {
 
         GridBagConstraints c3 = new GridBagConstraints();
         c3.gridx = 0;
-        c3.gridy = 4;
+        c3.gridy = 6;
         c3.insets = new Insets(20, 0, 0, 0);
         c3.fill = GridBagConstraints.CENTER;
         c3.anchor = GridBagConstraints.CENTER;
         enterNameDialog.add(okButton, c3);
 
-
+        GridBagConstraints c4 = new GridBagConstraints();
+        c4.gridx = 0;
+        c4.gridy = 0;
+        c4.fill = GridBagConstraints.NONE;
+        c4.anchor = GridBagConstraints.CENTER;
+        c4.insets = new Insets(0, 0, 20, 0);
+        enterNameDialog.add(label1, c4);
     }
 }
