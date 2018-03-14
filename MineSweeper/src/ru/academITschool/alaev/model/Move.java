@@ -23,13 +23,15 @@ public class Move implements Minesweeper {
             this.playingField = generateField(rows, columns, mines);
             this.playingField.generateBombs(x, y, mines, rows, columns);
 
-            //  this.playingField.generate_Bombs_Debug();
+           //this.playingField.generate_Bombs_Debug();
             this.playingField.countBombs(rows, columns);
-            this.playingField.move(x, y, flag, questioned, wheelClick);
+            this.playingField.move(x, y, flag, questioned, wheelClick, true);
             firstMove = false;
+            //System.out.println(playingField.getOpenedCount());
             return playingField;
         } else {
-            playingField.move(x, y, flag, questioned, wheelClick);
+            playingField.move(x, y, flag, questioned, wheelClick, false);
+           //System.out.println(playingField.getOpenedCount());
             return playingField;
         }
     }

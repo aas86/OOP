@@ -9,6 +9,7 @@ public class EnterNameDialog {
     private final JLabel label = new JLabel("Введите своё имя");
     private JDialog enterNameDialog = new JDialog();
     private final JButton okButton = new JButton("OK");
+
     EnterNameDialog(long timeResult){
         initEnterNameDialog();
         label1.setText("Ваше время " + timeResult + "сек");

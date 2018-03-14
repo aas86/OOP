@@ -29,7 +29,6 @@ public class FrameView implements View {
     private final JPanel field = new JPanel();
     private JButton[][] buttons = new JButton[rows][columns];
     private boolean gameOver = false;
-    private long start;
 
     @Override
     public void startApplication() {
@@ -61,10 +60,10 @@ public class FrameView implements View {
         } else if (field.isVictory()) { // Отрисовка диалогового окна, если выиграли
             gameOver = true;
             try {
-                recordTable();
+                // Нужно сравнить время текущей игры с рекордами
+                recordTable(field.getGameTime());
             } catch (FileNotFoundException e) {
                 System.out.println("Нужно создать файл recordTable.txt в папке MineSweeper!");
-
                 e.printStackTrace();
             }
             gameOverDialog.setSmile(gladSmile);
@@ -100,7 +99,6 @@ public class FrameView implements View {
                         // FrameView говорит контроллеру, чтобы тот сказал модели, прийти в исходное состояние
                         listener.needNewGame(true);
                     }
-                    start = System.nanoTime();
                     gameOverDialog.closeDialog();
                 }
             });
@@ -143,17 +141,13 @@ public class FrameView implements View {
         }
     }
 
-    private void recordTable() throws FileNotFoundException {
-        long finish = System.nanoTime();
-        // long timeElapsed = ();
-        long timeResult = Math.round((finish - start) / 1000000000.0);
-        System.out.println(timeResult + " сек");
-        RecordTable dialog = new RecordTable(timeResult);
+    private void recordTable(long gameTime) throws FileNotFoundException {
+        //RecordTable dialog = new RecordTable(gameTime);
         Scanner scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"));
             if (!scanner.hasNextLine()) { // Если таблица рекордов пустая
-                dialog.createRecordTable();
-            } else { // Если в таблице рекордов уже есть записи
-                dialog.addRecord(timeResult, scanner);
+                RecordTable recordTable = new RecordTable(gameTime);
+            }  else if (scanner.hasNextLine()){
+
             }
         }
 
@@ -178,7 +172,7 @@ public class FrameView implements View {
     }
 
     private void initEvents() {
-        start = System.nanoTime();
+       // start = System.nanoTime();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 final int x = i;
@@ -190,7 +184,7 @@ public class FrameView implements View {
                         boolean wheelClick = false;
                         //   System.out.println(e.getClickCount());
                         super.mousePressed(e);
-                        System.out.println("Время начала игры " + start);
+                       // System.out.println("Время начала игры " + start);
                         System.out.println("Нажата кнопка № " + e.getButton());
                         //   System.out.println(MouseInfo.getNumberOfButtons());
                         System.out.println("Координата x " + x);

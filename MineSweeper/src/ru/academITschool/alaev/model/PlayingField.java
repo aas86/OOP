@@ -8,19 +8,11 @@ public class PlayingField {
     private int rows;
     private int columns;
     private int mines;
+    private long startTime;
+    private long gameTime;
     private boolean gameOver;
-
-    public boolean isVictory() {
-        return victory;
-    }
-
     private boolean victory;
     private int openedCount = 0;
-
-    public int getOpenedCount() {
-        return openedCount;
-    }
-
 
     public PlayingField(int rows, int columns, int mines) {
         this.rows = rows;
@@ -32,6 +24,18 @@ public class PlayingField {
                 field[i][j] = new Cell(i, j);
             }
         }
+    }
+
+    public long getGameTime() {
+        return gameTime;
+    }
+
+    public boolean isVictory() {
+        return victory;
+    }
+
+    public int getOpenedCount() {
+        return openedCount;
     }
 
     void generateBombs(int x, int y, int mines, int rows, int columns) {
@@ -53,16 +57,26 @@ public class PlayingField {
     }
 
     public void generate_Bombs_Debug() {
-        field[1][0].setMined(true); field[1][0].setMineCounter_Debug(0);
-        field[1][7].setMined(true); field[1][7].setMineCounter_Debug(0);
-        field[3][0].setMined(true); field[3][0].setMineCounter_Debug(0);
-        field[3][5].setMined(true); field[3][5].setMineCounter_Debug(0);
-        field[4][1].setMined(true); field[4][1].setMineCounter_Debug(0);
-        field[4][8].setMined(true); field[4][8].setMineCounter_Debug(0);
-        field[5][4].setMined(true); field[5][4].setMineCounter_Debug(0);
-        field[5][6].setMined(true); field[5][6].setMineCounter_Debug(0);
-        field[6][3].setMined(true); field[6][3].setMineCounter_Debug(0);
-        field[7][5].setMined(true); field[7][5].setMineCounter_Debug(0);
+        field[1][0].setMined(true);
+        field[1][0].setMineCounter_Debug(0);
+        field[1][7].setMined(true);
+        field[1][7].setMineCounter_Debug(0);
+        field[3][0].setMined(true);
+        field[3][0].setMineCounter_Debug(0);
+        field[3][5].setMined(true);
+        field[3][5].setMineCounter_Debug(0);
+        field[4][1].setMined(true);
+        field[4][1].setMineCounter_Debug(0);
+        field[4][8].setMined(true);
+        field[4][8].setMineCounter_Debug(0);
+        field[5][4].setMined(true);
+        field[5][4].setMineCounter_Debug(0);
+        field[5][6].setMined(true);
+        field[5][6].setMineCounter_Debug(0);
+        field[6][3].setMined(true);
+        field[6][3].setMineCounter_Debug(0);
+        field[7][5].setMined(true);
+        field[7][5].setMineCounter_Debug(0);
     }
 
     public void countBombs(int rows, int columns) {
@@ -114,9 +128,12 @@ public class PlayingField {
             Cell cell = queue.removeFirst();
             cell.setOpen(true);
             openedCount += 1;
+
             if (openedCount == rows * columns - mines) {
                 openField(field);
                 victory = true;
+                gameTime = Math.round((System.nanoTime() - startTime) / 1000000000.0);
+                System.out.println(gameTime + " секунд!");
                 return;
             }
             if (cell.getMineCounter() == 0) {
@@ -181,9 +198,10 @@ public class PlayingField {
                     if (field[i][j].getMineCounter() == 0 && !field[i][j].isMined()) {
                         zeroCase(i, j);
                     }
-                    field[i][j].setOpen(true);
-                    openedCount += 1;
-
+                    if (!field[i][j].isOpen()) {
+                        field[i][j].setOpen(true);
+                        openedCount += 1;
+                    }
                     if (field[i][j].isMined()) {
                         openField(field);
                         gameOver = true;
@@ -192,6 +210,8 @@ public class PlayingField {
                         if (openedCount == rows * columns - mines) {
                             openField(field);
                             victory = true;
+                            gameTime = Math.round((System.nanoTime() - startTime) / 1000000000.0);
+                            System.out.println(gameTime + " секунд!");
                         }
                     }
                 }
@@ -200,7 +220,8 @@ public class PlayingField {
     }
 
 
-    public void move(int x, int y, boolean flag, boolean questioned, boolean wheelClick) {
+    public void move(int x, int y, boolean flag, boolean questioned, boolean wheelClick, boolean firstMove) {
+
         // Если была введена команда flag.
         if (flag) {
             if (field[x][y].isFlagged()) {
@@ -233,7 +254,13 @@ public class PlayingField {
             } else {
                 return;
             }
+            return;
         }
+        //-------------Нажатие левой кнопки------------------------------------------------
+        if (firstMove) { // Засекается время во время первого хода
+            startTime = System.nanoTime();
+        }
+        //   System.out.println(start);
         if (field[x][y].isFlagged()) {
             gameOver = false;
         } else if (field[x][y].getMineCounter() != 0 && !field[x][y].isMined() /*&& !field[x][y].isOpen()*/) { //Если попали на цифру
@@ -242,6 +269,8 @@ public class PlayingField {
             if (openedCount == rows * columns - mines) {
                 openField(field);
                 victory = true;
+                gameTime = Math.round((System.nanoTime() - startTime) / 1000000000.0);
+                System.out.println(gameTime + " секунд!");
             }
         } else if (field[x][y].isMined()) { // Если заминировано, то тогда открываем все ячейки
             openField(field);
@@ -249,6 +278,10 @@ public class PlayingField {
         } else {                           // Если попали на 0
             zeroCase(x, y);
         }
+     /*   if (openedCount == rows * columns - mines) {
+            openField(field);
+            victory = true;
+        }*/
     }
 
     public Cell[][] getField() {
