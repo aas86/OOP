@@ -59,24 +59,24 @@ public class PlayingField {
     public void generate_Bombs_Debug() {
         field[1][0].setMined(true);
         field[1][0].setMineCounter_Debug(0);
-        field[1][7].setMined(true);
-        field[1][7].setMineCounter_Debug(0);
+        field[2][8].setMined(true);
+        field[2][8].setMineCounter_Debug(0);
         field[3][0].setMined(true);
         field[3][0].setMineCounter_Debug(0);
-        field[3][5].setMined(true);
-        field[3][5].setMineCounter_Debug(0);
-        field[4][1].setMined(true);
-        field[4][1].setMineCounter_Debug(0);
-        field[4][8].setMined(true);
-        field[4][8].setMineCounter_Debug(0);
-        field[5][4].setMined(true);
-        field[5][4].setMineCounter_Debug(0);
-        field[5][6].setMined(true);
-        field[5][6].setMineCounter_Debug(0);
-        field[6][3].setMined(true);
-        field[6][3].setMineCounter_Debug(0);
-        field[7][5].setMined(true);
-        field[7][5].setMineCounter_Debug(0);
+        field[4][7].setMined(true);
+        field[4][7].setMineCounter_Debug(0);
+        field[7][4].setMined(true);
+        field[7][4].setMineCounter_Debug(0);
+        field[7][7].setMined(true);
+        field[7][7].setMineCounter_Debug(0);
+        field[8][0].setMined(true);
+        field[8][0].setMineCounter_Debug(0);
+        field[8][1].setMined(true);
+        field[8][1].setMineCounter_Debug(0);
+        field[8][7].setMined(true);
+        field[8][7].setMineCounter_Debug(0);
+        field[8][8].setMined(true);
+        field[8][8].setMineCounter_Debug(0);
     }
 
     public void countBombs(int rows, int columns) {

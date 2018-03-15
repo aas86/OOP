@@ -4,14 +4,13 @@ import ru.academITschool.alaev.interfaces.View;
 import ru.academITschool.alaev.interfaces.ViewListener;
 import ru.academITschool.alaev.model.Cell;
 import ru.academITschool.alaev.model.PlayingField;
+import ru.academITschool.alaev.model.RecordTable;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class FrameView implements View {
     private final ArrayList<ViewListener> listeners = new ArrayList<>();
@@ -59,13 +58,16 @@ public class FrameView implements View {
             gameOverDialog.setVisible();
         } else if (field.isVictory()) { // Отрисовка диалогового окна, если выиграли
             gameOver = true;
-            try {
-                // Нужно сравнить время текущей игры с рекордами
-                recordTable(field.getGameTime());
-            } catch (FileNotFoundException e) {
-                System.out.println("Нужно создать файл recordTable.txt в папке MineSweeper!");
-                e.printStackTrace();
-            }
+                // Нужно сравнить время текущей игры с рекордами и, если нужно, вывести диалог о вводе имени
+                RecordTable recordTable = new RecordTable(field.getGameTime());
+                if (recordTable.isEmpty()){
+                    EnterNameDialog enterNameDialog = new EnterNameDialog(field.getGameTime());
+                    recordTable.createRecordTable(enterNameDialog);
+                } else if (!recordTable.isEmpty()){
+                    // Если таблица не пустая, то нужно проверить нужно ли записать в неё текущее время
+                    System.out.println(recordTable.isNeedWriteRecord());
+                }
+
             gameOverDialog.setSmile(gladSmile);
             gameOverDialog.setTitle("You Win!");
             gameOverDialog.setVisible();
@@ -141,15 +143,16 @@ public class FrameView implements View {
         }
     }
 
-    private void recordTable(long gameTime) throws FileNotFoundException {
-        //RecordTable dialog = new RecordTable(gameTime);
-        Scanner scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"));
+   /* private void recordTable(long gameTime) throws FileNotFoundException {
+       // RecordTable dialog = new RecordTable(gameTime);
+       // EnterNameDialog enterNameDialog = new EnterNameDialog(gameTime);
+       // Scanner scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"));
             if (!scanner.hasNextLine()) { // Если таблица рекордов пустая
-                RecordTable recordTable = new RecordTable(gameTime);
-            }  else if (scanner.hasNextLine()){
+                RecordTable recordTable = new RecordTable(gameTime, enterNameDialog);
+            }  else if (scanner.hasNextLine()){ // Если таблица рекордов не пустая и нужно куда-то вставить результат
 
             }
-        }
+        }*/
 
 
     private void initFrame() {
@@ -172,8 +175,7 @@ public class FrameView implements View {
     }
 
     private void initEvents() {
-       // start = System.nanoTime();
-        for (int i = 0; i < rows; i++) {
+            for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 final int x = i;
                 final int y = j;
