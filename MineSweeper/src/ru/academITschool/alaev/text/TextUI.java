@@ -80,6 +80,7 @@ public class TextUI implements View {
                 boolean flag = false;
                 boolean questioned = false;
                 boolean wheelClick = false;
+                boolean rightButtonClick = false;
                 boolean correctCommand = false;
 
                 while (!correctCommand) {
@@ -91,10 +92,12 @@ public class TextUI implements View {
                         System.out.println("Неверно введена команда!");
                     } else if (textCommand.equals("flag")) {
                         flag = true;
+                        rightButtonClick = true;
                         coordinateInput();
                         correctCommand = true;
                     } else if (textCommand.equals("question")) {
                         questioned = true;
+                        rightButtonClick = true;
                         coordinateInput();
                         correctCommand = true;
                     } else if (textCommand.equals("open")) {
@@ -111,7 +114,7 @@ public class TextUI implements View {
                 }
                 for (ViewListener listener : listeners) {
                     int mines = 10;
-                    listener.needMakeMove(x, y, rows, columns, mines, flag, questioned, wheelClick);
+                    listener.needMakeMove(x, y, rows, columns, mines, rightButtonClick, wheelClick);
                 }
             }
         }

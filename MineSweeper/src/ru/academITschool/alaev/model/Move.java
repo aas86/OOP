@@ -13,7 +13,7 @@ public class Move implements Minesweeper {
 
     @Override
     public PlayingField makeMove(int x, int y, int rows, int columns, int mines,
-                                 boolean flag, boolean questioned, boolean wheelClick) {
+                                 boolean rightButtonClick, boolean wheelClick) {
         // x и y координаты хода
         // rows, columns и mines нужны для первого хода, т.к
         // после первого хода создаётся игровое поле с минами
@@ -22,12 +22,12 @@ public class Move implements Minesweeper {
             this.playingField.generateBombs(x, y, mines, rows, columns);
            //this.playingField.generate_Bombs_Debug();
             this.playingField.countBombs(rows, columns);
-            this.playingField.move(x, y, flag, questioned, wheelClick, true);
+            this.playingField.move(x, y, rightButtonClick, wheelClick, true);
             firstMove = false;
             //System.out.println(playingField.getOpenedCount());
             return playingField;
         } else {
-            playingField.move(x, y, flag, questioned, wheelClick, false);
+            playingField.move(x, y, rightButtonClick, wheelClick, false);
            //System.out.println(playingField.getOpenedCount());
             return playingField;
         }

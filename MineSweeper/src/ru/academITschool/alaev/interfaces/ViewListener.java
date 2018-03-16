@@ -4,8 +4,9 @@ package ru.academITschool.alaev.interfaces;
 public interface ViewListener {
     // событие, которое означает, что view хочет открыть поле
     void needMakeMove(int x, int y, int rows, int columns, int mines,
-                      boolean flag, boolean questioned, boolean wheelClick);
+                      boolean rightButtonClick, boolean wheelClick);
 
     void needNewGame(boolean firstMove);
+
 }
 

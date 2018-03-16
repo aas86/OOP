@@ -220,10 +220,10 @@ public class PlayingField {
     }
 
 
-    public void move(int x, int y, boolean flag, boolean questioned, boolean wheelClick, boolean firstMove) {
+    public void move(int x, int y, boolean rightButtonClick, boolean wheelClick, boolean firstMove) {
 
         // Если была введена команда flag.
-        if (flag) {
+       /* if (flag) {
             if (field[x][y].isFlagged()) {
                 field[x][y].setFlagged(false);
                 return;
@@ -238,6 +238,20 @@ public class PlayingField {
                 return;
             } else {
                 field[x][y].setQuestioned(true);
+                return;
+            }
+        }*/
+        if (rightButtonClick) {
+            if (!field[x][y].isFlagged() && !field[x][y].isQuestioned()) {
+                field[x][y].setFlagged(true);
+                return;
+            } else if (field[x][y].isFlagged() && !field[x][y].isQuestioned()) {
+                field[x][y].setFlagged(false);
+                field[x][y].setQuestioned(true);
+                return;
+            } else if (!field[x][y].isFlagged() && field[x][y].isQuestioned()) {
+                field[x][y].setFlagged(false);
+                field[x][y].setQuestioned(false);
                 return;
             }
         }

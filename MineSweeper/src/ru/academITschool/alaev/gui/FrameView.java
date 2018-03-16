@@ -20,9 +20,11 @@ public class FrameView implements View {
     private final ImageIcon twoIcon = new ImageIcon("MineSweeper\\images\\twoImage.png");
     private final ImageIcon threeIcon = new ImageIcon("MineSweeper\\images\\threeImage.png");
     private final ImageIcon fourIcon = new ImageIcon("MineSweeper\\images\\fourImage.png");
+    private final ImageIcon fiveIcon = new ImageIcon("MineSweeper\\images\\fiveImage.png");
     private final ImageIcon sadSmile = new ImageIcon("MineSweeper\\images\\SadSmile.png");
     private final ImageIcon gladSmile = new ImageIcon("MineSweeper\\images\\GladSmile.png");
     private final ImageIcon flagIcon = new ImageIcon("MineSweeper\\images\\flag.png");
+    private final ImageIcon questionIcon = new ImageIcon("MineSweeper\\images\\questionImage.png");
     private final int rows = 9;
     private final int columns = 9;
     private final JPanel field = new JPanel();
@@ -58,15 +60,15 @@ public class FrameView implements View {
             gameOverDialog.setVisible();
         } else if (field.isVictory()) { // Отрисовка диалогового окна, если выиграли
             gameOver = true;
-                // Нужно сравнить время текущей игры с рекордами и, если нужно, вывести диалог о вводе имени
-                RecordTable recordTable = new RecordTable(field.getGameTime());
-                if (recordTable.isEmpty()){
-                    EnterNameDialog enterNameDialog = new EnterNameDialog(field.getGameTime());
-                    recordTable.createRecordTable(enterNameDialog);
-                } else if (!recordTable.isEmpty()){
-                    // Если таблица не пустая, то нужно проверить нужно ли записать в неё текущее время
-                    System.out.println(recordTable.isNeedWriteRecord());
-                }
+            // Нужно сравнить время текущей игры с рекордами и, если нужно, вывести диалог о вводе имени
+            RecordTable recordTable = new RecordTable(field.getGameTime());
+            if (recordTable.isEmpty()) {
+                EnterNameDialog enterNameDialog = new EnterNameDialog(field.getGameTime());
+                recordTable.createRecordTable(enterNameDialog);
+            } else if (!recordTable.isEmpty()) {
+                // Если таблица не пустая, то нужно проверить нужно ли записать в неё текущее время
+                System.out.println(recordTable.isNeedWriteRecord());
+            }
 
             gameOverDialog.setSmile(gladSmile);
             gameOverDialog.setTitle("You Win!");
@@ -110,24 +112,34 @@ public class FrameView implements View {
             for (int j = 0; j < field.getColumns(); j++) {
                 if (cell[i][j].isOpen() && !cell[i][j].isMined()) {
                     String num = cell[i][j].mineCounterToString();
-                    if (num.equals("1")) {
-                        buttons[i][j].setIcon(oneIcon);
-                        buttons[i][j].setDisabledIcon(oneIcon);
-                        buttons[i][j].setEnabled(false);
-                    } else if (num.equals("2")) {
-                        buttons[i][j].setIcon(twoIcon);
-                        buttons[i][j].setDisabledIcon(twoIcon);
-                        buttons[i][j].setEnabled(false);
-                    } else if (num.equals("3")) {
-                        buttons[i][j].setIcon(threeIcon);
-                        buttons[i][j].setDisabledIcon(threeIcon);
-                        buttons[i][j].setEnabled(false);
-                    } else if (num.equals("4")) {
-                        buttons[i][j].setIcon(fourIcon);
-                        buttons[i][j].setDisabledIcon(fourIcon);
-                        buttons[i][j].setEnabled(false);
-                    } else {
-                        buttons[i][j].setEnabled(false);
+                    switch (num) {
+                        case "1":
+                            buttons[i][j].setIcon(oneIcon);
+                            buttons[i][j].setDisabledIcon(oneIcon);
+                            buttons[i][j].setEnabled(false);
+                            break;
+                        case "2":
+                            buttons[i][j].setIcon(twoIcon);
+                            buttons[i][j].setDisabledIcon(twoIcon);
+                            buttons[i][j].setEnabled(false);
+                            break;
+                        case "3":
+                            buttons[i][j].setIcon(threeIcon);
+                            buttons[i][j].setDisabledIcon(threeIcon);
+                            buttons[i][j].setEnabled(false);
+                            break;
+                        case "4":
+                            buttons[i][j].setIcon(fourIcon);
+                            buttons[i][j].setDisabledIcon(fourIcon);
+                            buttons[i][j].setEnabled(false);
+                            break;
+                        case "5":
+                            buttons[i][j].setIcon(fiveIcon);
+                            buttons[i][j].setDisabledIcon(fiveIcon);
+                            buttons[i][j].setEnabled(false);
+                        default:
+                            buttons[i][j].setEnabled(false);
+                            break;
                     }
                 } else if (cell[i][j].isOpen() && cell[i][j].isMined()) {
                     buttons[i][j].setIcon(bombIcon);
@@ -135,6 +147,8 @@ public class FrameView implements View {
                     buttons[i][j].setEnabled(false);
                 } else if (cell[i][j].isFlagged()) {
                     buttons[i][j].setIcon(flagIcon);
+                } else if (cell[i][j].isQuestioned()) {
+                    buttons[i][j].setIcon(questionIcon);
                 } else {
                     buttons[i][j].setEnabled(true);
                     buttons[i][j].setIcon(null);
@@ -175,30 +189,31 @@ public class FrameView implements View {
     }
 
     private void initEvents() {
-            for (int i = 0; i < rows; i++) {
+        for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 final int x = i;
                 final int y = j;
                 buttons[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        boolean isFlagged = false;
+                       // boolean isFlagged = false;
+                        boolean rightButtonClick = false;
                         boolean wheelClick = false;
                         //   System.out.println(e.getClickCount());
                         super.mousePressed(e);
-                       // System.out.println("Время начала игры " + start);
+                        // System.out.println("Время начала игры " + start);
                         System.out.println("Нажата кнопка № " + e.getButton());
                         //   System.out.println(MouseInfo.getNumberOfButtons());
                         System.out.println("Координата x " + x);
                         System.out.println("Координата y " + y);
                         if (e.getButton() == 3) { // Если нажали правой кнопкой мыши
-                            isFlagged = true;
+                            rightButtonClick = true;
                         } else if (e.getButton() == 2) { // Если нажали колёсиком мыши
                             wheelClick = true;
                         }
                         for (ViewListener listener : listeners) {
                             int mines = 10;
-                            listener.needMakeMove(x, y, rows, columns, mines, isFlagged, false, wheelClick);
+                            listener.needMakeMove(x, y, rows, columns, mines, rightButtonClick, wheelClick);
                         }
 
                     }
