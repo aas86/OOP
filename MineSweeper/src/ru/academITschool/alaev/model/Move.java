@@ -2,6 +2,9 @@ package ru.academITschool.alaev.model;
 
 import ru.academITschool.alaev.interfaces.Minesweeper;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class Move implements Minesweeper {
     private boolean firstMove = true;
     private PlayingField playingField;
@@ -20,7 +23,7 @@ public class Move implements Minesweeper {
         if (firstMove) {
             this.playingField = generateField(rows, columns, mines);
             this.playingField.generateBombs(x, y, mines, rows, columns);
-           //this.playingField.generate_Bombs_Debug();
+            //this.playingField.generate_Bombs_Debug();
             this.playingField.countBombs(rows, columns);
             this.playingField.move(x, y, rightButtonClick, wheelClick, true);
             firstMove = false;
@@ -28,9 +31,19 @@ public class Move implements Minesweeper {
             return playingField;
         } else {
             playingField.move(x, y, rightButtonClick, wheelClick, false);
-           //System.out.println(playingField.getOpenedCount());
+            //System.out.println(playingField.getOpenedCount());
             return playingField;
         }
+    }
+
+    public RecordTable writeRecord(long gameTime, String name) throws IOException {
+        RecordTable recordTable = null;
+        try {
+            recordTable = new RecordTable(gameTime, name);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return recordTable;
     }
 
     @Override

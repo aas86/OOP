@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class FrameView implements View {
@@ -29,7 +30,7 @@ public class FrameView implements View {
     private final int columns = 9;
     private final JPanel field = new JPanel();
     private JButton[][] buttons = new JButton[rows][columns];
-    private boolean gameOver = false;
+    //private boolean gameOver = false;
 
     @Override
     public void startApplication() {
@@ -53,6 +54,7 @@ public class FrameView implements View {
     @Override
     public void showMove(PlayingField field) {
         GameOverDialog gameOverDialog = new GameOverDialog();
+        boolean gameOver = false;
         if (field.isGameOver()) { // Отрисовка диалогового окна, если проиграли
             gameOver = true;
             gameOverDialog.setSmile(sadSmile);
@@ -60,16 +62,23 @@ public class FrameView implements View {
             gameOverDialog.setVisible();
         } else if (field.isVictory()) { // Отрисовка диалогового окна, если выиграли
             gameOver = true;
-            // Нужно сравнить время текущей игры с рекордами и, если нужно, вывести диалог о вводе имени
-            RecordTable recordTable = new RecordTable(field.getGameTime());
-            if (recordTable.isEmpty()) {
-                EnterNameDialog enterNameDialog = new EnterNameDialog(field.getGameTime());
-                recordTable.createRecordTable(enterNameDialog);
-            } else if (!recordTable.isEmpty()) {
-                // Если таблица не пустая, то нужно проверить нужно ли записать в неё текущее время
-                System.out.println(recordTable.isNeedWriteRecord());
-            }
 
+            EnterNameDialog enterNameDialog = new EnterNameDialog(field.getGameTime());
+            enterNameDialog.getOkButton().addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    super.mousePressed(e);
+                    String name = enterNameDialog.getName().getText();
+                    for (ViewListener listener : listeners) {
+                        try {
+                            listener.needWriteRecord(field.getGameTime(),name);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                        enterNameDialog.closeDialog();
+                    }
+                }
+            });
             gameOverDialog.setSmile(gladSmile);
             gameOverDialog.setTitle("You Win!");
             gameOverDialog.setVisible();

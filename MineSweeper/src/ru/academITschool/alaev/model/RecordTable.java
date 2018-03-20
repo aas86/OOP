@@ -4,25 +4,21 @@ import ru.academITschool.alaev.gui.EnterNameDialog;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Scanner;
 
 public class RecordTable {
     private long timeResult;
     private Scanner scanner;
 
-    public RecordTable(long gameTime) {
+    public RecordTable(long gameTime, String name) throws IOException {
         this.timeResult = gameTime;
-        try {
-            this.scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        try (FileWriter writer = new FileWriter("MineSweeper\\recordTable.txt", true)){
+            writer.write(name + "|" + timeResult + "| seconds" + "\n");
         }
     }
 
-    public boolean isEmpty() {
+  /*  public boolean isEmpty() {
         return !this.scanner.hasNextLine();
     }
 

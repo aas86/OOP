@@ -9,15 +9,14 @@ import ru.academITschool.alaev.text.TextUI;
 
 public class Main {
     public static void main(String[] args) {
-      //  TextUI consoleView = new TextUI();
-
+        // TextUI consoleView = new TextUI();
         View frameView = new FrameView();
         Minesweeper minesweeper = new Move();
         Controller controller = new Controller(frameView, minesweeper);
        // Controller controller = new Controller(consoleView, minesweeper);
         frameView.addViewListener(controller);
-     //   consoleView.addViewListener(controller);
-     //   consoleView.startApplication();
+       // consoleView.addViewListener(controller);
+       // consoleView.startApplication();
         frameView.startApplication();
 //        consoleView.startApplication();
     }

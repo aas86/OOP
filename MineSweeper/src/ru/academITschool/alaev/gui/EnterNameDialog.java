@@ -5,16 +5,16 @@ import java.awt.*;
 
 public class EnterNameDialog {
     private final JTextField name = new JTextField();
-    private JLabel label1 = new JLabel();
+    private JLabel timeLabel = new JLabel();
     private final JLabel label = new JLabel("Введите своё имя");
     private JDialog enterNameDialog = new JDialog();
     private final JButton okButton = new JButton("OK");
 
     EnterNameDialog(long timeResult){
         initEnterNameDialog();
-        label1.setText("Ваше время " + timeResult + "сек");
+        timeLabel.setText("Ваше время " + timeResult + "сек");
         enterNameDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        enterNameDialog.setMinimumSize(new Dimension(250, 150));
+        enterNameDialog.setMinimumSize(new Dimension(250, 250));
         enterNameDialog.setLocationRelativeTo(null);
         enterNameDialog.setVisible(true);
     }
@@ -62,6 +62,6 @@ public class EnterNameDialog {
         c4.fill = GridBagConstraints.NONE;
         c4.anchor = GridBagConstraints.CENTER;
         c4.insets = new Insets(0, 0, 20, 0);
-        enterNameDialog.add(label1, c4);
+        enterNameDialog.add(timeLabel, c4);
     }
 }

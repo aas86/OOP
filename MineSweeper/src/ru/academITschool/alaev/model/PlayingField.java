@@ -128,7 +128,6 @@ public class PlayingField {
             Cell cell = queue.removeFirst();
             cell.setOpen(true);
             openedCount += 1;
-
             if (openedCount == rows * columns - mines) {
                 openField(field);
                 victory = true;
@@ -136,6 +135,7 @@ public class PlayingField {
                 System.out.println(gameTime + " секунд!");
                 return;
             }
+      //   checkVictory();
             if (cell.getMineCounter() == 0) {
                 for (int i = cell.getRowPosition() - 1; i <= cell.getRowPosition() + 1; i++) {
                     if (i < 0) {
@@ -212,7 +212,9 @@ public class PlayingField {
                             victory = true;
                             gameTime = Math.round((System.nanoTime() - startTime) / 1000000000.0);
                             System.out.println(gameTime + " секунд!");
+                            return;
                         }
+                     //  checkVictory();
                     }
                 }
             }
@@ -221,37 +223,22 @@ public class PlayingField {
 
 
     public void move(int x, int y, boolean rightButtonClick, boolean wheelClick, boolean firstMove) {
-
-        // Если была введена команда flag.
-       /* if (flag) {
-            if (field[x][y].isFlagged()) {
-                field[x][y].setFlagged(false);
-                return;
-            } else {
-                field[x][y].setFlagged(true);
-                return;
-            }
-        }
-        if (questioned) {  // Если была введена команда question
-            if (field[x][y].isQuestioned()) {
-                field[x][y].setQuestioned(false);
-                return;
-            } else {
-                field[x][y].setQuestioned(true);
-                return;
-            }
-        }*/
         if (rightButtonClick) {
-            if (!field[x][y].isFlagged() && !field[x][y].isQuestioned()) {
-                field[x][y].setFlagged(true);
-                return;
-            } else if (field[x][y].isFlagged() && !field[x][y].isQuestioned()) {
-                field[x][y].setFlagged(false);
-                field[x][y].setQuestioned(true);
-                return;
-            } else if (!field[x][y].isFlagged() && field[x][y].isQuestioned()) {
-                field[x][y].setFlagged(false);
-                field[x][y].setQuestioned(false);
+            // Нажимать правой кнопкой можно только по закрытой клетке
+            if (!field[x][y].isOpen()) {
+                if (!field[x][y].isFlagged() && !field[x][y].isQuestioned()) {
+                    field[x][y].setFlagged(true);
+                    return;
+                } else if (field[x][y].isFlagged() && !field[x][y].isQuestioned()) {
+                    field[x][y].setFlagged(false);
+                    field[x][y].setQuestioned(true);
+                    return;
+                } else if (!field[x][y].isFlagged() && field[x][y].isQuestioned()) {
+                    field[x][y].setFlagged(false);
+                    field[x][y].setQuestioned(false);
+                    return;
+                }
+            } else{
                 return;
             }
         }
@@ -260,6 +247,11 @@ public class PlayingField {
             if (field[x][y].isOpen() && field[x][y].getMineCounter() != 0) { // если клетка открыта и не 0
                 // то нужно посчитать кол-во флажков в соседях
                 flagCount = flagsCount(x, y);
+          /*      System.out.println("-----------------");
+                System.out.println("Клетка открыта - " + field[x][y].isOpen());
+                System.out.println(field[x][y].getMineCounter());
+                System.out.println("Флажков вокруг " + flagCount);
+                System.out.println("-----------------");*/
                 if (flagCount == field[x][y].getMineCounter()) { // если кол-во флажков в соседях равно цифре в поле,
                     // то открываем всех соседей если они закрыты.
                     openFlagNeighbors(x, y);
@@ -270,7 +262,7 @@ public class PlayingField {
             }
             return;
         }
-        //-------------Нажатие левой кнопки------------------------------------------------
+        //-------------Нажатие левой кнопки-----------------------------------
         if (firstMove) { // Засекается время во время первого хода
             startTime = System.nanoTime();
         }
@@ -285,7 +277,9 @@ public class PlayingField {
                 victory = true;
                 gameTime = Math.round((System.nanoTime() - startTime) / 1000000000.0);
                 System.out.println(gameTime + " секунд!");
+                //return;
             }
+        //  checkVictory();
         } else if (field[x][y].isMined()) { // Если заминировано, то тогда открываем все ячейки
             openField(field);
             gameOver = true;
@@ -298,6 +292,15 @@ public class PlayingField {
         }*/
     }
 
+    private void checkVictory(){
+        if (openedCount == rows * columns - mines) {
+            openField(field);
+            victory = true;
+            gameTime = Math.round((System.nanoTime() - startTime) / 1000000000.0);
+            System.out.println(gameTime + " секунд!");
+            return;
+        }
+    }
     public Cell[][] getField() {
         return field;
     }
