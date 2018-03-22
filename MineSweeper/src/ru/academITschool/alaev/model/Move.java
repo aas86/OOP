@@ -36,15 +36,19 @@ public class Move implements Minesweeper {
         }
     }
 
-    public RecordTable writeRecord(long gameTime, String name) throws IOException {
-        RecordTable recordTable = null;
-        try {
-            recordTable = new RecordTable(gameTime, name);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+    public void writeRecord(long gameTime, String name) throws IOException {
+        RecordWriter recordWriter = new RecordWriter();
+        if (recordWriter.isEmpty()) {
+            recordWriter.writeFirstRecord(gameTime, name);
+        } /*else if (recordWriter.isLessThenFive()) { // Если меньше 5 рекордов, то записываем всё
+            recordWriter.writeRecord(gameTime, name);
+        } */else { // Иначе, если больше 5, то проверяем, а нужно ли записывать текущее время (является ли оно рекордом)
+            // Для этого находим худшее время и сравниваем с ним.
+            recordWriter.writeRecord(gameTime, name);
+
+            }
         }
-        return recordTable;
-    }
+
 
     @Override
     public void makeNewGame(boolean firstMove) {

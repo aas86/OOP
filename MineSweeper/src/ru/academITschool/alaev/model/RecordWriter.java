@@ -1,22 +1,118 @@
 package ru.academITschool.alaev.model;
 
-import ru.academITschool.alaev.gui.EnterNameDialog;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
-public class RecordTable {
-    private long timeResult;
-    private Scanner scanner;
+public class RecordWriter {
+    private final int RECORDS_COUNT = 5;
 
-    public RecordTable(long gameTime, String name) throws IOException {
-        this.timeResult = gameTime;
-        try (FileWriter writer = new FileWriter("MineSweeper\\recordTable.txt", true)){
-            writer.write(name + "|" + timeResult + "| seconds" + "\n");
+
+    public RecordWriter() {
+      /*  try {
+            this.writer = new FileWriter("MineSweeper\\recordTable.txt", true);
+            //    this.scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    }
+
+    public boolean isEmpty() throws FileNotFoundException {
+        return !new Scanner(new FileInputStream("MineSweeper\\recordTable.txt")).hasNextLine();
+    }
+
+    public void writeFirstRecord(long gameTime, String name) throws IOException {
+        try (FileWriter writer = new FileWriter("MineSweeper\\recordTable.txt", true)) {
+            writer.write(name + "|" + gameTime + "| seconds" + System.lineSeparator());
         }
     }
+
+    public void writeRecord(long gameTime, String name) throws IOException {
+        ArrayList<Records> timesList = new ArrayList<>();
+        timesList.add(new Records(name, (int) gameTime));
+        try (Scanner scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"))) {
+            while (scanner.hasNextLine()) {
+                String string = scanner.nextLine();
+                Pattern pattern = Pattern.compile("^(.*?)(\\|)(.*?)(\\|.*)");
+                Matcher matcher = pattern.matcher(string);
+                matcher.find();
+                String nameInTable = matcher.group(1);
+                int timeInTable = Integer.parseInt(matcher.group(3));
+                System.out.println(nameInTable + "           " + timeInTable);
+                timesList.add(new Records(nameInTable, timeInTable));
+            }
+        }
+        timesList.stream().sorted(((o1, o2) -> o1.getTime() - o2.getTime()));
+        int i = 0;
+        //  while (i < timesList.size() && i < RECORDS_COUNT) {
+       // String imyaNaZapis = timesList.get(i).getName();
+      //  int vremyaNaZapis = timesList.get(i).getTime();
+        try (FileWriter writer = new FileWriter("MineSweeper\\recordTable.txt", false)) {
+            while (i < timesList.size() && i < RECORDS_COUNT) {
+                String imyaNaZapis = timesList.get(i).getName();
+                int vremyaNaZapis = timesList.get(i).getTime();
+                writer.write(imyaNaZapis + "|" + vremyaNaZapis + "| seconds" + System.lineSeparator());
+                i++;
+            }
+
+        }
+        //}
+    }
+      /*  try {
+            this.writer.write(name + "|" + gameTime + "| seconds" + System.lineSeparator());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+
+    public boolean isLessThenFive() throws FileNotFoundException {
+        int stringCount = 0;
+        try (Scanner scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"))) {
+            while (scanner.hasNextLine()) {
+                String string = scanner.nextLine();
+                stringCount++;
+            }
+        }
+        // scanner.close();
+        return stringCount < RECORDS_COUNT;
+    }
+
+    public boolean isNeedWrite(long gameTime) throws FileNotFoundException {
+        int i = 0;
+        int[] records = new int[5];
+        try (Scanner scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"))) {
+            while (scanner.hasNextLine()) {
+                String string = scanner.nextLine();
+                Pattern pattern = Pattern.compile("^(.*?\\|)(.*?)(\\|.*)");
+                Matcher matcher = pattern.matcher(string);
+                matcher.find();
+                String str = matcher.group(2);
+                records[i] = Integer.parseInt(str);
+                i++;
+            }
+            Arrays.sort(records); // Получили все пять значений времени в виде массива и отсортировали его
+            /*records[4] = (int) gameTime;
+            Arrays.sort(records);*/
+            return gameTime < records[4];
+        }
+    }
+
+
+
+   /* public RecordTable(long gameTime, String name) throws IOException {
+        this.timeResult = gameTime;
+        try (FileWriter writer = new FileWriter("MineSweeper\\recordTable.txt", true)) {
+            writer.write(name + "|" + timeResult + "| seconds" + "\n");
+        }
+    }*/
+
+
 
   /*  public boolean isEmpty() {
         return !this.scanner.hasNextLine();

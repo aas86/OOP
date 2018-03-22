@@ -4,7 +4,7 @@ import ru.academITschool.alaev.interfaces.View;
 import ru.academITschool.alaev.interfaces.ViewListener;
 import ru.academITschool.alaev.model.Cell;
 import ru.academITschool.alaev.model.PlayingField;
-import ru.academITschool.alaev.model.RecordTable;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,7 +62,9 @@ public class FrameView implements View {
             gameOverDialog.setVisible();
         } else if (field.isVictory()) { // Отрисовка диалогового окна, если выиграли
             gameOver = true;
-
+            // Это момент выигрыша. Тут нужно проверить, стоит ли вызывать диалоговое окно для ввода
+            // имени или нет. Для этого вызвать через конструктор метод checkNeedWriteRecord и если true, то записать
+            // в нужное место в файл рекорд.
             EnterNameDialog enterNameDialog = new EnterNameDialog(field.getGameTime());
             enterNameDialog.getOkButton().addMouseListener(new MouseAdapter() {
                 @Override
