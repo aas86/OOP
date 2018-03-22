@@ -36,18 +36,31 @@ public class Move implements Minesweeper {
         }
     }
 
+    public boolean isRecord(long gameTime) throws FileNotFoundException {
+        RecordWriter recordWriter = new RecordWriter();
+        return recordWriter.isRecord(gameTime);
+    }
+
+
     public void writeRecord(long gameTime, String name) throws IOException {
         RecordWriter recordWriter = new RecordWriter();
         if (recordWriter.isEmpty()) {
             recordWriter.writeFirstRecord(gameTime, name);
-        } /*else if (recordWriter.isLessThenFive()) { // Если меньше 5 рекордов, то записываем всё
+        }
+        // Вообще здесь нужно проверить, а стоит ли вообще записывать текущее время в таблицу рекордов
+        // может время текущей игры больше максимального времени в файле.
+        // тогда этот метод должен быть не void, а он должен быть например
+        // public boolean writeRecord(long gameTime, String name) и возвращать true, когда нужно записать рекорд
+        // т.е. когда закончилась игра сравниваем текущее время с временем в таблице и если рекорд нужно записать, то
+        // открываем диалог с вводом имени.
+        /*else if (recordWriter.isLessThenFive()) { // Если меньше 5 рекордов, то записываем всё
             recordWriter.writeRecord(gameTime, name);
-        } */else { // Иначе, если больше 5, то проверяем, а нужно ли записывать текущее время (является ли оно рекордом)
+        } */ else { // Иначе, если больше 5, то проверяем, а нужно ли записывать текущее время (является ли оно рекордом)
             // Для этого находим худшее время и сравниваем с ним.
             recordWriter.writeRecord(gameTime, name);
 
-            }
         }
+    }
 
 
     @Override

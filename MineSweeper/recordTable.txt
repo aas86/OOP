@@ -1,5 +1,5 @@
-AAAASSSSSSS|19| seconds
-AAAA|12| seconds
-Annnd|30| seconds
-Annn|20| seconds
-Andrey|17| seconds
+Andrey|16| seconds
+Andrey|19| seconds
+Andrey|23| seconds
+Andrey|29| seconds
+Andrey|30| seconds

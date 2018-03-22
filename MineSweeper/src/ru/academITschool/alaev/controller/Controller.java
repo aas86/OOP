@@ -4,6 +4,7 @@ import ru.academITschool.alaev.interfaces.Minesweeper;
 import ru.academITschool.alaev.interfaces.View;
 import ru.academITschool.alaev.interfaces.ViewListener;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
@@ -26,6 +27,11 @@ public class Controller implements ViewListener {
     @Override
     public void needWriteRecord(long gameTime, String name) throws IOException {
        minesweeper.writeRecord(gameTime, name);
+    }
+
+    @Override
+    public boolean isRecord(long gameTime) throws FileNotFoundException {
+        return minesweeper.isRecord(gameTime);
     }
 
     @Override

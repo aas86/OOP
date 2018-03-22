@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -65,22 +66,34 @@ public class FrameView implements View {
             // Это момент выигрыша. Тут нужно проверить, стоит ли вызывать диалоговое окно для ввода
             // имени или нет. Для этого вызвать через конструктор метод checkNeedWriteRecord и если true, то записать
             // в нужное место в файл рекорд.
-            EnterNameDialog enterNameDialog = new EnterNameDialog(field.getGameTime());
-            enterNameDialog.getOkButton().addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    super.mousePressed(e);
-                    String name = enterNameDialog.getName().getText();
-                    for (ViewListener listener : listeners) {
-                        try {
-                            listener.needWriteRecord(field.getGameTime(),name);
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
-                        enterNameDialog.closeDialog();
+            for (ViewListener listener : listeners) {
+                try {
+                    if (listener.isRecord(field.getGameTime())){
+                        System.out.println("Нужно записывать время текущей игры!");
+                        EnterNameDialog enterNameDialog = new EnterNameDialog(field.getGameTime());
+                        enterNameDialog.getOkButton().addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mousePressed(MouseEvent e) {
+                                super.mousePressed(e);
+                                String name = enterNameDialog.getName().getText();
+                                for (ViewListener listener : listeners) {
+                                    try {
+                                        listener.needWriteRecord(field.getGameTime(),name);
+                                    } catch (IOException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                    enterNameDialog.closeDialog();
+                                }
+                            }
+                        });
+                    } else{
+                        System.out.println("Не нужно записывать время текущей игры!");
+
                     }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
-            });
+            }
             gameOverDialog.setSmile(gladSmile);
             gameOverDialog.setTitle("You Win!");
             gameOverDialog.setVisible();
@@ -118,6 +131,10 @@ public class FrameView implements View {
                 }
             });
         }
+        drawField(field);
+    }
+
+    private void drawField(PlayingField field){
         Cell[][] cell = field.getField();
         for (int i = 0; i < field.getRows(); i++) {
             for (int j = 0; j < field.getColumns(); j++) {
@@ -168,18 +185,6 @@ public class FrameView implements View {
         }
     }
 
-   /* private void recordTable(long gameTime) throws FileNotFoundException {
-       // RecordTable dialog = new RecordTable(gameTime);
-       // EnterNameDialog enterNameDialog = new EnterNameDialog(gameTime);
-       // Scanner scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"));
-            if (!scanner.hasNextLine()) { // Если таблица рекордов пустая
-                RecordTable recordTable = new RecordTable(gameTime, enterNameDialog);
-            }  else if (scanner.hasNextLine()){ // Если таблица рекордов не пустая и нужно куда-то вставить результат
-
-            }
-        }*/
-
-
     private void initFrame() {
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainFrame.setMinimumSize(new Dimension(500, 500));
@@ -217,16 +222,16 @@ public class FrameView implements View {
                         //   System.out.println(MouseInfo.getNumberOfButtons());
                         System.out.println("Координата x " + x);
                         System.out.println("Координата y " + y);
-                        if (e.getButton() == 3) { // Если нажали правой кнопкой мыши
+
+                        if (e.getButton() == MouseEvent.BUTTON3) { // Если нажали правой кнопкой мыши
                             rightButtonClick = true;
-                        } else if (e.getButton() == 2) { // Если нажали колёсиком мыши
+                        } else if (e.getButton() == MouseEvent.BUTTON2) { // Если нажали колёсиком мыши
                             wheelClick = true;
                         }
                         for (ViewListener listener : listeners) {
                             int mines = 10;
                             listener.needMakeMove(x, y, rows, columns, mines, rightButtonClick, wheelClick);
                         }
-
                     }
                 });
             }

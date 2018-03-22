@@ -62,9 +62,10 @@ public class Cell {
     }
 
 
-public String mineCounterToString(){
+    public String mineCounterToString() {
         return String.valueOf(mineCounter);
-}
+    }
+
     public int getMineCounter() {
         return mineCounter;
     }
@@ -72,9 +73,11 @@ public String mineCounterToString(){
     public void setMineCounter() {
         this.mineCounter += 1;
     }
-    public void setMineCounter_Debug(int n){
-    this.mineCounter = n;
+
+    public void setMineCounter_Debug(int n) {
+        this.mineCounter = n;
     }
+
     public boolean isOpen() {
         return isOpen;
     }

@@ -4,6 +4,7 @@ package ru.academITschool.alaev.interfaces;
 import ru.academITschool.alaev.model.PlayingField;
 
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface Minesweeper {
@@ -12,6 +13,7 @@ public interface Minesweeper {
 
     void makeNewGame(boolean firsMove);
     void writeRecord(long gameTime, String name) throws IOException;
+    boolean isRecord(long gameTime) throws FileNotFoundException;
 
 }
 

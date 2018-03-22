@@ -1,6 +1,7 @@
 package ru.academITschool.alaev.interfaces;
 
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface ViewListener {
@@ -10,5 +11,6 @@ public interface ViewListener {
 
     void needNewGame(boolean firstMove);
     void needWriteRecord(long gameTime, String name) throws IOException;
+    boolean isRecord(long gameTime) throws FileNotFoundException;
 }
 
