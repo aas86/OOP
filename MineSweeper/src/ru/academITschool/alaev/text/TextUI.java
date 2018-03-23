@@ -5,6 +5,8 @@ import ru.academITschool.alaev.interfaces.ViewListener;
 import ru.academITschool.alaev.model.Cell;
 import ru.academITschool.alaev.model.PlayingField;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -57,7 +59,7 @@ public class TextUI implements View {
     }
 
     @Override
-    public void startApplication() {
+    public void startApplication() throws IOException {
         System.out.println("Если нужно изменить размер поля введите команду change field");
         System.out.println("Для выхода введите exit");
         System.out.print("Для начала нажмите Enter");

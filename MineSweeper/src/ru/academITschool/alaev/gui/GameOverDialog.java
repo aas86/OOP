@@ -4,14 +4,13 @@ package ru.academITschool.alaev.gui;
 import javax.swing.*;
 import java.awt.*;
 
-
-public class GameOverDialog {
+class GameOverDialog {
     private JLabel smile = new JLabel();
-    private JButton newGameButton = new JButton("New game");
-    private JButton exitButton = new JButton("Exit");
+    private JButton newGameButton = new JButton("Новая игра");
+    private JButton exitButton = new JButton("Выход");
     private JDialog gameOverDialog = new JDialog();
 
-    public GameOverDialog() {
+    GameOverDialog() {
         initGameOverDialog();
         gameOverDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         gameOverDialog.setMinimumSize(new Dimension(250, 150));
@@ -19,13 +18,18 @@ public class GameOverDialog {
 
     }
 
-    void setVisible() {
+    void makeWinDialog(ImageIcon gladSmile){
+        this.smile.setIcon(gladSmile);
+        this.gameOverDialog.setTitle("Вы выиграли!");
         this.gameOverDialog.setVisible(true);
     }
 
-    void setTitle(String title) {
-        this.gameOverDialog.setTitle(title);
+    void makeLooseDialog(ImageIcon sadSmile){
+        this.smile.setIcon(sadSmile);
+        this.gameOverDialog.setTitle("Вы проиграли!");
+        this.gameOverDialog.setVisible(true);
     }
+
 
     JButton getExitButton() {
         return exitButton;
@@ -37,10 +41,6 @@ public class GameOverDialog {
 
     void closeDialog() {
         this.gameOverDialog.dispose();
-    }
-
-    void setSmile(ImageIcon smile) {
-        this.smile.setIcon(smile);
     }
 
     private void initGameOverDialog() {

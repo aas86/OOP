@@ -13,8 +13,10 @@ public class RecordWriter {
     public RecordWriter() {
     }
 
-    public boolean isEmpty() throws FileNotFoundException {
-        return !new Scanner(new FileInputStream("MineSweeper\\recordTable.txt")).hasNextLine();
+    public boolean isEmpty() throws IOException {
+        try (Scanner scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"))) {
+            return !scanner.hasNextLine();
+        }
     }
 
     public void writeFirstRecord(long gameTime, String name) throws IOException {
@@ -34,7 +36,6 @@ public class RecordWriter {
                 matcher.find();
                 String nameInTable = matcher.group(1);
                 int timeInTable = Integer.parseInt(matcher.group(3));
-                // System.out.println(nameInTable + "           " + timeInTable);
                 timesList.add(new Records(nameInTable, timeInTable));
             }
         }
@@ -52,7 +53,7 @@ public class RecordWriter {
         }
     }
 
-    public boolean isRecord(long gameTime) throws FileNotFoundException {
+    public boolean isRecord(long gameTime) throws IOException {
         int i = 0;
         int[] records = new int[5];
         try (Scanner scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"))) {
@@ -60,93 +61,19 @@ public class RecordWriter {
                 String string = scanner.nextLine();
                 Pattern pattern = Pattern.compile("^(.*?\\|)(.*?)(\\|.*)");
                 Matcher matcher = pattern.matcher(string);
-                matcher.find();
-                String str = matcher.group(2);
-                records[i] = Integer.parseInt(str);
-                i++;
+                if (!matcher.find()) {
+
+                } else {
+                    String str = matcher.group(2);
+                    records[i] = Integer.parseInt(str);
+                    i++;
+                }
             }
-         //   Arrays.sort(records); // Получили все пять значений времени в виде массива и отсортировали его
+            //   Arrays.sort(records); // Получили все пять значений времени в виде массива и отсортировали его
             return i < RECORDS_COUNT || (int) gameTime < records[i - 1];
-        }
-
-    }
-
-
-   /* public boolean isLessThenFive() throws FileNotFoundException {
-        int stringCount = 0;
-        try (Scanner scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"))) {
-            while (scanner.hasNextLine()) {
-                String string = scanner.nextLine();
-                stringCount++;
-            }
-        }
-        // scanner.close();
-        return stringCount < RECORDS_COUNT;
-    }*/
-
-   /* public boolean isNeedWrite(long gameTime) throws FileNotFoundException {
-        int i = 0;
-        int[] records = new int[5];
-        try (Scanner scanner = new Scanner(new FileInputStream("MineSweeper\\recordTable.txt"))) {
-            while (scanner.hasNextLine()) {
-                String string = scanner.nextLine();
-                Pattern pattern = Pattern.compile("^(.*?\\|)(.*?)(\\|.*)");
-                Matcher matcher = pattern.matcher(string);
-                matcher.find();
-                String str = matcher.group(2);
-                records[i] = Integer.parseInt(str);
-                i++;
-            }
-            Arrays.sort(records); // Получили все пять значений времени в виде массива и отсортировали его
-            /*records[4] = (int) gameTime;
-            Arrays.sort(records);
-            return gameTime < records[4];
+        } catch (FileNotFoundException e) {
+            new FileWriter("MineSweeper\\recordTable.txt");
+            return true;
         }
     }
-
-
-
-
-
-
-
-
-   /* public void createRecordTable(EnterNameDialog dialog) {
-        dialog.getOkButton().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
-                String name = dialog.getName().getText();
-                try (PrintWriter writer = new PrintWriter("MineSweeper\\recordTable.txt")) {
-                    writer.print(name + "|" + timeResult + "| seconds");
-                    //   writer.println(timeResult + " сек");
-                    dialog.closeDialog();
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
-    }
-
-  /*  public RecordTable(long gameTime, EnterNameDialog dialog) {
-        this.dialog = dialog;
-        this.timeResult = gameTime;
-        dialog.getOkButton().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
-                String name = dialog.getName().getText();
-                try (PrintWriter writer = new PrintWriter("MineSweeper\\recordTable.txt")) {
-                    writer.print(name + "|" + timeResult + "| seconds");
-                    //   writer.println(timeResult + " сек");
-                    dialog.closeDialog();
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
-    }*/
-
-
-
 }

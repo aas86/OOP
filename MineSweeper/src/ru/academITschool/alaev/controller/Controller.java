@@ -20,17 +20,17 @@ public class Controller implements ViewListener {
 
     @Override
     public void needMakeMove(int x, int y, int rows, int columns, int mines,
-                             boolean rightButtonClick, boolean openField) {
-        view.showMove(minesweeper.makeMove(x, y, rows, columns, mines, rightButtonClick, openField ));
+                             boolean rightButtonClick, boolean openField) throws IOException {
+        view.showMove(minesweeper.makeMove(x, y, rows, columns, mines, rightButtonClick, openField));
     }
 
     @Override
     public void needWriteRecord(long gameTime, String name) throws IOException {
-       minesweeper.writeRecord(gameTime, name);
+        minesweeper.writeRecord(gameTime, name);
     }
 
     @Override
-    public boolean isRecord(long gameTime) throws FileNotFoundException {
+    public boolean isRecord(long gameTime) throws IOException {
         return minesweeper.isRecord(gameTime);
     }
 
@@ -38,7 +38,6 @@ public class Controller implements ViewListener {
     public void needNewGame(boolean firstMove) {
         minesweeper.makeNewGame(firstMove);
     }
-
 
 
 }

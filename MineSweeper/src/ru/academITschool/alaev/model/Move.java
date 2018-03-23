@@ -2,7 +2,6 @@ package ru.academITschool.alaev.model;
 
 import ru.academITschool.alaev.interfaces.Minesweeper;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Move implements Minesweeper {
@@ -36,7 +35,7 @@ public class Move implements Minesweeper {
         }
     }
 
-    public boolean isRecord(long gameTime) throws FileNotFoundException {
+    public boolean isRecord(long gameTime) throws IOException {
         RecordWriter recordWriter = new RecordWriter();
         return recordWriter.isRecord(gameTime);
     }
@@ -55,13 +54,13 @@ public class Move implements Minesweeper {
         // открываем диалог с вводом имени.
         /*else if (recordWriter.isLessThenFive()) { // Если меньше 5 рекордов, то записываем всё
             recordWriter.writeRecord(gameTime, name);
-        } */ else { // Иначе, если больше 5, то проверяем, а нужно ли записывать текущее время (является ли оно рекордом)
+        } */
+        else { // Иначе, если больше 5, то проверяем, а нужно ли записывать текущее время (является ли оно рекордом)
             // Для этого находим худшее время и сравниваем с ним.
             recordWriter.writeRecord(gameTime, name);
 
         }
     }
-
 
     @Override
     public void makeNewGame(boolean firstMove) {

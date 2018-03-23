@@ -7,8 +7,11 @@ import ru.academITschool.alaev.interfaces.View;
 import ru.academITschool.alaev.model.Move;
 import ru.academITschool.alaev.text.TextUI;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // TextUI consoleView = new TextUI();
         View frameView = new FrameView();
         Minesweeper minesweeper = new Move();

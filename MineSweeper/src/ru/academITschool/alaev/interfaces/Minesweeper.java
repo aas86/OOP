@@ -13,7 +13,7 @@ public interface Minesweeper {
 
     void makeNewGame(boolean firsMove);
     void writeRecord(long gameTime, String name) throws IOException;
-    boolean isRecord(long gameTime) throws FileNotFoundException;
+    boolean isRecord(long gameTime) throws IOException;
 
 }
 

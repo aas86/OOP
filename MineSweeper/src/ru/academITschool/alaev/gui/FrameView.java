@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class FrameView implements View {
@@ -53,50 +54,42 @@ public class FrameView implements View {
     }
 
     @Override
-    public void showMove(PlayingField field) {
+    public void showMove(PlayingField field) throws IOException {
         GameOverDialog gameOverDialog = new GameOverDialog();
         boolean gameOver = false;
         if (field.isGameOver()) { // Отрисовка диалогового окна, если проиграли
             gameOver = true;
-            gameOverDialog.setSmile(sadSmile);
-            gameOverDialog.setTitle("You Loose!");
-            gameOverDialog.setVisible();
+            gameOverDialog.makeLooseDialog(sadSmile);
         } else if (field.isVictory()) { // Отрисовка диалогового окна, если выиграли
             gameOver = true;
             // Это момент выигрыша. Тут нужно проверить, стоит ли вызывать диалоговое окно для ввода
             // имени или нет. Для этого вызвать через конструктор метод checkNeedWriteRecord и если true, то записать
             // в нужное место в файл рекорд.
             for (ViewListener listener : listeners) {
-                try {
-                    if (listener.isRecord(field.getGameTime())){
-                        System.out.println("Нужно записывать время текущей игры!");
-                        EnterNameDialog enterNameDialog = new EnterNameDialog(field.getGameTime());
-                        enterNameDialog.getOkButton().addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mousePressed(MouseEvent e) {
-                                super.mousePressed(e);
-                                String name = enterNameDialog.getName().getText();
-                                for (ViewListener listener : listeners) {
-                                    try {
-                                        listener.needWriteRecord(field.getGameTime(),name);
-                                    } catch (IOException e1) {
-                                        e1.printStackTrace();
-                                    }
-                                    enterNameDialog.closeDialog();
+                if (listener.isRecord(field.getGameTime())) {
+                    System.out.println("Нужно записывать время текущей игры!");
+                    EnterNameDialog enterNameDialog = new EnterNameDialog(field.getGameTime());
+                    enterNameDialog.getOkButton().addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            super.mousePressed(e);
+                            String name = enterNameDialog.getName().getText();
+                            for (ViewListener listener : listeners) {
+                                try {
+                                    listener.needWriteRecord(field.getGameTime(), name);
+                                } catch (IOException e1) {
+                                    e1.printStackTrace();
                                 }
+                                enterNameDialog.closeDialog();
+                                gameOverDialog.makeWinDialog(gladSmile);
                             }
-                        });
-                    } else{
-                        System.out.println("Не нужно записывать время текущей игры!");
-
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                        }
+                    });
+                } else {
+                    gameOverDialog.makeWinDialog(gladSmile);
+                    System.out.println("Не нужно записывать время текущей игры!");
                 }
             }
-            gameOverDialog.setSmile(gladSmile);
-            gameOverDialog.setTitle("You Win!");
-            gameOverDialog.setVisible();
         }
         if (gameOver) { // Обработка нажатия кнопок "New Game" и "Exit"
             gameOverDialog.getExitButton().addMouseListener(new MouseAdapter() {
@@ -134,7 +127,7 @@ public class FrameView implements View {
         drawField(field);
     }
 
-    private void drawField(PlayingField field){
+    private void drawField(PlayingField field) {
         Cell[][] cell = field.getField();
         for (int i = 0; i < field.getRows(); i++) {
             for (int j = 0; j < field.getColumns(); j++) {
@@ -201,7 +194,25 @@ public class FrameView implements View {
                 field.add(cell);
             }
         }
-        mainFrame.setContentPane(field);
+        mainFrame.setLayout(new BorderLayout());
+        mainFrame.add(field, BorderLayout.CENTER);
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("Меню");
+        JMenuItem exit = new JMenuItem("Выход");
+        JMenuItem recordsTable = new JMenuItem("Таблица рекордов");
+        menu.add(recordsTable);
+        menu.add(exit);
+        menuBar.add(menu);
+        mainFrame.setJMenuBar(menuBar);
+        menu.getItem(0).setEnabled(false);
+        menu.getItem(1).addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                System.out.println("Нажат пункт меню \"Выход\"");
+                mainFrame.dispose();
+            }
+        });
     }
 
     private void initEvents() {
@@ -212,7 +223,6 @@ public class FrameView implements View {
                 buttons[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                       // boolean isFlagged = false;
                         boolean rightButtonClick = false;
                         boolean wheelClick = false;
                         //   System.out.println(e.getClickCount());
@@ -228,10 +238,16 @@ public class FrameView implements View {
                         } else if (e.getButton() == MouseEvent.BUTTON2) { // Если нажали колёсиком мыши
                             wheelClick = true;
                         }
+
                         for (ViewListener listener : listeners) {
                             int mines = 10;
-                            listener.needMakeMove(x, y, rows, columns, mines, rightButtonClick, wheelClick);
+                            try {
+                                listener.needMakeMove(x, y, rows, columns, mines, rightButtonClick, wheelClick);
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
                         }
+
                     }
                 });
             }
