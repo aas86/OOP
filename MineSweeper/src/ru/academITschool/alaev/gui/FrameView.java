@@ -8,11 +8,8 @@ import ru.academITschool.alaev.model.PlayingField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.FileNotFoundException;
+import java.awt.event.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class FrameView implements View {
@@ -28,11 +25,19 @@ public class FrameView implements View {
     private final ImageIcon gladSmile = new ImageIcon("MineSweeper\\images\\GladSmile.png");
     private final ImageIcon flagIcon = new ImageIcon("MineSweeper\\images\\flag.png");
     private final ImageIcon questionIcon = new ImageIcon("MineSweeper\\images\\questionImage.png");
-    private final int rows = 9;
-    private final int columns = 9;
+    private /*final*/ int rows/* = 9*/;
+    private /*final*/ int columns/* = 9*/;
+    private int mines;
     private final JPanel field = new JPanel();
-    private JButton[][] buttons = new JButton[rows][columns];
+    private JButton[][] buttons/* = new JButton[rows][columns]*/;
     //private boolean gameOver = false;
+
+    public FrameView(int rows, int columns, int mines) {
+        this.rows = rows;
+        this.columns = columns;
+        this.mines = mines;
+        this.buttons = new JButton[this.rows][this.columns];
+    }
 
     @Override
     public void startApplication() {
@@ -181,6 +186,8 @@ public class FrameView implements View {
     private void initFrame() {
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainFrame.setMinimumSize(new Dimension(500, 500));
+        mainFrame.setLayout(new BorderLayout());
+        mainFrame.add(field, BorderLayout.CENTER);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
@@ -194,25 +201,12 @@ public class FrameView implements View {
                 field.add(cell);
             }
         }
-        mainFrame.setLayout(new BorderLayout());
-        mainFrame.add(field, BorderLayout.CENTER);
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Меню");
-        JMenuItem exit = new JMenuItem("Выход");
-        JMenuItem recordsTable = new JMenuItem("Таблица рекордов");
-        menu.add(recordsTable);
-        menu.add(exit);
-        menuBar.add(menu);
-        mainFrame.setJMenuBar(menuBar);
-        menu.getItem(0).setEnabled(false);
-        menu.getItem(1).addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
-                System.out.println("Нажат пункт меню \"Выход\"");
-                mainFrame.dispose();
-            }
-        });
+        MenuBar menuBar = new MenuBar();
+        mainFrame.setJMenuBar(menuBar.getMenuBar());
+        menuBar.exitAction(mainFrame);
+        menuBar.newGameAction(buttons, rows, columns, listeners);
+        menuBar.recordTableAction();
+        menuBar.settingsAction();
     }
 
     private void initEvents() {
@@ -240,14 +234,13 @@ public class FrameView implements View {
                         }
 
                         for (ViewListener listener : listeners) {
-                            int mines = 10;
+                            //int mines = 10;
                             try {
                                 listener.needMakeMove(x, y, rows, columns, mines, rightButtonClick, wheelClick);
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }
                         }
-
                     }
                 });
             }

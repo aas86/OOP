@@ -2,7 +2,7 @@ package ru.academITschool.alaev.interfaces;
 
 import ru.academITschool.alaev.model.PlayingField;
 
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 
 public interface View {

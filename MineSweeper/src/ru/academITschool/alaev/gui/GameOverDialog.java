@@ -6,8 +6,8 @@ import java.awt.*;
 
 class GameOverDialog {
     private JLabel smile = new JLabel();
-    private JButton newGameButton = new JButton("Новая игра");
-    private JButton exitButton = new JButton("Выход");
+    private JButton newGameButton = new JButton("New Game");
+    private JButton exitButton = new JButton("Exit");
     private JDialog gameOverDialog = new JDialog();
 
     GameOverDialog() {
@@ -20,13 +20,13 @@ class GameOverDialog {
 
     void makeWinDialog(ImageIcon gladSmile){
         this.smile.setIcon(gladSmile);
-        this.gameOverDialog.setTitle("Вы выиграли!");
+        this.gameOverDialog.setTitle("You Win!");
         this.gameOverDialog.setVisible(true);
     }
 
     void makeLooseDialog(ImageIcon sadSmile){
         this.smile.setIcon(sadSmile);
-        this.gameOverDialog.setTitle("Вы проиграли!");
+        this.gameOverDialog.setTitle("You Loose!");
         this.gameOverDialog.setVisible(true);
     }
 

@@ -11,7 +11,7 @@ public class Cell {
     private int rowPosition;
     private int columnPosition;
 
-    public void setBombLabel(String bombLabel) {
+    void setBombLabel(String bombLabel) {
         this.bombLabel = bombLabel;
     }
 
@@ -19,7 +19,7 @@ public class Cell {
         return bombLabel;
     }
 
-    public Cell(int rowPosition, int columnPosition) {
+    Cell(int rowPosition, int columnPosition) {
         this.rowPosition = rowPosition;
         this.columnPosition = columnPosition;
 
@@ -29,7 +29,7 @@ public class Cell {
         this.rowPosition = x;
     }
 
-    public int getRowPosition() {
+    int getRowPosition() {
         return this.rowPosition;
     }
 
@@ -38,7 +38,7 @@ public class Cell {
         this.columnPosition = y;
     }
 
-    public int getColumnPosition() {
+    int getColumnPosition() {
         return this.columnPosition;
     }
 
@@ -46,7 +46,7 @@ public class Cell {
         return isMined;
     }
 
-    public void setMined(boolean mined) {
+    void setMined(boolean mined) {
         isMined = mined;
     }
 
@@ -70,11 +70,11 @@ public class Cell {
         return mineCounter;
     }
 
-    public void setMineCounter() {
+    void setMineCounter() {
         this.mineCounter += 1;
     }
 
-    public void setMineCounter_Debug(int n) {
+    void setMineCounter_Debug(int n) {
         this.mineCounter = n;
     }
 
@@ -82,7 +82,7 @@ public class Cell {
         return isOpen;
     }
 
-    public void setOpen(boolean open) {
+    void setOpen(boolean open) {
         isOpen = open;
     }
 
@@ -98,7 +98,7 @@ public class Cell {
         return isFlagged;
     }
 
-    public void setFlagged(boolean flagged) {
+    void setFlagged(boolean flagged) {
         isFlagged = flagged;
     }
 
@@ -106,7 +106,7 @@ public class Cell {
         return isQuestioned;
     }
 
-    public void setQuestioned(boolean questioned) {
+    void setQuestioned(boolean questioned) {
         isQuestioned = questioned;
     }
 }

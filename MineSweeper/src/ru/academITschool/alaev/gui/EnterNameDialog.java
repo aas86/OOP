@@ -6,28 +6,31 @@ import java.awt.*;
 public class EnterNameDialog {
     private final JTextField name = new JTextField();
     private JLabel timeLabel = new JLabel();
-    private final JLabel label = new JLabel("Введите своё имя");
+    private final JLabel label = new JLabel("Enter your name");
     private JDialog enterNameDialog = new JDialog();
     private final JButton okButton = new JButton("OK");
 
     EnterNameDialog(long timeResult){
         initEnterNameDialog();
-        timeLabel.setText("Ваше время " + timeResult + "сек");
+        timeLabel.setText("Your time " + timeResult + "sec");
         enterNameDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         enterNameDialog.setMinimumSize(new Dimension(250, 250));
         enterNameDialog.setLocationRelativeTo(null);
         enterNameDialog.setVisible(true);
     }
 
-    public JButton getOkButton() {
+    JButton getOkButton() {
         return okButton;
     }
-    public JTextField getName() {
+
+    JTextField getName() {
         return name;
     }
-    public void closeDialog(){
+
+    void closeDialog(){
         this.enterNameDialog.dispose();
     }
+
     private void initEnterNameDialog(){
         enterNameDialog.setLayout(new GridBagLayout());
 

@@ -1,20 +1,20 @@
 package ru.academITschool.alaev.model;
 
 
-public class Records {
+class Record {
     private String name;
     private int time;
 
-    public Records(String name, int time) {
+    Record(String name, int time) {
         this.name = name;
         this.time = time;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public int getTime() {
+    int getTime() {
         return time;
     }
 }
