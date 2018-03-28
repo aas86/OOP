@@ -35,18 +35,18 @@ public class SettingsDialog {
 
     public void okButtonPressed(JFrame mainFrame) {
         this.okButton.addMouseListener(new MouseAdapter() {
-            int x;
-            int y;
-            int z;
+            int height;
+            int width;
+            int mine;
 
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
                 try {
-                    x = Integer.parseInt(rows.getText());
-                    y = Integer.parseInt(columns.getText());
-                    z = Integer.parseInt(mines.getText());
-                    FieldSize fieldSize = new FieldSize(x, y, z);
+                    height = Integer.parseInt(rows.getText());
+                    width = Integer.parseInt(columns.getText());
+                    mine = Integer.parseInt(mines.getText());
+                    FieldSize fieldSize = new FieldSize(height, width, mine);
                     mainFrame.dispose();
                     settingsDialog.dispose();
 
