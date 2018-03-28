@@ -33,7 +33,7 @@ public class SettingsDialog {
         settingsDialog.setVisible(true);
     }
 
-    public void okButtonPressed() {
+    public void okButtonPressed(JFrame mainFrame) {
         this.okButton.addMouseListener(new MouseAdapter() {
             int x;
             int y;
@@ -47,6 +47,9 @@ public class SettingsDialog {
                     y = Integer.parseInt(columns.getText());
                     z = Integer.parseInt(mines.getText());
                     FieldSize fieldSize = new FieldSize(x, y, z);
+                    mainFrame.dispose();
+                    settingsDialog.dispose();
+
                     View frameView = new FrameView(fieldSize.getHeight(), fieldSize.getWidth(), fieldSize.getMines());
                     Minesweeper minesweeper = new Move();
                     Controller controller = new Controller(frameView, minesweeper);
@@ -56,7 +59,9 @@ public class SettingsDialog {
                 } catch (NumberFormatException ex) {
                     error.setForeground(Color.RED);
                     error.setText("Values must be number");
-                } catch (IOException e1) {
+                } /*catch (IOException e1) {
+                    e1.printStackTrace();
+                }*/ catch (IOException e1) {
                     e1.printStackTrace();
                 }
             }

@@ -33,13 +33,13 @@ class MenuBar {
     }
 
 
-    void settingsAction(){
+    void settingsAction(JFrame mainFrame){
     this.settings.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
     this.settings.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             SettingsDialog settingsDialog = new SettingsDialog();
-            settingsDialog.okButtonPressed();
+            settingsDialog.okButtonPressed(mainFrame);
         }
     });
     }

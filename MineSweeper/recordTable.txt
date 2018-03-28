@@ -1,5 +1,5 @@
-Andrey|16| seconds
-Andrey|19| seconds
-Andrey|23| seconds
-Andrey|29| seconds
-Andrey|30| seconds
+|0| seconds
+qqq|7| seconds
+ww|13| seconds
+Andrexa|19| seconds
+SSS|21| seconds

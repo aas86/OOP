@@ -32,6 +32,10 @@ public class FrameView implements View {
     private JButton[][] buttons/* = new JButton[rows][columns]*/;
     //private boolean gameOver = false;
 
+
+    public JFrame getMainFrame() {
+        return mainFrame;
+    }
     public FrameView(int rows, int columns, int mines) {
         this.rows = rows;
         this.columns = columns;
@@ -206,7 +210,7 @@ public class FrameView implements View {
         menuBar.exitAction(mainFrame);
         menuBar.newGameAction(buttons, rows, columns, listeners);
         menuBar.recordTableAction();
-        menuBar.settingsAction();
+        menuBar.settingsAction(mainFrame);
     }
 
     private void initEvents() {
