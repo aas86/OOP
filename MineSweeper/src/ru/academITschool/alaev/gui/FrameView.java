@@ -36,12 +36,14 @@ public class FrameView implements View {
     public JFrame getMainFrame() {
         return mainFrame;
     }
+
     public FrameView(int rows, int columns, int mines) {
         this.rows = rows;
         this.columns = columns;
         this.mines = mines;
         this.buttons = new JButton[this.rows][this.columns];
     }
+
 
     @Override
     public void startApplication() {
@@ -189,10 +191,11 @@ public class FrameView implements View {
 
     private void initFrame() {
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        mainFrame.setMinimumSize(new Dimension(500, 500));
+        mainFrame.setMinimumSize(new Dimension(400, 400));
         mainFrame.setLayout(new BorderLayout());
         mainFrame.add(field, BorderLayout.CENTER);
         mainFrame.setLocationRelativeTo(null);
+        mainFrame.setResizable(false);
         mainFrame.setVisible(true);
     }
 
