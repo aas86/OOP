@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AExamples/AExamples.iml" filepath="$PROJECT_DIR$/AExamples/AExamples.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/ArrayList/ArrayList.iml" filepath="$PROJECT_DIR$/ArrayList/ArrayList.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/BinarySearchTree/BinarySearchTree.iml" filepath="$PROJECT_DIR$/BinarySearchTree/BinarySearchTree.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/CSV/CSV.iml" filepath="$PROJECT_DIR$/CSV/CSV.iml" group="All" />
-      <module fileurl="file://$PROJECT_DIR$/ConsumerProducer/ConsumerProducer.iml" filepath="$PROJECT_DIR$/ConsumerProducer/ConsumerProducer.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/Lambda/Lambda.iml" filepath="$PROJECT_DIR$/Lambda/Lambda.iml" group="All" />
-      <module fileurl="file://$PROJECT_DIR$/MVCExample/MVCExample.iml" filepath="$PROJECT_DIR$/MVCExample/MVCExample.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/MineSweeper/MineSweeper.iml" filepath="$PROJECT_DIR$/MineSweeper/MineSweeper.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/MyArrayList/MyArrayList.iml" filepath="$PROJECT_DIR$/MyArrayList/MyArrayList.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/MyHashTable/MyHashTable.iml" filepath="$PROJECT_DIR$/MyHashTable/MyHashTable.iml" group="All" />
@@ -17,6 +14,7 @@
       <module fileurl="file://$PROJECT_DIR$/SinglyLinkedList/SinglyLinkedList.iml" filepath="$PROJECT_DIR$/SinglyLinkedList/SinglyLinkedList.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/Temperature2/Temperature2.iml" filepath="$PROJECT_DIR$/Temperature2/Temperature2.iml" group="All" />
       <module fileurl="file://$PROJECT_DIR$/Vectors/Vectors.iml" filepath="$PROJECT_DIR$/Vectors/Vectors.iml" group="All" />
+      <module fileurl="file://$PROJECT_DIR$/WorkWithMySQL/WorkWithMySQL.iml" filepath="$PROJECT_DIR$/WorkWithMySQL/WorkWithMySQL.iml" group="All" />
     </modules>
   </component>
 </project>
